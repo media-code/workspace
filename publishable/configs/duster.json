@@ -1,0 +1,12 @@
+{
+    "scripts": {
+        "lint": {
+            "Larastan": [
+                "./vendor/bin/phpstan",
+                "analyse",
+                "--memory-limit=2G"
+            ]
+        }
+    },
+    "processTimeout": 120
+}

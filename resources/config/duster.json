@@ -1,0 +1,13 @@
+{
+    "scripts": {
+        "lint": {
+            "Larastan": [
+                "./vendor/bin/phpstan",
+                "analyse",
+                "-c ./vendor/gedachtegoed/janitor/resources/config/phpstan.neon",
+                "--memory-limit=2G"
+            ]
+        }
+    },
+    "processTimeout": 120
+}

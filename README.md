@@ -2,7 +2,7 @@
 
 ## Install Janitor in your project
 ``` bash
-composer require-dev gedachtegoed/janitor
+composer require gedachtegoed/janitor --dev
 ```
 
 Then publish all config stubs

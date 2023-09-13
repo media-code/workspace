@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
-class Install extends Command
+class Update extends Command
 {
     protected $signature = "janitor:update
                             {--publish-configs : When true, Janitor will also publish the 3rd party config files}";
@@ -18,12 +18,8 @@ class Install extends Command
 
     public function handle(): int
     {
-        $basePath = base_path();
-        $result = Process::run("cd $basePath && composer update gedachtegoed/janitor --no-interaction");
 
-        if($result->failed()) {
-            $this->error($result->errorOutput());
-
+        if(! $this->updateJanitor()) {
             return static::FAILURE;
         }
 
@@ -31,6 +27,20 @@ class Install extends Command
             '--publish-configs' => $this->option('publish-configs')
         ]);
     }
+
+    protected function updateJanitor()
+    {
+        $result = Process::run("composer update gedachtegoed/janitor --no-interaction");
+
+        if($result->failed()) {
+            $this->error($result->errorOutput());
+
+            return static::FAILURE;
+        }
+
+        return $result->successful();
+    }
+
 
     protected function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output)
     {

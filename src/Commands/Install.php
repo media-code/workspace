@@ -3,9 +3,10 @@
 namespace Gedachtegoed\Janitor\Commands;
 
 use Illuminate\Console\Command;
+use function Laravel\Prompts\confirm;
+use Illuminate\Support\Facades\Process;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use function Laravel\Prompts\confirm;
 
 
 class Install extends Command
@@ -17,22 +18,33 @@ class Install extends Command
 
     public function handle(): int
     {
-        return match ($this->option('publish-configs')) {
+        $publishThirdParty = $this->promptForOptionIfMissing();
+
+        return match ($publishThirdParty) {
             true => $this->call('vendor:publish', [
-                '--tag' => 'janitor-3rd-party-configs'
+                '--tag' => 'janitor-3rd-party-configs',
+                '--force' => true
             ]),
 
-            false => $this->call('vendor:publish', [
-                '--tag' => 'janitor-config'
+            default => $this->call('vendor:publish', [
+                '--tag' => 'janitor-config',
+                '--force' => true
             ])
         };
     }
 
-    protected function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output)
+
+    protected function promptForOptionIfMissing()
     {
-        $input->setOption('--publish-configs', confirm(
-            label: 'Would you like to publish the 3rd party config files? (recommended)',
-            default: $this->option('publish-configs') ?? false
-        ));
+        $publishThirdParty = $this->option('publish-configs');
+
+        if(! $publishThirdParty) {
+            $publishThirdParty = confirm(
+                label: 'Would you like to publish the 3rd party config files? (recommended)',
+                default: true
+            );
+        }
+
+        return $publishThirdParty;
     }
 }

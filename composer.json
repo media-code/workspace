@@ -14,20 +14,20 @@
             "email": "willem@leuver.ink"
         }
     ],
-    "minimum-stability": "stable",
     "extra": {
         "laravel": {
             "providers": [
-                "Gedachtegoed\\Janitor"
+                "Gedachtegoed\\Janitor\\ServiceProvider"
             ]
         }
     },
     "require": {
         "php": "^8.1.0",
-        "illuminate/support": "^10"
-    },
-    "require-dev": {
+        "illuminate/support": "^10",
         "tightenco/duster": "^2.4",
         "nunomaduro/larastan": "^2.6"
-    }
+    },
+    "require-dev": {},
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

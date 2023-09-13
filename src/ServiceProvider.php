@@ -37,8 +37,6 @@ class ServiceProvider extends BaseServiceProvider
             $this->commands([
                 Commands\Install::class,
                 Commands\Update::class,
-                Commands\Fix::class,
-                Commands\Lint::class,
             ]);
         }
     }

@@ -4,10 +4,6 @@ namespace Gedachtegoed\Janitor\Commands;
 
 use Illuminate\Console\Command;
 use function Laravel\Prompts\confirm;
-use Illuminate\Support\Facades\Process;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-
 
 class Install extends Command
 {

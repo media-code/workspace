@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Process;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 class Update extends Command
 {
     protected $signature = "janitor:update

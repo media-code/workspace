@@ -2,11 +2,18 @@
 
 namespace Gedachtegoed\Janitor;
 
+use Gedachtegoed\Janitor\Commands;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
 {
     public function boot(): void
+    {
+        $this->publishConfigs();
+        $this->registerCommandAliasses();
+    }
+
+    protected function publishConfigs()
     {
         $this->publishes([
             __DIR__.'/../resources/config/duster.json' => base_path('duster.json')
@@ -22,5 +29,15 @@ class ServiceProvider extends BaseServiceProvider
             __DIR__.'/../resources/workflows/pest-tests.yml' => base_path('pest-tests.yml'),
             __DIR__.'/../resources/workflows/static-analysis.yml' => base_path('static-analysis.yml')
         ], 'janitor-github-actions');
+    }
+
+    public function registerCommandAliasses()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Commands\Install::class,
+                Commands\Update::class,
+            ]);
+        }
     }
 }

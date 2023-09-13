@@ -1,6 +1,6 @@
 {
     "name": "gedachtegoed/janitor",
-    "description": "Pacakged tighten/duster with default configs, Larastan & Prettier blade formatting integration & CI workflows",
+    "description": "Opinionated wrapper around tighten/duster with default configs, Larastan & Prettier blade formatting integration & CI workflows. For internal use.",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -15,6 +15,13 @@
         }
     ],
     "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gedachtegoed\\Janitor"
+            ]
+        }
+    },
     "require": {
         "php": "^8.1.0",
         "illuminate/support": "^10"

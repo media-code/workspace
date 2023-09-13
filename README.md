@@ -20,6 +20,7 @@ Linter, fixer and static analysis rules may change over time. Fortunately it's a
 php artisan janitor:update
 ```
 You will be asked again to whether you'd like to publish 3rd party configs. Again, this is recommended. But if you'd like to skip the prompt, simply pass the `--publish-configs` option along with the command.
+
 ## Add composer scripts
 
 Add these entries in the scripts secion of your `composer.json` above `post-autoload-dump` hook.

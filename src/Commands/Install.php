@@ -3,13 +3,14 @@
 namespace Gedachtegoed\Janitor\Commands;
 
 use Illuminate\Console\Command;
+
 use function Laravel\Prompts\confirm;
 
 class Install extends Command
 {
-    protected $signature = "janitor:install
+    protected $signature = 'janitor:install
                             {--publish-configs : When true, Janitor will publish the 3rd party config files}
-                            {--publish-actions : When true, Janitor will publish the Github Actions for CI}";
+                            {--publish-actions : When true, Janitor will publish the Github Actions for CI}';
 
     protected $description = 'Install Janitor';
 
@@ -28,17 +29,16 @@ class Install extends Command
             label: 'Would you like to publish the 3rd party config files? (recommended)'
         );
 
-
         // Publish configs
         match ($publishThirdParty) {
             true => $this->call('vendor:publish', [
                 '--tag' => 'janitor-3rd-party-configs',
-                '--force' => true
+                '--force' => true,
             ]),
 
             default => $this->call('vendor:publish', [
                 '--tag' => 'janitor-config',
-                '--force' => true
+                '--force' => true,
             ])
         };
     }
@@ -52,16 +52,15 @@ class Install extends Command
         );
 
         // Publish Actions
-        if(! $publicGithubActions) {
+        if (! $publicGithubActions) {
             return;
         }
 
         $this->call('vendor:publish', [
             '--tag' => 'janitor-github-actions',
-            '--force' => true
+            '--force' => true,
         ]);
     }
-
 
     protected function installComposerScripts()
     {
@@ -85,7 +84,7 @@ class Install extends Command
 
         $this->table(
             'Command',
-            array_map(fn($alias) => ["composer $alias"], array_keys((array) $janitorScripts))
+            array_map(fn ($alias) => ["composer {$alias}"], array_keys((array) $janitorScripts))
         );
 
     }
@@ -94,7 +93,7 @@ class Install extends Command
     {
         $value = $this->option($option);
 
-        if($value) {
+        if ($value) {
             return $value;
         }
 

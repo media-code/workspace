@@ -11,7 +11,7 @@ Then publish all config stubs
 php artisan janitor:install
 ```
 
-***NOTE:*** You will be prompted to optionally publish 3rd party config files. This is recommended for GDD projects. You may skip this prompt by adding the `--publish-configs` option
+***NOTE:*** You will be prompted to optionally publish 3rd party config files & Github Actions scripts. This is recommended for GDD projects. You may skip this prompt by adding the `--publish-configs` & `--publish-actions` options
 
 The following composer script aliases will be automatically installed inside your project:
 

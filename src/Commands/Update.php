@@ -11,7 +11,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Update extends Command
 {
     protected $signature = "janitor:update
-                            {--publish-configs : When true, Janitor will also publish the 3rd party config files}";
+                                {--publish-configs : When true, Janitor will update the 3rd party config files}
+                                {--publish-actions : When true, Janitor will update the Github Actions for CI}";
 
     protected $description = 'Update Janitor';
 
@@ -23,7 +24,8 @@ class Update extends Command
         }
 
         return $this->call('janitor:install', [
-            '--publish-configs' => $this->option('publish-configs')
+            '--publish-configs' => $this->option('publish-configs'),
+            '--publish-actions' => $this->option('publish-actions')
         ]);
     }
 

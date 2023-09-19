@@ -10,7 +10,7 @@ parameters:
     level: 2
 
     ignoreErrors:
-        - "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$id\\.$#"
+#        - "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$id\\.$#"
 #
 #    excludePaths:
 #        - ./*/*/FileToBeExcluded.php

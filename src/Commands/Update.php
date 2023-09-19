@@ -31,7 +31,8 @@ class Update extends Command
 
     protected function updateJanitor()
     {
-        // TODO: stream output
+        $this->components->info('Updating Janitor...');
+
         $result = Process::run("composer update gedachtegoed/janitor --no-interaction");
 
         if($result->failed()) {
@@ -40,6 +41,6 @@ class Update extends Command
             return static::FAILURE;
         }
 
-        return $result->successful();
+        return static::SUCCESS;
     }
 }

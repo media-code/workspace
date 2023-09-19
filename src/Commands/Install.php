@@ -12,14 +12,23 @@ class Install extends Command
 
     protected $description = 'Install Janitor';
 
-    public function handle(): int
+    public function handle()
     {
+        $this->publishConfigs();
+        $this->installComposerScripts();
+    }
+
+    protected function publishConfigs()
+    {
+        // Prompt for input if missing
         $publishThirdParty = $this->promptForOptionIfMissing(
             option: 'publish-configs',
             label: 'Would you like to publish the 3rd party config files? (recommended)'
         );
 
-        return match ($publishThirdParty) {
+
+        // Publish configs
+        match ($publishThirdParty) {
             true => $this->call('vendor:publish', [
                 '--tag' => 'janitor-3rd-party-configs',
                 '--force' => true
@@ -32,6 +41,25 @@ class Install extends Command
         };
     }
 
+
+    protected function installComposerScripts()
+    {
+        $composer = json_decode(file_get_contents(base_path('composer.json')));
+        $janitorScripts = json_decode(file_get_contents(__DIR__ . './../../resources/config/composer-scripts.json'));
+        $currentScripts = $composer->scripts ?? (object) [];
+
+        data_set(
+            target: $composer,
+            key: 'scripts',
+            value: [...(array) $janitorScripts, ...(array) $currentScripts],
+            overwrite: true
+        );
+
+        file_put_contents(
+            base_path('composer.json'),
+            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
+        );
+    }
 
     protected function promptForOptionIfMissing(string $option, string $label, bool $default = true)
     {

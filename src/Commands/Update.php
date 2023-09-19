@@ -29,6 +29,7 @@ class Update extends Command
 
     protected function updateJanitor()
     {
+        // TODO: stream output
         $result = Process::run("composer update gedachtegoed/janitor --no-interaction");
 
         if($result->failed()) {
@@ -38,14 +39,5 @@ class Update extends Command
         }
 
         return $result->successful();
-    }
-
-
-    protected function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output)
-    {
-        $input->setOption('--publish-configs', confirm(
-            label: 'Would you like to publish the 3rd party config files? (recommended)',
-            default: $this->option('publish-configs') ?? false
-        ));
     }
 }

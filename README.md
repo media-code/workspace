@@ -13,6 +13,18 @@ php artisan janitor:install
 
 ***NOTE:*** You will be prompted to optionally publish 3rd party config files. This is recommended for GDD projects. You may skip this prompt by adding the `--publish-configs` option
 
+The following composer script aliases will be automatically installed inside your project:
+
+``` bash
+# Linting and fixing
+composer lint
+composer fix
+
+# Static analysis
+composer analyze
+composer baseline
+```
+
 ## Updating your local config
 Linter, fixer and static analysis rules may change over time. Fortunately it's a breeze to update these locally. Simply run:
 
@@ -21,18 +33,4 @@ php artisan janitor:update
 ```
 You will be asked again to whether you'd like to publish 3rd party configs. Again, this is recommended. But if you'd like to skip the prompt, simply pass the `--publish-configs` option along with the command.
 
-## Add composer scripts
-
-Add these entries in the scripts secion of your `composer.json` above `post-autoload-dump` hook.
-
-``` json
-"lint": "vendor/bin/duster lint",
-"fix": "vendor/bin/duster fix"
-
-"analyze": "vendor/bin/phpstan analyse",
-"baseline": "vendor/bin/phpstan analyse --generate-baseline",
-
-"test": "php artisan test --stop-on-failure",
-"test-parallel": "php artisan test --parallel --stop-on-failure",
-"coverage": "php artisan test --coverage"
-```
+If you choose not to publish third party configs you will opt out of any upstream configuration updates and use the underlying tooling as is.

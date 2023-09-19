@@ -35,9 +35,9 @@ class Update extends Command
         if ($result->failed()) {
             $this->error($result->errorOutput());
 
-            return static::FAILURE;
+            return false;
         }
 
-        return static::SUCCESS;
+        return true;
     }
 }

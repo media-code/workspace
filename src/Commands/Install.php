@@ -14,7 +14,10 @@ class Install extends Command
 
     public function handle(): int
     {
-        $publishThirdParty = $this->promptForOptionIfMissing();
+        $publishThirdParty = $this->promptForOptionIfMissing(
+            option: 'publish-configs',
+            label: 'Would you like to publish the 3rd party config files? (recommended)'
+        );
 
         return match ($publishThirdParty) {
             true => $this->call('vendor:publish', [
@@ -30,17 +33,17 @@ class Install extends Command
     }
 
 
-    protected function promptForOptionIfMissing()
+    protected function promptForOptionIfMissing(string $option, string $label, bool $default = true)
     {
-        $publishThirdParty = $this->option('publish-configs');
+        $value = $this->option($option);
 
-        if(! $publishThirdParty) {
-            $publishThirdParty = confirm(
-                label: 'Would you like to publish the 3rd party config files? (recommended)',
-                default: true
-            );
+        if($value) {
+            return $value;
         }
 
-        return $publishThirdParty;
+        return confirm(
+            label: $label,
+            default: $default
+        );
     }
 }

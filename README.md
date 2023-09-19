@@ -34,3 +34,9 @@ php artisan janitor:update
 You will be asked again to whether you'd like to publish 3rd party configs. Again, this is recommended. But if you'd like to skip the prompt, simply pass the `--publish-configs` option along with the command.
 
 If you choose not to publish third party configs you will opt out of any upstream configuration updates and use the underlying tooling as is.
+
+## Roadmap
+
+- [ ] Customize Linter & fixer configuration according to GDD styleguide specifications
+- [ ] Suggest IDE integrations for code highlighting & in IDE code fixing
+- [ ] Consider integrating pre-commit hooks for code fixing & static analysis

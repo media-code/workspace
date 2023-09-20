@@ -5,9 +5,9 @@ name: Duster Fix
 
 on:
     push:
-        branches: [ main ]
+        branches: [ main, master ]
     pull_request:
-        branches: [ main ]
+        branches: [ development, dev, acceptance, staging, main, master ]
 
 jobs:
   duster:

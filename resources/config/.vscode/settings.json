@@ -1,17 +1,19 @@
 {
     //--------------------------------------------------------------------------
-    // File associations
+    // General
     //--------------------------------------------------------------------------
     "files.associations": {
         ".php_cs": "php",
         ".php_cs.dist": "php",
         ".env*": "dotenv"
     },
+    //
     // TODO: Consider multiformatting extension: https://marketplace.visualstudio.com/items?itemName=Jota0222.multi-formatter
     // As long as all extensions support linting on type this is not needed
     // "[php]": {
     //     "editor.defaultFormatter": "wongjn.php-sniffer"
     // },
+    //
     //--------------------------------------------------------------------------
     // PHP-CS-Fixer
     //--------------------------------------------------------------------------

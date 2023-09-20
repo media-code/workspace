@@ -5,6 +5,8 @@ namespace Gedachtegoed\Janitor\Commands;
 use Illuminate\Console\Command;
 
 use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\table;
+
 
 class Install extends Command
 {
@@ -82,9 +84,14 @@ class Install extends Command
             json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
         );
 
-        $this->table(
-            'Command',
-            array_map(fn ($alias) => ["composer {$alias}"], array_keys((array) $janitorScripts))
+        table(
+            ['Command', 'Description'],
+            [
+                ['composer lint', 'Lints your code with duster and phpstan including any additional linters configured in duster.json'],
+                ['composer fix', 'Fixes your code with duster including any additional fixers configured in duster.json'],
+                ['composer analyze', 'Runs phpstan separately'],
+                ['composer baseline', 'Generate a static analysis baseline']
+            ]
         );
 
     }

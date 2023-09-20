@@ -23,11 +23,10 @@
     },
     "require": {
         "php": "^8.1.0",
-        "illuminate/support": "^10",
+        "illuminate/support": "^10.23",
         "tightenco/duster": "^2.4",
         "nunomaduro/larastan": "^2.6"
     },
-    "require-dev": {},
     "minimum-stability": "stable",
     "prefer-stable": true
 }

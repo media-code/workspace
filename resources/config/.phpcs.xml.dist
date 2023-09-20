@@ -8,5 +8,5 @@
     <file>routes</file>
     <file>tests</file>
 
-    <rule ref="Tighten"/>
+    <rule ref="./vendor/tightenco/duster/standards/Tighten"/>
 </ruleset>

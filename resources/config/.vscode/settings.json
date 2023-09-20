@@ -1,5 +1,18 @@
 {
     //--------------------------------------------------------------------------
+    // File associations
+    //--------------------------------------------------------------------------
+    "files.associations": {
+        ".php_cs": "php",
+        ".php_cs.dist": "php",
+        ".env*": "dotenv"
+    },
+    // TODO: Consider multiformatting extension: https://marketplace.visualstudio.com/items?itemName=Jota0222.multi-formatter
+    // As long as all extensions support linting on type this is not needed
+    // "[php]": {
+    //     "editor.defaultFormatter": "wongjn.php-sniffer"
+    // },
+    //--------------------------------------------------------------------------
     // PHP-CS-Fixer
     //--------------------------------------------------------------------------
     "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
@@ -10,4 +23,13 @@
     "php-cs-fixer.autoFixByBracket": true,
     "php-cs-fixer.autoFixBySemicolon": true,
     "php-cs-fixer.formatHtml": false,
+    //--------------------------------------------------------------------------
+    // PHP_Codesniffer
+    //--------------------------------------------------------------------------
+    "phpSniffer.autoDetect": false,
+    "phpSniffer.executablesFolder": "./vendor/bin",
+    "phpSniffer.extraFiles": [],
+    "phpSniffer.onTypeDelay": 250,
+    "phpSniffer.run": "onType",
+    "phpSniffer.snippetExcludeSniffs": [],
 }

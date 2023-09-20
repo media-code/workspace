@@ -38,4 +38,9 @@
     "phpSniffer.onTypeDelay": 250,
     "phpSniffer.run": "onType",
     "phpSniffer.snippetExcludeSniffs": [],
+    //--------------------------------------------------------------------------
+    // TLINT
+    //--------------------------------------------------------------------------
+    "tighten-lint.defaultSeverity": "error",
+    "tighten-lint.exec": "${workspaceFolder}/vendor/bin/tlint"
 }

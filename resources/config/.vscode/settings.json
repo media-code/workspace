@@ -8,12 +8,16 @@
         ".env*": "dotenv"
     },
     //
-    // TODO: Consider multiformatting extension: https://marketplace.visualstudio.com/items?itemName=Jota0222.multi-formatter
-    // As long as all extensions support linting on type this is not needed
-    // "[php]": {
-    //     "editor.defaultFormatter": "wongjn.php-sniffer"
-    // },
+    "[php]": {
+        // TODO: Consider multiformatting extension: https://marketplace.visualstudio.com/items?itemName=Jota0222.multi-formatter
+        // As long as all extensions support linting on type this is not needed
+        "editor.defaultFormatter": "open-southeners.laravel-pint"
+    },
     //
+    //--------------------------------------------------------------------------
+    // Laravel Pint
+    //--------------------------------------------------------------------------
+    "laravel-pint.enable": true,
     //--------------------------------------------------------------------------
     // PHP-CS-Fixer
     //--------------------------------------------------------------------------

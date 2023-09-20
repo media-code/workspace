@@ -1,13 +1,21 @@
 <?php
 
-use App\Fixer\ClassNotation\CustomControllerOrderFixer;
-use App\Fixer\ClassNotation\CustomOrderedClassElementsFixer;
-use App\Fixer\ClassNotation\CustomPhpUnitOrderFixer;
-use App\Support\PhpCsFixer;
 use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+use Gedachtegoed\Janitor\Fixer\ClassNotation\CustomPhpUnitOrderFixer;
+use Gedachtegoed\Janitor\Fixer\ClassNotation\CustomControllerOrderFixer;
+use Gedachtegoed\Janitor\Fixer\ClassNotation\CustomOrderedClassElementsFixer;
+
+$finder = Finder::create()
+    ->notName([
+        '*.blade.php',
+    ])
+    ->ignoreDotFiles(true)
+    ->ignoreVCS(true)
+    ->in(__DIR__);
 
 return (new Config())
-    ->setFinder(PhpCsFixer::getFinder())
+    ->setFinder($finder)
     ->setUsingCache(false)
     ->registerCustomFixers([
         new CustomControllerOrderFixer(),

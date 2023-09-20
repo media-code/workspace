@@ -16,6 +16,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                Commands\Integrate::class,
                 Commands\Install::class,
                 Commands\Update::class,
             ]);
@@ -38,9 +39,9 @@ class ServiceProvider extends BaseServiceProvider
         ], 'janitor-3rd-party-configs');
 
         $this->publishes([
-            __DIR__ . '/../resources/workflows/static-analysis.yml' => base_path('static-analysis.yml'),
-            __DIR__ . '/../resources/workflows/duster-fix.yml' => base_path('duster-fix.yml'),
-            __DIR__ . '/../resources/workflows/pest-tests.yml' => base_path('pest-tests.yml'),
+            __DIR__ . '/../resources/workflows/static-analysis.yml' => base_path('.github/workflows/static-analysis.yml'),
+            __DIR__ . '/../resources/workflows/duster-fix.yml' => base_path('.github/workflows/duster-fix.yml'),
+            __DIR__ . '/../resources/workflows/pest-tests.yml' => base_path('.github/workflows/pest-tests.yml'),
         ], 'janitor-github-actions');
     }
 }

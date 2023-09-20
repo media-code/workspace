@@ -4,6 +4,7 @@ namespace Gedachtegoed\Janitor\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;
+use function Laravel\Prompts\spin;
 
 class Update extends Command
 {
@@ -28,15 +29,20 @@ class Update extends Command
 
     protected function updateJanitor()
     {
-        $this->components->info('Updating Janitor...');
+        $this->components->info('Updating Janitor');
 
-        $result = Process::run('composer update gedachtegoed/janitor --no-interaction');
+        $result = spin(
+            fn () => Process::run('composer update gedachtegoed/janitor --no-interaction'),
+            'composer update gedachtegoed/janitor --no-interaction'
+        );
 
         if ($result->failed()) {
             $this->error($result->errorOutput());
 
             return false;
         }
+
+        $this->line($result->output());
 
         return true;
     }

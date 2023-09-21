@@ -4,9 +4,9 @@ namespace Gedachtegoed\Janitor\Commands;
 
 use Illuminate\Console\Command;
 
-use function Laravel\Prompts\select;
-use function Laravel\Prompts\note;
 use function Laravel\Prompts\info;
+use function Laravel\Prompts\multiselect;
+use function Laravel\Prompts\warning;
 
 class Integrate extends Command
 {
@@ -17,12 +17,10 @@ class Integrate extends Command
 
     public function handle()
     {
-        $editor = $this->promptForEditorIfMissing();
+        $editors = $this->promptForEditorIfMissing();
 
-        match($editor) {
-            'vscode' => $this->integrateVSCode(),
-            'phpstorm' => note('TODO: PhpStorm integration not ready'),
-        };
+        if(in_array('vscode', $editors)) $this->integrateVSCode();
+        if(in_array('phpstorm', $editors)) $this->integratePhpStorm();
     }
 
     private function promptForEditorIfMissing()
@@ -35,12 +33,14 @@ class Integrate extends Command
         }
 
         // Option not set or invalid, prompt for input
-        return select(
+        return multiselect(
             'What IDE are you using?',
             [
                 'vscode' => 'Visual Studio Code',
                 'phpstorm' => 'PhpStorm',
-            ]
+            ],
+            hint: 'Select one or both',
+            required: true,
         );
     }
 
@@ -62,13 +62,17 @@ class Integrate extends Command
     {
         $this->components->info("Removing '/.vscode' from gitignore");
 
-        //
+        $gitignore = file_get_contents(base_path('.gitignore'));
+        $newGitignore = trim(str_replace('/.vscode', '', $gitignore)) . PHP_EOL;
+        file_put_contents(base_path('.gitignore'), $newGitignore);
     }
 
     protected function publishVSCodeWorkspaceConfig()
     {
-        $this->components->info("Publishing workspace configuration");
-        //
+        $this->call('vendor:publish', [
+            '--tag' => 'janitor-vscode-workspace-settings',
+            '--force' => true,
+        ]);
     }
 
     /*
@@ -76,5 +80,25 @@ class Integrate extends Command
     | PhpStorm
     |--------------------------------------------------------------------------
    */
-    //
+    protected function integratePhpStorm()
+    {
+        $this->removeIdeaDirectoryFromGitignore();
+        $this->publishPhpStormWorkspaceConfig();
+    }
+    protected function removeIdeaDirectoryFromGitignore()
+        {
+            $this->components->info("Removing '/.idea' from gitignore");
+
+            $gitignore = file_get_contents(base_path('.gitignore'));
+            $newGitignore = trim(str_replace('/.idea', '', $gitignore)) . PHP_EOL;
+            file_put_contents(base_path('.gitignore'), $newGitignore);
+        }
+
+        protected function publishPhpStormWorkspaceConfig()
+        {
+            $this->components->info("Publishing PhpStorm workspace configuration");
+
+            // TODO
+            warning('TODO: PhpStorm integration pending...');
+        }
 }

@@ -86,19 +86,19 @@ class Integrate extends Command
         $this->publishPhpStormWorkspaceConfig();
     }
     protected function removeIdeaDirectoryFromGitignore()
-        {
-            $this->components->info("Removing '/.idea' from gitignore");
+    {
+        $this->components->info("Removing '/.idea' from gitignore");
 
-            $gitignore = file_get_contents(base_path('.gitignore'));
-            $newGitignore = trim(str_replace('/.idea', '', $gitignore)) . PHP_EOL;
-            file_put_contents(base_path('.gitignore'), $newGitignore);
-        }
+        $gitignore = file_get_contents(base_path('.gitignore'));
+        $newGitignore = trim(str_replace('/.idea', '', $gitignore)) . PHP_EOL;
+        file_put_contents(base_path('.gitignore'), $newGitignore);
+    }
 
-        protected function publishPhpStormWorkspaceConfig()
-        {
-            $this->components->info("Publishing PhpStorm workspace configuration");
+    protected function publishPhpStormWorkspaceConfig()
+    {
+        $this->components->info("Publishing PhpStorm workspace configuration");
 
-            // TODO
-            warning('TODO: PhpStorm integration pending...');
-        }
+        // TODO
+        warning('TODO: PhpStorm integration pending...');
+    }
 }

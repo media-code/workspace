@@ -51,5 +51,18 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 ## Roadmap
 
 - [ ] Customize Linter & fixer configuration according to GDD flavored styleguide specifications
-- [ ] Suggest IDE integrations for code highlighting & in IDE code fixing
 - [ ] Consider integrating pre-commit hooks for code fixing & static analysis
+
+- [ ] Suggest IDE integrations & workspace for code highlighting & in IDE code fixing
+    - [ ] vscode
+        - [x] PHP CS Fixer
+        - [x] PHP CodeSniffer
+        - [x] Laravel Pint
+        - [x] Tlint
+        - [ ] PHPStan
+    - [ ] phpstorm
+        - [ ] PHP CS Fixer
+        - [ ] PHP CodeSniffer
+        - [ ] Laravel Pint
+        - [ ] Tlint
+        - [ ] PHPStan

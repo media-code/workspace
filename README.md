@@ -53,6 +53,10 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 - [ ] Customize Linter & fixer configuration according to GDD flavored styleguide specifications (ongoing)
 - [ ] Consider integrating pre-commit hooks for code fixing & static analysis
 - [ ] Consider integrating ide-helper with auto update via composer hook
+- [ ] Add prettier blade plugin support
+
+- [ ] Improve CI config using merge queues
+    - [ ] Add info panel in install command explaining reqquired Github config
 
 - [ ] Suggest IDE integrations & workspace for code highlighting & in IDE code fixing
     - [ ] vscode
@@ -61,9 +65,11 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
         - [x] Laravel Pint
         - [x] Tlint
         - [ ] PHPStan
+        - [ ] Prettier
     - [ ] phpstorm
         - [ ] PHP CS Fixer
         - [ ] PHP CodeSniffer
         - [ ] Laravel Pint
         - [ ] Tlint
         - [ ] PHPStan
+        - [ ] Prettier

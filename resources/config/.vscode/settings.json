@@ -15,10 +15,6 @@
     },
     //
     //--------------------------------------------------------------------------
-    // Laravel Pint
-    //--------------------------------------------------------------------------
-    "laravel-pint.enable": true,
-    //--------------------------------------------------------------------------
     // PHP-CS-Fixer
     //--------------------------------------------------------------------------
     "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
@@ -39,8 +35,18 @@
     "phpSniffer.run": "onType",
     "phpSniffer.snippetExcludeSniffs": [],
     //--------------------------------------------------------------------------
+    // PHPStan
+    //--------------------------------------------------------------------------
+    "phpstan.enabled": true,
+    "phpstan.enableLanguageServer": true,
+    "phpstan.configFile": "phpstan.neon,phpstan.neon.dist,${workspaceFolder}/vendor/gedachtegoed/janitor/resources/config/phpstan.neon",
+    //--------------------------------------------------------------------------
     // TLINT
     //--------------------------------------------------------------------------
     "tighten-lint.defaultSeverity": "error",
-    "tighten-lint.exec": "${workspaceFolder}/vendor/bin/tlint"
+    "tighten-lint.exec": "${workspaceFolder}/vendor/bin/tlint",
+    //--------------------------------------------------------------------------
+    // Laravel Pint
+    //--------------------------------------------------------------------------
+    "laravel-pint.enable": true,
 }

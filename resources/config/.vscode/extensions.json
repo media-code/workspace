@@ -4,9 +4,10 @@
     // List of extensions which should be recommended for users of this workspace.
     "recommendations": [
         "open-southeners.laravel-pint",
+        "SanderRonde.phpstan-vscode",
         "d9705996.tighten-lint",
         "junstyle.php-cs-fixer",
-        "wongjn.php-sniffer",
+        "wongjn.php-sniffer"
     ],
     // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
     "unwantedRecommendations": [

@@ -51,8 +51,7 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 ## Roadmap
 
 - [ ] Customize Linter & fixer configuration according to GDD flavored styleguide specifications (ongoing)
-- [ ] Consider integrating pre-commit hooks for code fixing & static analysis
-- [ ] Consider integrating ide-helper with auto update via composer hook
+- [x] Integrate ide-helper with auto update via composer hook
 - [ ] Add prettier blade plugin support
 
 - [ ] Improve CI config using merge queues
@@ -64,7 +63,7 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
         - [x] PHP CodeSniffer
         - [x] Laravel Pint
         - [x] Tlint
-        - [ ] PHPStan
+        - [x] PHPStan
         - [ ] Prettier
     - [ ] phpstorm
         - [ ] PHP CS Fixer

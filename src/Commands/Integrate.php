@@ -54,7 +54,7 @@ class Integrate extends Command
         $this->removeVSCodeDirectoryFromGitignore();
         $this->publishVSCodeWorkspaceConfig();
 
-        info('Please reload VSCode & install the workspace reccomended extensions when prompted');
+        info('Please reload VSCode & install the workspace recommended extensions when prompted');
         info("If the prompt doesn't appear; Open the command pallette [CMD + Shift + p] and select 'Show Recommended Extensions'");
     }
 

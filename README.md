@@ -50,8 +50,9 @@ If you've chosen to install the Github Actions scripts along when installing Jan
 If you've skipped this installation step, not to worry; Simply run `php artisan vendor:publish --tag=janitor-3rd-party-configs` to publish the files now.
 ## Roadmap
 
-- [ ] Customize Linter & fixer configuration according to GDD flavored styleguide specifications
+- [ ] Customize Linter & fixer configuration according to GDD flavored styleguide specifications (ongoing)
 - [ ] Consider integrating pre-commit hooks for code fixing & static analysis
+- [ ] Consider integrating ide-helper with auto update via composer hook
 
 - [ ] Suggest IDE integrations & workspace for code highlighting & in IDE code fixing
     - [ ] vscode

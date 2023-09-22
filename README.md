@@ -53,6 +53,9 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 - [ ] Customize Linter & fixer configuration according to GDD flavored styleguide specifications (ongoing)
 - [x] Integrate ide-helper with auto update via composer hook
 - [ ] Add prettier blade plugin support
+- [ ] Add sensible default workspace configs
+    - [x] vscode
+    - [ ] phpstorm
 
 - [ ] Improve CI config using merge queues
     - [ ] Add info panel in install command explaining reqquired Github config

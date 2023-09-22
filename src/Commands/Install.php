@@ -4,8 +4,10 @@ namespace Gedachtegoed\Janitor\Commands;
 
 use Illuminate\Console\Command;
 
-use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\spin;
 use function Laravel\Prompts\table;
+use function Laravel\Prompts\confirm;
+use Illuminate\Support\Facades\Process;
 
 
 class Install extends Command
@@ -20,6 +22,7 @@ class Install extends Command
     {
         $this->publishConfigs();
         $this->publishActions();
+        $this->installNpmDependencies();
         $this->installComposerScripts();
     }
 
@@ -62,6 +65,14 @@ class Install extends Command
             '--tag' => 'janitor-github-actions',
             '--force' => true,
         ]);
+    }
+
+    protected function installNpmDependencies()
+    {
+        spin(
+            fn() => Process::path(base_path())->run('npm install --save-dev prettier@^3 @shufo/prettier-plugin-blade')->throw(),
+            'Installing NPM dependencies'
+        );
     }
 
     protected function installComposerScripts()

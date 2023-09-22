@@ -2,12 +2,9 @@
 
 namespace Gedachtegoed\Janitor\Commands;
 
-use Illuminate\Process\Pool;
-
 use Illuminate\Console\Command;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\warning;
-use Illuminate\Support\Facades\Process;
 use function Laravel\Prompts\multiselect;
 
 class Integrate extends Command
@@ -127,7 +124,7 @@ class Integrate extends Command
         $currentScripts = data_get($composer, 'scripts.post-update-cmd', []);
         $helperScripts = [
             "@php artisan ide-helper:generate --ansi --helpers",
-            "@php artisan ide-helper:meta --ansi --helpers"
+            "@php artisan ide-helper:meta --ansi"
         ];
 
         data_set(

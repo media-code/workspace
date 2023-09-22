@@ -63,6 +63,4 @@
     // Prettier Blade
     //--------------------------------------------------------------------------
     "prettier.enable": true,
-    "prettier.configPath": "prettierrc.json,{$workspaceDirectory}/vendor/gedachtegoed/janitor/resources/config/.prettierrc.json",
-    "prettier.prettierPath": "./node_modules/.bin/prettier"
 }

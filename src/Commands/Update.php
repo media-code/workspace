@@ -21,6 +21,10 @@ class Update extends Command
             return static::FAILURE;
         }
 
+        if (! $this->updateNpmDependencies()) {
+            return static::FAILURE;
+        }
+
         return $this->call('janitor:install', [
             '--publish-configs' => $this->option('publish-configs'),
             '--publish-actions' => $this->option('publish-actions'),
@@ -37,7 +41,27 @@ class Update extends Command
         );
 
         if ($result->failed()) {
-            $this->error($result->errorOutput());
+            $this->line($result->errorOutput());
+
+            return false;
+        }
+
+        $this->line($result->output());
+
+        return true;
+    }
+
+    protected function updateNpmDependencies()
+    {
+        $this->components->info('Updating NPM dependencies');
+
+        $result = spin(
+            fn () => Process::run('npm update prettier @shufo/prettier-plugin-blade --audit=false'),
+            'npm update prettier @shufo/prettier-plugin-blade --audit=false'
+        );
+
+        if ($result->failed()) {
+            $this->line($result->errorOutput());
 
             return false;
         }

@@ -2,94 +2,28 @@
     //--------------------------------------------------------------------------
     // General
     //--------------------------------------------------------------------------
-    "editor.copyWithSyntaxHighlighting": false,
-    "files.trimTrailingWhitespace": true,
-    "editor.inlineSuggest.enabled": true,
-    "editor.detectIndentation": false,
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-    "git.enableSmartCommit": true,
-    "editor.formatOnSave": true,
-    "git.autofetch": true,
-    "editor.quickSuggestions": {
-        "strings": true
-    },
     "files.associations": {
         ".php_cs": "php",
         ".php_cs.dist": "php",
         ".env*": "dotenv"
     },
-    /*
-    |--------------------------------------------------------------------------
-    | Laravel specific global search rules
-    |--------------------------------------------------------------------------
-    */
-    "search.useIgnoreFiles": false,
-    "search.exclude": {
-        // Hide everything in /vendor, except the "laravel" and "livewire" folder.
-        "**/vendor/{[^l],?[^ai]}*": true,
-        // Hide everything in /public, except "index.php"
-        "**/public/{[^i],?[^n]}*": true,
-        // Hide all other irrelevant cruft
-        "**/node_modules": true,
-        "**/dist": true,
-        "**/_ide_helper.php": true,
-        "**/_ide_helper_models.php": true,
-        "**/composer.lock": true,
-        "**/package-lock.json": true,
-        "storage": true,
-        ".phpunit.result.cache": true
+    "emmet.includeLanguages": {
+        "blade": "html",
+        "vue-html": "html",
+        "vue": "html"
     },
-    //--------------------------------------------------------------------------
-    // PHP Language
-    //--------------------------------------------------------------------------
-    // Auto formatting
+    //
     "[php]": {
         // TODO: Consider multiformatting extension: https://marketplace.visualstudio.com/items?itemName=Jota0222.multi-formatter
         // As long as all extensions support linting on type this is not needed
         "editor.defaultFormatter": "open-southeners.laravel-pint",
         "editor.formatOnSave": true
     },
-    // Laravel autocompletion (incl. model properties)
-    "LaravelIntellisense.model": "App\\Models",
-    // PHP Intellisense
-    "intelephense.completion.triggerParameterHints": true,
-    "intelephense.completion.insertUseDeclaration": true,
-    "intelephense.completion.fullyQualifyGlobalConstantsAndFunctions": false,
-    "intelephense.trace.server": "messages",
-    "intelephense.files.exclude": [
-        "**/.git/**",
-        "**/.svn/**",
-        "**/.hg/**",
-        "**/CVS/**",
-        "**/.DS_Store/**",
-        "**/node_modules/**",
-        "**/bower_components/**",
-        "**/storage",
-        "**/storage/**",
-        "**/tests/**",
-        "**/resources/views/**",
-        "**/database/migrations/**",
-        "**/storage/framework/views/**",
-        "_ide_helper.php",
-        "_ide_helper_models"
-    ],
-    /*
-    |--------------------------------------------------------------------------
-    | Debugger
-    |--------------------------------------------------------------------------
-    */
-    "launch": {
-        "version": "0.2.0",
-        "configurations": [
-            {
-                "name": "Listen for XDebug",
-                "type": "php",
-                "request": "launch",
-                "port": 9001
-            }
-        ]
+    "[blade]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
     },
+    //
     //--------------------------------------------------------------------------
     // PHP-CS-Fixer
     //--------------------------------------------------------------------------
@@ -125,4 +59,10 @@
     // Laravel Pint
     //--------------------------------------------------------------------------
     "laravel-pint.enable": true,
+    //--------------------------------------------------------------------------
+    // Prettier Blade
+    //--------------------------------------------------------------------------
+    "prettier.enable": true,
+    "prettier.configPath": "prettierrc.json,{$workspaceDirectory}/vendor/gedachtegoed/janitor/resources/config/.prettierrc.json",
+    "prettier.prettierPath": "./node_modules/.bin/prettier"
 }

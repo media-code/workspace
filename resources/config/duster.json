@@ -4,8 +4,21 @@
             "Larastan": [
                 "./vendor/bin/phpstan",
                 "analyse",
-                "-c ./vendor/gedachtegoed/janitor/resources/config/phpstan.neon",
                 "--memory-limit=2G"
+            ],
+            "Prettier Blade": [
+                "./node_modules/.bin/prettier",
+                "--config=./vendor/gedachtegoed/janitor/resources/config/.prettierrc.json",
+                "--check",
+                "resources/**/*.blade.php"
+            ]
+        },
+        "fix": {
+            "Prettier Blade": [
+                "./node_modules/.bin/prettier",
+                "--config=./vendor/gedachtegoed/janitor/resources/config/.prettierrc.json",
+                "--write",
+                "resources/**/*.blade.php"
             ]
         }
     },

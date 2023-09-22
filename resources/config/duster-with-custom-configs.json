@@ -5,6 +5,18 @@
                 "./vendor/bin/phpstan",
                 "analyse",
                 "--memory-limit=2G"
+            ],
+            "Prettier Blade": [
+                "./node_modules/.bin/prettier",
+                "--check",
+                "resources/**/*.blade.php"
+            ]
+        },
+        "fix": {
+            "Prettier Blade": [
+                "./node_modules/.bin/prettier",
+                "--write",
+                "resources/**/*.blade.php"
             ]
         }
     },

@@ -10,8 +10,8 @@ class PrettierBlade extends Builder
     {
         $this
             ->npmInstall([
-                'prettier@^3 --save-dev',
-                '@shufo/prettier-plugin-blade --save-dev'
+                'prettier@^3',
+                '@shufo/prettier-plugin-blade'
             ])
             ->npmUpdate([
                 'prettier',

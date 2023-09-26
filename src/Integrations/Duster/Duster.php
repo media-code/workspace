@@ -12,7 +12,7 @@ class Duster extends Builder
     public function __invoke()
     {
         $this
-            ->composerRequire('tightenco/duster --dev')
+            ->composerRequire('tightenco/duster')
             ->composerUpdate('tightenco/duster')
             ->publishesConfigs([
                 'duster.json' => base_path('duster.json')

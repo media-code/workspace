@@ -13,6 +13,8 @@ use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
  */
 
  /**
+  * Collection methods for flatMapping Integration properties with magic __call() method
+  *
   * @package Gedachtegoed\Janitor\Core
   *
   * @method array publishesConfigs()

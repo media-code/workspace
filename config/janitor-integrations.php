@@ -2,7 +2,6 @@
 
 use Gedachtegoed\Janitor\Integrations\Pint\Pint;
 use Gedachtegoed\Janitor\Integrations\TLint\TLint;
-use Gedachtegoed\Janitor\Integrations\Duster\Duster;
 use Gedachtegoed\Janitor\Integrations\Larastan\Larastan;
 use Gedachtegoed\Janitor\Integrations\IDEHelper\IDEHelper;
 use Gedachtegoed\Janitor\Integrations\Workflows\Workflows;

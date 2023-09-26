@@ -9,7 +9,7 @@ class PHPCodeSniffer extends Builder
     public function __invoke()
     {
         $this
-            ->composerRequire('squizlabs/php_codesniffer --dev')
+            ->composerRequire('squizlabs/php_codesniffer')
             ->composerUpdate('squizlabs/php_codesniffer')
             ->publishesConfigs([
                 '.phpcs.xml.dist' => base_path('.phpcs.xml.dist')

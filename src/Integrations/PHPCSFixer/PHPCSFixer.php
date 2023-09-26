@@ -9,7 +9,7 @@ class PHPCSFixer extends Builder
     public function __invoke()
     {
         $this
-            ->composerRequire('friendsofphp/php-cs-fixer --dev')
+            ->composerRequire('friendsofphp/php-cs-fixer')
             ->composerUpdate('friendsofphp/php-cs-fixer')
             ->publishesConfigs([
                 '.php-cs-fixer.dist.php' => base_path('.php-cs-fixer.dist.php')
@@ -32,7 +32,6 @@ class PHPCSFixer extends Builder
             ])
             ->provideDusterFixConfig([
                 // Already included in Duster
-            ])
-            ;
+            ]);
     }
 }

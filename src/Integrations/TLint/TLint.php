@@ -10,7 +10,7 @@ class TLint extends Builder
     public function __invoke()
     {
         $this
-            ->composerRequire('tightenco/tlint --dev')
+            ->composerRequire('tightenco/tlint')
             ->composerUpdate('tightenco/tlint')
             ->publishesConfigs([
                 'tlint.json' => base_path('tlint.json')

@@ -1,11 +1,11 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\PHPStan;
+namespace Gedachtegoed\Janitor\Integrations\IDEHelper;
 
 use Illuminate\Console\Command;
 use Gedachtegoed\Janitor\Core\Builder;
 
-class Larastan extends Builder
+class IDEHelper extends Builder
 {
     public function __invoke()
     {

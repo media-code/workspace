@@ -14,12 +14,7 @@ class PHPCSFixer extends Builder
             ->publishesConfigs([
                 '.php-cs-fixer.dist.php' => base_path('.php-cs-fixer.dist.php')
             ])
-            ->provideDusterLintConfig([
-                // Already included in Duster
-            ])
-            ->provideDusterFixConfig([
-                // Already included in Duster
-            ])
+
             ->provideVscodeRecommendedPlugins('junstyle.php-cs-fixer')
             ->provideVscodeWorkspaceConfig([
                 'php-cs-fixer.executablePath' => '${workspaceFolder}/vendor/bin/php-cs-fixer',
@@ -30,6 +25,14 @@ class PHPCSFixer extends Builder
                 'php-cs-fixer.autoFixByBracket' => true,
                 'php-cs-fixer.autoFixBySemicolon' => true,
                 'php-cs-fixer.formatHtml' => false,
-            ]);
+            ])
+
+            ->provideDusterLintConfig([
+                // Already included in Duster
+            ])
+            ->provideDusterFixConfig([
+                // Already included in Duster
+            ])
+            ;
     }
 }

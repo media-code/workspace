@@ -9,8 +9,8 @@ class Larastan extends Builder
     public function __invoke()
     {
         $this
-            ->composerRequire('friendsofphp/php-cs-fixer --dev')
-            ->composerUpdate('friendsofphp/php-cs-fixer')
+            ->composerRequire('nunomaduro/larastan:^2.0 --dev')
+            ->composerUpdate('nunomaduro/larastan')
 
             ->publishesConfigs([
                 'phpstan.neon' => base_path('phpstan.neon')

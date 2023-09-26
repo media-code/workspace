@@ -1,6 +1,0 @@
-{
-    "lint": "vendor/bin/duster lint",
-    "fix": "vendor/bin/duster fix",
-    "analyze": "vendor/bin/phpstan analyse",
-    "baseline": "vendor/bin/phpstan analyse --generate-baseline"
-}

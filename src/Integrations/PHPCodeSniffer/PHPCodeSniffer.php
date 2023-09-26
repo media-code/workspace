@@ -1,6 +1,6 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\PHPCSFixer;
+namespace Gedachtegoed\Janitor\Integrations\PHPCodeSniffer;
 
 use Gedachtegoed\Janitor\Core\Builder;
 

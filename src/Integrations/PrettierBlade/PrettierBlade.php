@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\PHPCSFixer;
+namespace Gedachtegoed\Janitor\Integrations\PrettierBlade;
 
-use Gedachtegoed\Janitor\Integrations\Builder;
+use Gedachtegoed\Janitor\Core\Builder;
 
 class PrettierBlade extends Builder
 {

@@ -1,10 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\Duster;
+namespace Gedachtegoed\Janitor\Integrations\TLint;
 
-use Illuminate\Console\Command;
-use Gedachtegoed\Janitor\Integrations\Builder;
-use function Laravel\Prompts\table;
+use Gedachtegoed\Janitor\Core\Builder;
 
 class TLint extends Builder
 {

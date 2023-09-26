@@ -25,13 +25,13 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     public function publishesConfigs(array $configMap): self
     {
-        $this->integration->publishesConfigs[] = $configMap;
+        $this->integration->publishesConfigs = $this->integration->publishesConfigs + $configMap;
         return $this;
     }
 
     public function publishesWorkflows(array $workflowMap): self
     {
-        $this->integration->publishesWorkflows[] = $workflowMap;
+        $this->integration->publishesWorkflows = $this->integration->publishesWorkflows + $workflowMap;
         return $this;
     }
 
@@ -40,13 +40,13 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     public function provideDusterLintConfig(array $config): self
     {
-        $this->integration->dusterLintConfig[] = $config;
+        $this->integration->dusterLintConfig = $this->integration->dusterLintConfig + $config;
         return $this;
     }
 
     public function provideDusterFixConfig(array $config): self
     {
-        $this->integration->dusterFixConfig[] = $config;
+        $this->integration->dusterFixConfig = $this->integration->dusterFixConfig + $config;
         return $this;
     }
 
@@ -55,40 +55,34 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     public function composerScripts(array|string $scripts): self
     {
-        $this->integration->composerScripts[] = (array) $scripts;
+        $this->integration->composerScripts = $this->integration->composerScripts + (array) $scripts;
         return $this;
     }
 
     public function composerRequire(array|string $dependencies): self
     {
-        $this->integration->composerRequire[] = (array) $dependencies;
+        $this->integration->composerRequire = $this->integration->composerRequire + (array) $dependencies;
         return $this;
     }
 
     public function composerUpdate(array|string $dependencies): self
     {
-        $this->integration->composerUpdate[] = (array) $dependencies;
+        $this->integration->composerUpdate = $this->integration->composerUpdate + (array) $dependencies;
         return $this;
     }
 
     //--------------------------------------------------------------------------
     // NPM
     //--------------------------------------------------------------------------
-    public function nodePackageManager(string $executable): self
-    {
-        $this->integration->nodePackageManager = $executable;
-        return $this;
-    }
-
     public function npmInstall(array|string $dependencies): self
     {
-        $this->integration->npmInstall[] = (array) $dependencies;
+        $this->integration->npmInstall = $this->integration->npmInstall + (array) $dependencies;
         return $this;
     }
 
     public function npmUpdate(array|string $dependencies): self
     {
-        $this->integration->npmUpdate[] = (array) $dependencies;
+        $this->integration->npmUpdate = $this->integration->npmUpdate + (array) $dependencies;
         return $this;
     }
 
@@ -97,13 +91,13 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     public function addToGitignore(string|array $line): self
     {
-        $this->integration->addToGitignore[] = (array) $line;
+        $this->integration->addToGitignore = $this->integration->addToGitignore + (array) $line;
         return $this;
     }
 
     public function removeFromGitignore(string|array $line): self
     {
-        $this->integration->removeFromGitignore[] = (array) $line;
+        $this->integration->removeFromGitignore = $this->integration->removeFromGitignore + (array) $line;
         return $this;
     }
 
@@ -112,19 +106,19 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     public function provideVscodeWorkspaceConfig(string|array $line): self
     {
-        $this->integration->provideVscodeWorkspaceConfig[] = (array) $line;
+        $this->integration->provideVscodeWorkspaceConfig = $this->integration->provideVscodeWorkspaceConfig + (array) $line;
         return $this;
     }
 
     public function provideVscodeRecommendedPlugins(string|array $plugins): self
     {
-        $this->integration->provideVscodeRecommendedPlugins[] = (array) $plugins;
+        $this->integration->provideVscodeRecommendedPlugins = $this->integration->provideVscodeRecommendedPlugins + (array) $plugins;
         return $this;
     }
 
     public function provideVscodeAvoidPlugins(string|array $plugins): self
     {
-        $this->integration->provideVscodeAvoidPlugins[] = (array) $plugins;
+        $this->integration->provideVscodeAvoidPlugins = $this->integration->provideVscodeAvoidPlugins + (array) $plugins;
         return $this;
     }
 
@@ -133,19 +127,19 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     public function providePhpStormWorkspaceConfig(string|array $line): self
     {
-        $this->integration->providePhpStormWorkspaceConfig[] = (array) $line;
+        $this->integration->providePhpStormWorkspaceConfig = $this->integration->providePhpStormWorkspaceConfig + (array) $line;
         return $this;
     }
 
     public function providePhpStormRequiredPlugins(string|array $plugins): self
     {
-        $this->integration->providePhpStormRequiredPlugins[] = (array) $plugins;
+        $this->integration->providePhpStormRequiredPlugins = $this->integration->providePhpStormRequiredPlugins + (array) $plugins;
         return $this;
     }
 
     public function providePhpStormSuggestedPlugins(string|array $plugins): self
     {
-        $this->integration->providePhpStormSuggestedPlugins[] = (array) $plugins;
+        $this->integration->providePhpStormSuggestedPlugins = $this->integration->providePhpStormSuggestedPlugins + (array) $plugins;
         return $this;
     }
 

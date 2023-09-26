@@ -20,7 +20,6 @@ final class Integration
     public array $composerRequire = [];
     public array $composerUpdate = [];
 
-    public string $nodePackageManager = 'npm';
     public array $npmInstall = [];
     public array $npmUpdate = [];
 

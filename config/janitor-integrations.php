@@ -12,7 +12,6 @@ use Gedachtegoed\Janitor\Integrations\EditorDefaults\EditorDefaults;
 use Gedachtegoed\Janitor\Integrations\PHPCodeSniffer\PHPCodeSniffer;
 
 return [
-    Duster::class, // Move this to Core install command. Must always be installed for other integrations to work
     EditorDefaults::class,
     PHPCodeSniffer::class,
     PrettierBlade::class,

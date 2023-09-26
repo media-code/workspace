@@ -13,7 +13,7 @@ class TLint extends Builder
             ->composerRequire('tightenco/tlint --dev')
             ->composerUpdate('tightenco/tlint')
             ->publishesConfigs([
-                'tlint.json' => base_dir('tlint.json')
+                'tlint.json' => base_path('tlint.json')
             ])
             ->provideVscodeRecommendedPlugins('d9705996.tighten-lint')
             ->provideVscodeWorkspaceConfig([

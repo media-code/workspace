@@ -12,7 +12,7 @@ class PHPCSFixer extends Builder
             ->composerRequire('friendsofphp/php-cs-fixer --dev')
             ->composerUpdate('friendsofphp/php-cs-fixer')
             ->publishesConfigs([
-                '.php-cs-fixer.dist.php' => base_dir('.php-cs-fixer.dist.php')
+                '.php-cs-fixer.dist.php' => base_path('.php-cs-fixer.dist.php')
             ])
             ->provideDusterLintConfig([
                 // Already included in Duster

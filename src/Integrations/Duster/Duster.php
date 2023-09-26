@@ -15,7 +15,7 @@ class Duster extends Builder
             ->composerRequire('tightenco/duster --dev')
             ->composerUpdate('tightenco/duster')
             ->publishesConfigs([
-                'duster.json' => base_dir('duster.json')
+                'duster.json' => base_path('duster.json')
             ])
             ->composerScripts([
                 'lint' => 'vendor/bin/duster lint',

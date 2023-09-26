@@ -13,7 +13,7 @@ class Larastan extends Builder
             ->composerUpdate('friendsofphp/php-cs-fixer')
 
             ->publishesConfigs([
-                'phpstan.neon' => base_dir('phpstan.neon')
+                'phpstan.neon' => base_path('phpstan.neon')
             ])
 
             ->provideDusterLintConfig([

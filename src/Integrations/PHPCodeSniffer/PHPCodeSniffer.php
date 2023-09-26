@@ -12,7 +12,7 @@ class PHPCodeSniffer extends Builder
             ->composerRequire('friendsofphp/php-cs-fixer --dev')
             ->composerUpdate('friendsofphp/php-cs-fixer')
             ->publishesConfigs([
-                '.phpcs.xml.dist' => base_dir('.phpcs.xml.dist')
+                '.phpcs.xml.dist' => base_path('.phpcs.xml.dist')
             ])
             ->provideDusterLintConfig([
                 // Already included in Duster

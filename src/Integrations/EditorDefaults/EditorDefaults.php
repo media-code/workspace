@@ -2,7 +2,7 @@
 
 namespace Gedachtegoed\Janitor\Integrations\EditorDefaults;
 
-use Gedachtegoed\Janitor\Integrations\Builder;
+use Gedachtegoed\Janitor\Core\Builder;
 
 class EditorDefaults extends Builder
 {

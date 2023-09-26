@@ -1,6 +1,6 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\PHPStan;
+namespace Gedachtegoed\Janitor\Integrations\Larastan;
 
 use Gedachtegoed\Janitor\Core\Builder;
 

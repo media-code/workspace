@@ -2,7 +2,7 @@
 
 namespace Gedachtegoed\Janitor\Integrations\Pint;
 
-use Gedachtegoed\Janitor\Integrations\Builder;
+use Gedachtegoed\Janitor\Core\Builder;
 
 class Pint extends Builder
 {

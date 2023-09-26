@@ -3,8 +3,8 @@
 namespace Gedachtegoed\Janitor\Integrations\Duster;
 
 use Illuminate\Console\Command;
-use Gedachtegoed\Janitor\Integrations\Builder;
 use function Laravel\Prompts\table;
+use Gedachtegoed\Janitor\Core\Builder;
 
 class Duster extends Builder
 {

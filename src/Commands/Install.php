@@ -3,108 +3,192 @@
 namespace Gedachtegoed\Janitor\Commands;
 
 use Illuminate\Console\Command;
-
 use function Laravel\Prompts\spin;
-use function Laravel\Prompts\table;
 use function Laravel\Prompts\confirm;
+use Gedachtegoed\Janitor\Core\Manager;
 use Illuminate\Support\Facades\Process;
-
+use Gedachtegoed\Janitor\Core\Concerns\UpdatesGitignore;
+use RuntimeException;
 
 class Install extends Command
 {
+    use UpdatesGitignore;
+
+    protected Manager $manager;
+
     protected $signature = 'janitor:install
-                            {--publish-configs : When true, Janitor will publish the 3rd party config files}
-                            {--publish-actions : When true, Janitor will publish the Github Actions for CI}';
+                            {--publish-workflows : When true, Janitor will publish the Github Actions for CI}';
 
     protected $description = 'Install Janitor';
 
+    public function __construct(Manager $manager)
+    {
+        parent::__construct();
+        $this->manager = $manager;
+    }
+
     public function handle()
     {
-        $this->publishConfigs();
-        $this->publishActions();
-        $this->installNpmDependencies();
-        $this->installComposerScripts();
-    }
-
-    protected function publishConfigs()
-    {
         // Prompt for input if missing
-        $publishThirdParty = $this->promptForOptionIfMissing(
-            option: 'publish-configs',
-            label: 'Would you like to publish the 3rd party config files? (recommended)'
-        );
-
-        // Publish configs
-        match ($publishThirdParty) {
-            true => $this->call('vendor:publish', [
-                '--tag' => 'janitor-3rd-party-configs',
-                '--force' => true,
-            ]),
-
-            default => $this->call('vendor:publish', [
-                '--tag' => 'janitor-config',
-                '--force' => true,
-            ])
-        };
-    }
-
-    protected function publishActions()
-    {
-        // Prompt for input if missing
-        $publicGithubActions = $this->promptForOptionIfMissing(
-            option: 'publish-actions',
+        $publishWorkflows = $this->promptForOptionIfMissing(
+            option: 'publish-workflows',
             label: 'Would you like to publish Github Actions files? (recommended)'
         );
 
-        // Publish Actions
-        if (! $publicGithubActions) {
-            return;
+        // Before hooks
+        foreach($this->manager->beforeInstall() as $callback) {
+            $callback($this);
         }
 
-        $this->call('vendor:publish', [
-            '--tag' => 'janitor-github-actions',
-            '--force' => true,
-        ]);
+        $this->installComposerDependencies();
+        $this->installNpmDependencies();
+        $this->publishConfigs();
+        if($publishWorkflows) $this->publishConfigs();
+        $this->updateGitignore();
+        $this->installDusterConfiguration();
+        $this->installComposerScripts();
+
+        // After hooks
+        foreach($this->manager->afterInstall() as $callback) {
+            $callback($this);
+        }
+    }
+
+    protected function installComposerDependencies()
+    {
+        $commands = implode(' ', $this->manager->composerRequire());
+
+        spin(
+            fn() => Process::path(base_path())
+                ->run("composer require {$commands} --dev")
+                ->throw(),
+            'Installing Composer dependencies'
+        );
     }
 
     protected function installNpmDependencies()
     {
+        $commands = implode(' ', $this->manager->npmInstall());
+
         spin(
-            fn() => Process::path(base_path())->run('npm install --save-dev prettier@^3 @shufo/prettier-plugin-blade')->throw(),
+            fn() => Process::path(base_path())
+                ->run("npm install {$commands} --save-dev")
+                ->throw(),
             'Installing NPM dependencies'
         );
     }
 
+    protected function publishConfigs()
+    {
+        spin(function() {
+            sleep(1); // Only for 💅
+
+            $this->callSilent('vendor:publish', [
+                '--tag' => 'janitor-3rd-party-configs',
+                '--force' => true,
+            ]);
+        }, 'Publishing 3rd party configs');
+    }
+
+    protected function updateGitignore()
+    {
+        spin(function() {
+            sleep(1); // Only for 💅
+
+            $this->removeFromGitignore(
+                $this->manager->removeFromGitignore()
+            );
+
+            $this->addToGitignore(
+                $this->manager->addToGitignore()
+            );
+        }, 'Updating .gitignore');
+    }
+
+    protected function installDusterConfiguration()
+    {
+        spin(function() {
+            sleep(1); // Only for 💅
+
+            // Note we assume duster.json is present since the Duster integration is mandatory
+            $path = base_path('duster.json');
+            $config = json_decode(file_get_contents($path));
+            $linters = $this->manager->dusterLintConfig();
+            $fixers = $this->manager->dusterFixConfig();
+
+            foreach($linters as $name => $integration) {
+                data_set($config, "scripts.lint.{$name}", $integration);
+            }
+
+            foreach($fixers as $name => $integration) {
+                data_set($config, "scripts.fix.{$name}", $integration, overwrite: true);
+            }
+
+            // Persist
+            file_put_contents(
+                $path,
+                json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
+            );
+        }, 'Installing integrations in Duster config');
+    }
+
     protected function installComposerScripts()
     {
-        $this->components->info('Installing composer scripts');
+        spin(function() {
+            sleep(1); // Only for 💅
 
-        $composer = json_decode(file_get_contents(base_path('composer.json')));
-        $janitorScripts = json_decode(file_get_contents(__DIR__ . './../../resources/config/composer-scripts.json'));
-        $currentScripts = $composer->scripts ?? (object) [];
+            $composer = json_decode(file_get_contents(base_path('composer.json')));
+            $janitorScripts = $this->manager->composerScripts();
+            $composerScripts = $composer->scripts ?? (object) [];
 
-        data_set(
-            target: $composer,
-            key: 'scripts',
-            value: [...(array) $janitorScripts, ...(array) $currentScripts],
-            overwrite: true
-        );
+            throw_unless($composer, RuntimeException::class, "composer.json couldn't be parsed");
 
-        file_put_contents(
-            base_path('composer.json'),
-            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
-        );
+            // The mergeRecursive method might be a bit prone to break
+            $merged = $this->mergeRecursive((array) $janitorScripts, (array) $composerScripts);
 
-        table(
-            ['Command', 'Description'],
-            [
-                ['composer lint', 'Lints your code with duster and phpstan including any additional linters configured in duster.json'],
-                ['composer fix', 'Fixes your code with duster including any additional fixers configured in duster.json'],
-                ['composer analyze', 'Runs phpstan separately'],
-                ['composer baseline', 'Generate a static analysis baseline']
-            ]
-        );
+            data_set($composer, 'scripts', $merged, overwrite: true);
 
+            file_put_contents(
+                base_path('composer.json'),
+                json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
+            );
+        }, 'Installing Composer script aliases');
+    }
+
+    protected function publishWorkflows()
+    {
+        spin(function() {
+            sleep(1); // Only for 💅
+
+            $this->removeFromGitignore([
+                '.github',
+            ]);
+
+            $this->callSilent('vendor:publish', [
+                '--tag' => 'janitor-workflows',
+                '--force' => true,
+            ]);
+
+        }, 'Publishing workflow files');
+    }
+
+
+    //--------------------------------------------------------------------------
+    // Support
+    //--------------------------------------------------------------------------
+
+    /*
+     * Merges two arrays recursively. Might be prone to break. Not well tested
+     */
+    private function mergeRecursive(array $left, array $right) {
+        foreach ($right as $key => $value) {
+            if (is_array($value) && isset($left[$key]) && is_array($left[$key])) {
+                $left[$key] = $this->mergeRecursive($left[$key], array_merge($left[$key], $value));
+            } else {
+                $left[$key] = $value;
+            }
+        }
+        return $left;
     }
 
     protected function promptForOptionIfMissing(string $option, string $label, bool $default = true)

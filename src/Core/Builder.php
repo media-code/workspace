@@ -2,6 +2,7 @@
 
 namespace Gedachtegoed\Janitor\Core;
 
+use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 
 abstract class Builder {
@@ -23,14 +24,25 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     // Configs and workflows
     //--------------------------------------------------------------------------
+
     public function publishesConfigs(array $configMap): self
     {
+        // Make sure source path is relative to the Integration path
+        $configMap = Arr::mapWithKeys(
+            $configMap, fn($to, $from) =>  ["{$this->integrationPath()}/{$from}" => $to]
+        );
+
         $this->integration->publishesConfigs = $this->integration->publishesConfigs + $configMap;
         return $this;
     }
 
     public function publishesWorkflows(array $workflowMap): self
     {
+        // Make sure source path is relative to the Integration path
+        $workflowMap = Arr::mapWithKeys(
+            $workflowMap, fn($to, $from) =>  ["{$this->integrationPath()}/{$from}" => $to]
+        );
+
         $this->integration->publishesWorkflows = $this->integration->publishesWorkflows + $workflowMap;
         return $this;
     }
@@ -38,6 +50,7 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     // Duster
     //--------------------------------------------------------------------------
+
     public function provideDusterLintConfig(array $config): self
     {
         $this->integration->dusterLintConfig = $this->integration->dusterLintConfig + $config;
@@ -53,6 +66,7 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     // Composer
     //--------------------------------------------------------------------------
+
     public function composerScripts(array|string $scripts): self
     {
         $this->integration->composerScripts = $this->integration->composerScripts + (array) $scripts;
@@ -74,6 +88,7 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     // NPM
     //--------------------------------------------------------------------------
+
     public function npmInstall(array|string $dependencies): self
     {
         $this->integration->npmInstall = $this->integration->npmInstall + (array) $dependencies;
@@ -89,6 +104,7 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     // Gitignore
     //--------------------------------------------------------------------------
+
     public function addToGitignore(string|array $line): self
     {
         $this->integration->addToGitignore = $this->integration->addToGitignore + (array) $line;
@@ -104,6 +120,7 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     // Visual Studio Code integrations
     //--------------------------------------------------------------------------
+
     public function provideVscodeWorkspaceConfig(string|array $line): self
     {
         $this->integration->provideVscodeWorkspaceConfig = $this->integration->provideVscodeWorkspaceConfig + (array) $line;
@@ -125,6 +142,7 @@ abstract class Builder {
     //--------------------------------------------------------------------------
     // PhpStorm integrations
     //--------------------------------------------------------------------------
+
     public function providePhpStormWorkspaceConfig(string|array $line): self
     {
         $this->integration->providePhpStormWorkspaceConfig = $this->integration->providePhpStormWorkspaceConfig + (array) $line;
@@ -187,5 +205,18 @@ abstract class Builder {
     {
         $this->integration->afterIntegration[] = $callback;
         return $this;
+    }
+
+    //--------------------------------------------------------------------------
+    // Support
+    //--------------------------------------------------------------------------
+
+    private function integrationPath(): string
+    {
+        $child = new \ReflectionClass(get_class($this));
+
+        return str($child->getFileName())
+            ->beforeLast(DIRECTORY_SEPARATOR) // Strip filename
+            ->toString();
     }
 }

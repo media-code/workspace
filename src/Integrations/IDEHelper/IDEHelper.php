@@ -4,6 +4,7 @@ namespace Gedachtegoed\Janitor\Integrations\IDEHelper;
 
 use Illuminate\Console\Command;
 use Gedachtegoed\Janitor\Core\Builder;
+use function Laravel\Prompts\spin;
 
 class IDEHelper extends Builder
 {
@@ -26,15 +27,18 @@ class IDEHelper extends Builder
             ])
 
             ->afterInstall(function(Command $command) {
-                $command->callSilently('ide-helper:generate', [
-                    '--ansi', '--helpers',
-                ]);
+                spin(function() use ($command) {
+                    sleep(1); // Only for 💅
 
-                $command->callSilently('ide-helper:meta', [
-                    '--ansi',
-                ]);
+                    $command->callSilently('ide-helper:generate', [
+                        '--ansi', '--helpers',
+                    ]);
 
-                $command->outputComponents()->task('Generating helper & meta files');
+                    $command->callSilently('ide-helper:meta', [
+                        '--ansi',
+                    ]);
+
+                }, 'Generating helper & meta files');
             });
     }
 }

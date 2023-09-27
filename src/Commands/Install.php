@@ -18,7 +18,7 @@ class Install extends Command
     protected Manager $manager;
 
     protected $signature = 'janitor:install
-                            {--publish-workflows : When true, Janitor will publish the Github Actions for CI}';
+                            {--publish-workflows : When true, Janitor will publish CI Workflows}';
 
     protected $description = 'Install Janitor';
 

@@ -4,6 +4,7 @@ namespace Gedachtegoed\Janitor\Commands;
 
 use Illuminate\Console\Command;
 use function Laravel\Prompts\spin;
+use function Laravel\Prompts\note;
 use function Laravel\Prompts\confirm;
 use Gedachtegoed\Janitor\Core\Manager;
 use Illuminate\Support\Facades\Process;
@@ -29,10 +30,12 @@ class Install extends Command
 
     public function handle()
     {
+        note("Janitor will install ");
+
         // Prompt for input if missing
         $publishWorkflows = $this->promptForOptionIfMissing(
             option: 'publish-workflows',
-            label: 'Would you like to publish Github Actions files? (recommended)'
+            label: 'Would you also like to publish CI Workflow files? (recommended)'
         );
 
         // Before hooks
@@ -43,10 +46,13 @@ class Install extends Command
         $this->installComposerDependencies();
         $this->installNpmDependencies();
         $this->publishConfigs();
-        if($publishWorkflows) $this->publishConfigs();
         $this->updateGitignore();
         $this->installDusterConfiguration();
         $this->installComposerScripts();
+
+        if($publishWorkflows) {
+            $this->publishWorkflows();
+        }
 
         // After hooks
         foreach($this->manager->afterInstall() as $callback) {
@@ -144,7 +150,7 @@ class Install extends Command
             throw_unless($composer, RuntimeException::class, "composer.json couldn't be parsed");
 
             // The mergeRecursive method might be a bit prone to break
-            $merged = $this->mergeRecursive((array) $janitorScripts, (array) $composerScripts);
+            $merged = $this->mergeRecursive((array) $composerScripts, (array) $janitorScripts);
 
             data_set($composer, 'scripts', $merged, overwrite: true);
 
@@ -172,24 +178,9 @@ class Install extends Command
         }, 'Publishing workflow files');
     }
 
-
     //--------------------------------------------------------------------------
     // Support
     //--------------------------------------------------------------------------
-
-    /*
-     * Merges two arrays recursively. Might be prone to break. Not well tested
-     */
-    private function mergeRecursive(array $left, array $right) {
-        foreach ($right as $key => $value) {
-            if (is_array($value) && isset($left[$key]) && is_array($left[$key])) {
-                $left[$key] = $this->mergeRecursive($left[$key], array_merge($left[$key], $value));
-            } else {
-                $left[$key] = $value;
-            }
-        }
-        return $left;
-    }
 
     protected function promptForOptionIfMissing(string $option, string $label, bool $default = true)
     {
@@ -203,5 +194,22 @@ class Install extends Command
             label: $label,
             default: $default
         );
+    }
+
+    /*
+     * Not really recursive. Can only go 1 level deep
+     * Might be prone to break. Not well tested
+     *
+     * TODO: Refactor to something better & that doesn't make my eyes bleed
+     */
+    private function mergeRecursive(array $left, array $right) {
+        foreach ($right as $key => $value) {
+            if (is_array($value) && isset($left[$key]) && is_array($left[$key])) {
+                $left[$key] = array_values(array_unique(array_merge($left[$key], $value)));
+            } else {
+                $left[$key] = $value;
+            }
+        }
+        return $left;
     }
 }

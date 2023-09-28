@@ -212,12 +212,17 @@ abstract class Builder {
     // Support
     //--------------------------------------------------------------------------
 
-    private function integrationPath($append): string
+    private function integrationPath(string $append): string
     {
         $integrationClass = new ReflectionClass(get_class($this));
 
-        $file = str($append)->padLeft(DIRECTORY_SEPARATOR);
+        // Normalize the append arg
+        $file = str($append)
+            ->trim(DIRECTORY_SEPARATOR)
+            ->prepend(DIRECTORY_SEPARATOR)
+            ->toString();
 
+        // Make it relative to the integration path
         return str($integrationClass->getFileName())
             ->beforeLast(DIRECTORY_SEPARATOR) // Strip filename
             ->append($file)

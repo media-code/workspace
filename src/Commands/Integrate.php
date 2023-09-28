@@ -68,9 +68,10 @@ class Integrate extends Command
     protected function publishVSCodeWorkspaceConfig()
     {
         // Publish extensions.json
-        $extensions = (object) [];
-        data_set($extensions, 'recommendations', $this->manager->provideVscodeRecommendedPlugins());
-        data_set($extensions, 'unwantedRecommendations', $this->manager->provideVscodeAvoidPlugins());
+        $extensions = (object) [
+            'recommendations' => $this->manager->provideVscodeRecommendedPlugins(),
+            'unwantedRecommendations' => $this->manager->provideVscodeAvoidPlugins()
+        ];
 
         file_put_contents(
             base_path('.vscode/extensions.json'),
@@ -88,7 +89,7 @@ class Integrate extends Command
     {
         $this->outputComponents()->info('VSCode workspace environment configured!');
         info('Please reload VSCode & install the workspace recommended extensions when prompted');
-        info("If the prompt doesn't appear; Open the command pallette [CMD + Shift + p] and select 'Show Recommended Extensions'");
+        info("If the prompt doesn't appear; Open the command pallette [CMD + Shift + P] and select 'Show Recommended Extensions'");
     }
 
     /*

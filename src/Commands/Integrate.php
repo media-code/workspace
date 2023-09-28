@@ -5,28 +5,127 @@ namespace Gedachtegoed\Janitor\Commands;
 use Illuminate\Console\Command;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\warning;
+use Gedachtegoed\Janitor\Core\Manager;
 use function Laravel\Prompts\multiselect;
+use function Laravel\Prompts\spin;
+
+use Gedachtegoed\Janitor\Core\Concerns\UpdatesGitignore;
 
 class Integrate extends Command
 {
+    use UpdatesGitignore;
+
+    protected Manager $manager;
+
     protected $signature = 'janitor:integrate
                             {--editor= : The editor you\'d like to integrate with (vscode, phpstorm)}';
 
     protected $description = 'Integrate Janitor with your favorite IDE';
 
+    public function __construct(Manager $manager)
+    {
+        parent::__construct();
+        $this->manager = $manager;
+    }
+
     public function handle()
     {
         $editors = $this->promptForEditorIfMissing();
 
-        $this->integrateIdeHelper();
+        // Before hooks
+        foreach($this->manager->beforeIntegration() as $callback) {
+            $callback($this);
+        }
 
         if(in_array('vscode', $editors)) $this->integrateVSCode();
         if(in_array('phpstorm', $editors)) $this->integratePhpStorm();
+
+        // After hooks
+        foreach($this->manager->afterIntegration() as $callback) {
+            $callback($this);
+        }
+
+        // Show informational messages after integration
+        if(in_array('vscode', $editors)) $this->postInstallInfoVSCode();
+        if(in_array('phpstorm', $editors)) $this->postInstallInfoPhpStorm();
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Visual Studio Code
+    |--------------------------------------------------------------------------
+    */
+    protected function integrateVSCode()
+    {
+        // spin(function() {
+            $this->removeFromGitignore('.vscode');
+            $this->publishVSCodeWorkspaceConfig();
+
+            sleep(1); // Only for 💅
+        // }, 'Integrating Visual Studio Code in your project');
+    }
+
+    protected function publishVSCodeWorkspaceConfig()
+    {
+        // Publish extensions.json
+        $extensions = (object) [];
+        data_set($extensions, 'recommendations', $this->manager->provideVscodeRecommendedPlugins());
+        data_set($extensions, 'unwantedRecommendations', $this->manager->provideVscodeAvoidPlugins());
+
+        file_put_contents(
+            base_path('.vscode/extensions.json'),
+            json_encode($extensions, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
+        );
+
+        // Publish settings.json
+        file_put_contents(
+            base_path('.vscode/settings.json'),
+            json_encode($this->manager->provideVscodeWorkspaceConfig(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
+        );
+    }
+
+    protected function postInstallInfoVSCode()
+    {
+        $this->outputComponents()->info('VSCode workspace environment configured!');
+        info('Please reload VSCode & install the workspace recommended extensions when prompted');
+        info("If the prompt doesn't appear; Open the command pallette [CMD + Shift + p] and select 'Show Recommended Extensions'");
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | PhpStorm
+    |--------------------------------------------------------------------------
+    */
+    protected function integratePhpStorm()
+    {
+        spin(function() {
+            $this->removeFromGitignore('.idea');
+            $this->publishPhpStormWorkspaceConfig();
+
+            sleep(1); // Only for 💅
+        }, 'Integrating PhpStorm in your project');
+    }
+
+    protected function publishPhpStormWorkspaceConfig()
+    {
+        //
+    }
+
+    protected function postInstallInfoPhpStorm()
+    {
+        warning('TODO: PhpStorm integration pending...');
+
+        // $this->outputComponents()->info('PhpStorm workspace environment configured!');
+        // info('Please reload PhpStorm & install the workspace recommended & required plugins when prompted');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Support
+    |--------------------------------------------------------------------------
+    */
     private function promptForEditorIfMissing()
     {
-        // Fetch editor option
         $editor = $this->option('editor');
 
         if(in_array($editor, ['vscode', 'phpstorm'])) {
@@ -43,139 +142,5 @@ class Integrate extends Command
             hint: 'Select one or both',
             required: true,
         );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Visual Studio Code
-    |--------------------------------------------------------------------------
-    */
-    protected function integrateVSCode()
-    {
-        $this->publishVSCodeWorkspaceConfig();
-        $this->removeVSCodeDirectoryFromGitignore();
-
-        info('Please reload VSCode & install the workspace recommended extensions when prompted');
-        info("If the prompt doesn't appear; Open the command pallette [CMD + Shift + p] and select 'Show Recommended Extensions'");
-    }
-
-    protected function removeVSCodeDirectoryFromGitignore()
-    {
-        $gitignore = file_get_contents(base_path('.gitignore'));
-        $newGitignore = trim(str_replace('/.vscode', '', $gitignore)) . PHP_EOL;
-        file_put_contents(base_path('.gitignore'), $newGitignore);
-
-        $this->components->task("Removing '/.vscode' from gitignore");
-    }
-
-    protected function publishVSCodeWorkspaceConfig()
-    {
-        $this->call('vendor:publish', [
-            '--tag' => 'janitor-vscode-workspace-settings',
-            '--force' => true,
-        ]);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | PhpStorm
-    |--------------------------------------------------------------------------
-    */
-    protected function integratePhpStorm()
-    {
-        $this->publishPhpStormWorkspaceConfig();
-        $this->removeIdeaDirectoryFromGitignore();
-    }
-    protected function removeIdeaDirectoryFromGitignore()
-    {
-        $gitignore = file_get_contents(base_path('.gitignore'));
-        $newGitignore = trim(str_replace('/.idea', '', $gitignore)) . PHP_EOL;
-        file_put_contents(base_path('.gitignore'), $newGitignore);
-
-        $this->components->task("Removing '/.idea' from gitignore");
-    }
-
-    protected function publishPhpStormWorkspaceConfig()
-    {
-        $this->components->info("Publishing PhpStorm workspace configuration"); // Remove after vendor publish done
-
-        // TODO
-        warning('TODO: PhpStorm integration pending...');
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | IDE helper
-    |--------------------------------------------------------------------------
-    */
-    protected function integrateIdeHelper()
-    {
-        $this->components->info('Integrating IDE helper');
-        $this->installIdeHelperComposerHook();
-        $this->addIdeHelperFilesToGitignore();
-        $this->generateIdeHelperFiles();
-    }
-
-    protected function installIdeHelperComposerHook()
-    {
-        $this->components->task('Installing composer hook');
-
-        $composer = json_decode(file_get_contents(base_path('composer.json')));
-        $currentScripts = data_get($composer, 'scripts.post-update-cmd', []);
-        $helperScripts = [
-            "@php artisan ide-helper:generate --ansi --helpers",
-            "@php artisan ide-helper:meta --ansi"
-        ];
-
-        data_set(
-            target: $composer,
-            key: 'scripts.post-update-cmd',
-            value:  array_unique(array_values([...$currentScripts, ...$helperScripts])),
-            overwrite: true
-        );
-
-        file_put_contents(
-            base_path('composer.json'),
-            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
-        );
-    }
-
-    protected function addIdeHelperFilesToGitignore()
-    {
-        $gitignore = trim(file_get_contents(base_path('.gitignore')));
-
-        // Add helper file
-        if(
-            ! str_contains($gitignore, '_ide_helper.php') ||
-            str_contains($gitignore, '# _ide_helper.php')
-        ) {
-            $gitignore = $gitignore . PHP_EOL . '_ide_helper.php';
-        }
-
-        // Add meta file
-        if(
-            ! str_contains($gitignore, '.phpstorm.meta.php') ||
-            str_contains($gitignore, '# .phpstorm.meta.php')
-        ) {
-            $gitignore = $gitignore . PHP_EOL . '.phpstorm.meta.php';
-        }
-
-        // Persist
-        file_put_contents(base_path('.gitignore'), $gitignore. PHP_EOL);
-
-        $this->components->task('Adding helper & meta files to .gitignore');
-    }
-
-    protected function generateIdeHelperFiles()
-    {
-        $this->callSilently('ide-helper:generate', [
-            '--ansi', '--helpers',
-        ]);
-
-        $this->callSilently('ide-helper:meta', [
-            '--ansi',
-        ]);
-
-        $this->components->task('Generating helper & meta files');
     }
 }

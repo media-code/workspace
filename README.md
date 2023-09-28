@@ -67,7 +67,6 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 
 **Refactors**
 
-- [ ] Refactor `integrate` command
 - [ ] Refactor `update` command
 - [ ] Integrate Janitor with itself -> linting and fixing for the project
 - [ ] Add comprehensive test coverage
@@ -86,6 +85,7 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 
 **Editor integrations**
 
+- [ ] Implement integration command for PhpStorm (waiting on input)
 - [ ] Suggest IDE integrations & workspace for code highlighting & in IDE code fixing
   - [x] vscode
     - [x] PHP CS Fixer
@@ -110,3 +110,4 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 
 - [x] Major architecture refactor -> fluent integration builder
 - [x] Refactor `install` command
+- [x] Refactor `integrate` command

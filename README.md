@@ -62,7 +62,8 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 - [ ] Consider GH Pages docs
 - [ ] Add comprehensive guide for extending Janitor
   - [ ] Override locally with custom implementations
-  - [ ] Share your custom integrations & config across your organization
+  - [ ] Share your custom integrations & config across your organization's projects
+  - [ ] Integration Builder API reference
 
 **Refactors**
 

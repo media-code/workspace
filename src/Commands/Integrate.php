@@ -57,12 +57,12 @@ class Integrate extends Command
     */
     protected function integrateVSCode()
     {
-        // spin(function() {
+        spin(function() {
             $this->removeFromGitignore('.vscode');
             $this->publishVSCodeWorkspaceConfig();
 
             sleep(1); // Only for 💅
-        // }, 'Integrating Visual Studio Code in your project');
+        }, 'Integrating Visual Studio Code in your project');
     }
 
     protected function publishVSCodeWorkspaceConfig()

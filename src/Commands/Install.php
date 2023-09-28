@@ -2,18 +2,20 @@
 
 namespace Gedachtegoed\Janitor\Commands;
 
+use RuntimeException;
 use Illuminate\Console\Command;
-use function Laravel\Prompts\spin;
 use function Laravel\Prompts\note;
+use function Laravel\Prompts\spin;
 use function Laravel\Prompts\confirm;
 use Gedachtegoed\Janitor\Core\Manager;
 use Illuminate\Support\Facades\Process;
 use Gedachtegoed\Janitor\Core\Concerns\UpdatesGitignore;
-use RuntimeException;
+use Gedachtegoed\Janitor\Core\Concerns\MergesConfigsRecursively;
 
 class Install extends Command
 {
     use UpdatesGitignore;
+    use MergesConfigsRecursively;
 
     protected Manager $manager;
 
@@ -149,8 +151,8 @@ class Install extends Command
 
             throw_unless($composer, RuntimeException::class, "composer.json couldn't be parsed");
 
-            // The mergeRecursive method might be a bit prone to break
-            $merged = $this->mergeRecursive((array) $composerScripts, (array) $janitorScripts);
+            // The mergeConfigsRecursively method might be a bit prone to break
+            $merged = $this->mergeConfigsRecursively((array) $composerScripts, (array) $janitorScripts);
 
             data_set($composer, 'scripts', $merged, overwrite: true);
 
@@ -194,22 +196,5 @@ class Install extends Command
             label: $label,
             default: $default
         );
-    }
-
-    /*
-     * Not really recursive. Can only go 1 level deep
-     * Might be prone to break. Not well tested
-     *
-     * TODO: Refactor to something better & that doesn't make my eyes bleed
-     */
-    private function mergeRecursive(array $left, array $right) {
-        foreach ($right as $key => $value) {
-            if (is_array($value) && isset($left[$key]) && is_array($left[$key])) {
-                $left[$key] = array_values(array_unique(array_merge($left[$key], $value)));
-            } else {
-                $left[$key] = $value;
-            }
-        }
-        return $left;
     }
 }

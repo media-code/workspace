@@ -13,7 +13,7 @@ class Larastan extends Builder
             ->composerUpdate('nunomaduro/larastan')
 
             ->publishesConfigs([
-                'phpstan.neon' => base_path('phpstan.neon')
+                'phpstan.neon' => 'phpstan.neon'
             ])
 
             ->provideDusterLintConfig([

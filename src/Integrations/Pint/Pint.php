@@ -13,7 +13,7 @@ class Pint extends Builder
             ->composerRequire('laravel/pint')
             ->composerUpdate('laravel/pint')
             ->publishesConfigs([
-                'pint.json' => base_path('pint.json')
+                'pint.json' => 'pint.json'
             ])
             ->provideDusterLintConfig([
                 // Already included in Duster

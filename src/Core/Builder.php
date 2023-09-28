@@ -2,6 +2,7 @@
 
 namespace Gedachtegoed\Janitor\Core;
 
+use ReflectionClass;
 use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 
@@ -29,7 +30,7 @@ abstract class Builder {
     {
         // Make sure source path is relative to the Integration path
         $configMap = Arr::mapWithKeys(
-            $configMap, fn($to, $from) =>  ["{$this->integrationPath()}/{$from}" => $to]
+            $configMap, fn($to, $from) =>  [$this->integrationPath($from) => base_path($to)]
         );
 
         $this->integration->publishesConfigs = $this->integration->publishesConfigs + $configMap;
@@ -40,7 +41,7 @@ abstract class Builder {
     {
         // Make sure source path is relative to the Integration path
         $workflowMap = Arr::mapWithKeys(
-            $workflowMap, fn($to, $from) =>  ["{$this->integrationPath()}/{$from}" => $to]
+            $workflowMap, fn($to, $from) =>  [$this->integrationPath($from) => base_path($to)]
         );
 
         $this->integration->publishesWorkflows = $this->integration->publishesWorkflows + $workflowMap;
@@ -211,12 +212,15 @@ abstract class Builder {
     // Support
     //--------------------------------------------------------------------------
 
-    private function integrationPath(): string
+    private function integrationPath($append): string
     {
-        $child = new \ReflectionClass(get_class($this));
+        $integrationClass = new ReflectionClass(get_class($this));
 
-        return str($child->getFileName())
+        $file = str($append)->padLeft(DIRECTORY_SEPARATOR);
+
+        return str($integrationClass->getFileName())
             ->beforeLast(DIRECTORY_SEPARATOR) // Strip filename
+            ->append($file)
             ->toString();
     }
 }

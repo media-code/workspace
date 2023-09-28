@@ -13,7 +13,7 @@ class Duster extends Builder
             ->composerRequire('tightenco/duster')
             ->composerUpdate('tightenco/duster')
             ->publishesConfigs([
-                'duster.json' => base_path('duster.json')
+                'duster.json' => 'duster.json'
             ]);
     }
 }

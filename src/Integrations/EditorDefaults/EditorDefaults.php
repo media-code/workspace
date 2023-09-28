@@ -9,7 +9,7 @@ class EditorDefaults extends Builder
     public function __invoke() {
         $this
             ->publishesConfigs([
-                '.editorconfig' => base_path('.editorconfig')
+                '.editorconfig' => '.editorconfig'
             ])
             ->provideVscodeWorkspaceConfig([
                 'files.associations' => (object) [

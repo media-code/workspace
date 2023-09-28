@@ -12,7 +12,7 @@ class PHPCodeSniffer extends Builder
             ->composerRequire('squizlabs/php_codesniffer')
             ->composerUpdate('squizlabs/php_codesniffer')
             ->publishesConfigs([
-                '.phpcs.xml.dist' => base_path('.phpcs.xml.dist')
+                '.phpcs.xml.dist' => '.phpcs.xml.dist'
             ])
             ->provideDusterLintConfig([
                 // Already included in Duster

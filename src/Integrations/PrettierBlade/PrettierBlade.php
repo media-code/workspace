@@ -19,7 +19,7 @@ class PrettierBlade extends Builder
             ])
 
             ->publishesConfigs([
-                '.prettierrc.json' => base_path('.prettierrc.json')
+                '.prettierrc.json' => '.prettierrc.json'
             ])
 
             ->provideDusterLintConfig([

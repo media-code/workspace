@@ -4,7 +4,6 @@ namespace Gedachtegoed\Janitor\Commands;
 
 use RuntimeException;
 use Illuminate\Console\Command;
-use function Laravel\Prompts\note;
 use function Laravel\Prompts\spin;
 use function Laravel\Prompts\confirm;
 use Gedachtegoed\Janitor\Core\Manager;
@@ -32,8 +31,6 @@ class Install extends Command
 
     public function handle()
     {
-        note("Janitor will install ");
-
         // Prompt for input if missing
         $publishWorkflows = $this->promptForOptionIfMissing(
             option: 'publish-workflows',

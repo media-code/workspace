@@ -79,10 +79,8 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 
 - [ ] Customize Linter & fixer configuration according to GDD flavored styleguide specifications (ongoing)
 - [ ] Add sensible default workspace configs
-
   - [ ] vscode
   - [ ] phpstorm
-
 - [ ] Improve default CI config using merge queues
   - [ ] Add info panel in install command explaining required Github config
 

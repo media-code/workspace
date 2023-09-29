@@ -56,18 +56,35 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 
 ## Roadmap
 
-- [ ] Customize Linter & fixer configuration according to GDD flavored styleguide specifications (ongoing)
-- [x] Integrate ide-helper with auto update via composer hook
-- [x] Add prettier blade plugin support
-- [ ] Add sensible default workspace configs
+**Docs**
 
+- [ ] Rework readme
+- [ ] Consider GH Pages docs
+- [ ] Add comprehensive guide for extending Janitor
+  - [ ] Override locally with custom implementations
+  - [ ] Share your custom integrations & config across your organization's projects
+  - [ ] Integration Builder API reference
+
+**Refactors**
+
+- [ ] Integrate Janitor with itself -> linting and fixing for the project
+- [ ] Add comprehensive test coverage
+
+- [ ] Refactor `Manager` so it intelligently diffs `suggestedPlugins` & `requiredPlugins` with `avoidPlugins`. (when people want to extend it for their own organization this will avoid plugin conflicts)
+- [ ] Consider intelligently merging configs instead of overwriting them? (out of scope?)
+
+**Default configs**
+
+- [ ] Customize Linter & fixer configuration according to GDD flavored styleguide specifications (ongoing)
+- [ ] Add sensible default workspace configs
   - [ ] vscode
   - [ ] phpstorm
+- [ ] Improve default CI config using merge queues
+  - [ ] Add info panel in install command explaining required Github config
 
-- [ ] Improve CI config using merge queues
+**Editor integrations**
 
-  - [ ] Add info panel in install command explaining reqquired Github config
-
+- [ ] Implement integration command for PhpStorm (waiting on input)
 - [ ] Suggest IDE integrations & workspace for code highlighting & in IDE code fixing
   - [x] vscode
     - [x] PHP CS Fixer
@@ -83,3 +100,14 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
     - [ ] Tlint
     - [ ] PHPStan
     - [ ] Prettier
+
+### Done
+
+- [x] Integrate ide-helper with auto update via composer hook
+- [x] Add prettier blade plugin support
+- [x] Add .editorconfig to EditorDefaults integration
+
+- [x] Major architecture refactor -> fluent integration builder
+- [x] Refactor `install` command
+- [x] Refactor `integrate` command
+- [x] Refactor `update` command

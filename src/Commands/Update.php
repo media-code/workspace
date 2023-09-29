@@ -3,71 +3,139 @@
 namespace Gedachtegoed\Janitor\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Process;
 use function Laravel\Prompts\spin;
+use function Laravel\Prompts\note;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\warning;
+use function Laravel\Prompts\confirm;
+use Gedachtegoed\Janitor\Core\Manager;
+use Illuminate\Support\Facades\Process;
+use Gedachtegoed\Janitor\Commands\Concerns\PromptForOptionWhenMissing;
 
 class Update extends Command
 {
+    use PromptForOptionWhenMissing;
+
+    protected Manager $manager;
+
     protected $signature = 'janitor:update
-                                {--publish-configs : When true, Janitor will update the 3rd party config files}
-                                {--publish-actions : When true, Janitor will update the Github Actions for CI}';
+                                {--publish-workflows : When true, Janitor will publish CI Workflows}';
 
     protected $description = 'Update Janitor';
 
-    public function handle(): int
+    public function __construct(Manager $manager)
     {
+        parent::__construct();
+        $this->manager = $manager;
+    }
 
-        if (! $this->updateJanitor()) {
+    public function handle()
+    {
+        if(! $this->promptToContinueWhenWorkspaceHasUncommittedFiles()) {
             return static::FAILURE;
         }
 
-        if (! $this->updateNpmDependencies()) {
-            return static::FAILURE;
+        // Prompt for input if missing
+        $publishWorkflows = $this->promptForOptionWhenMissing(
+            option: 'publish-workflows',
+            label: 'Would you also like to update CI Workflow files?'
+        );
+
+        // Before hooks
+        foreach($this->manager->beforeUpdate() as $callback) {
+            $callback($this);
         }
 
-        return $this->call('janitor:install', [
-            '--publish-configs' => $this->option('publish-configs'),
-            '--publish-actions' => $this->option('publish-actions'),
-        ]);
+        $this->updateJanitor();
+        $this->updateComposerDependencies();
+        $this->updateNpmDependencies();
+        $this->runJanitorInstall($publishWorkflows);
+
+        // After hooks
+        foreach($this->manager->afterUpdate() as $callback) {
+            $callback($this);
+        }
+
+        // Nice Laravel-style comment for all you geeks out there
+        info(<<<TEXT
+            /*
+            |-----------------------------------------------------------------------------
+            | Did you know?
+            |-----------------------------------------------------------------------------
+            |
+            | Janitor is highly extendable, allowing for sharing of custom integrations
+            | across various projects. This ensures a consistent setup for linting,
+            | fixing, static analysis, and editor configuration for your team.
+            |
+            | https://github.com/media-code/janitor/docs/portable-integrations
+            */
+            TEXT);
+
+        warning('Successfully updated Janitor!');
+        note('Please manually review all changes');
+    }
+
+    protected function promptToContinueWhenWorkspaceHasUncommittedFiles()
+    {
+        $result = Process::path(base_path())
+            ->run('git status --porcelain')
+            ->throw();
+
+        // No changes in tracked files
+        if($result->output() === '') {
+            return true;
+        }
+
+        warning('Janitor detected untracked changes in your project');
+        note('We recommend stashing or committing your work before updating Janitor' . PHP_EOL . 'This way it\'s easier to review any upsteam configuration changes');
+
+        return confirm(
+            label: 'Do you want to continue?',
+            default: false
+        );
     }
 
     protected function updateJanitor()
     {
-        $this->components->info('Updating Janitor');
-
-        $result = spin(
-            fn () => Process::run('composer update gedachtegoed/janitor --no-interaction'),
-            'composer update gedachtegoed/janitor --no-interaction'
+        spin(
+            fn () => Process::path(base_path())
+                ->run('composer update gedachtegoed/janitor --no-interaction')
+                ->throw(),
+            'Updating Janitor'
         );
-
-        if ($result->failed()) {
-            $this->line($result->errorOutput());
-
-            return false;
-        }
-
-        $this->line($result->output());
-
-        return true;
     }
 
     protected function updateNpmDependencies()
     {
-        $this->components->info('Updating NPM dependencies');
+        $commands = implode(' ', $this->manager->npmUpdate());
 
-        $result = spin(
-            fn () => Process::run('npm update prettier @shufo/prettier-plugin-blade --audit=false'),
-            'npm update prettier @shufo/prettier-plugin-blade --audit=false'
+        spin(
+            fn() => Process::path(base_path())
+                ->run("npm update {$commands}")
+                ->throw(),
+            'Updating NPM dependencies'
         );
+    }
 
-        if ($result->failed()) {
-            $this->line($result->errorOutput());
+    protected function updateComposerDependencies()
+    {
+        $commands = implode(' ', $this->manager->npmUpdate());
 
-            return false;
-        }
+        spin(
+            fn() => Process::path(base_path())
+                ->run("composer update {$commands}")
+                ->throw(),
+            'Updating Composer dependencies'
+        );
+    }
 
-        $this->line($result->output());
-
-        return true;
+    protected function runJanitorInstall(bool $publishWorkflows)
+    {
+        spin(
+            fn() => $this->callSilently('janitor:install', [
+                '--publish-workflows' => $publishWorkflows,
+                '--quickly' => true
+            ]), 'Running janitor:install'
+        );
     }
 }

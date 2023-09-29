@@ -67,7 +67,6 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 
 **Refactors**
 
-- [ ] Refactor `update` command
 - [ ] Integrate Janitor with itself -> linting and fixing for the project
 - [ ] Add comprehensive test coverage
 
@@ -111,3 +110,4 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 - [x] Major architecture refactor -> fluent integration builder
 - [x] Refactor `install` command
 - [x] Refactor `integrate` command
+- [x] Refactor `update` command

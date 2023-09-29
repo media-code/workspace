@@ -5,21 +5,26 @@ namespace Gedachtegoed\Janitor\Commands;
 use RuntimeException;
 use Illuminate\Console\Command;
 use function Laravel\Prompts\spin;
-use function Laravel\Prompts\confirm;
 use Gedachtegoed\Janitor\Core\Manager;
 use Illuminate\Support\Facades\Process;
 use Gedachtegoed\Janitor\Core\Concerns\UpdatesGitignore;
 use Gedachtegoed\Janitor\Core\Concerns\MergesConfigsRecursively;
+use Gedachtegoed\Janitor\Commands\Concerns\PromptForOptionWhenMissing;
+use Gedachtegoed\Janitor\Commands\Concerns\DisplaysCustomizationMessage;
 
 class Install extends Command
 {
     use UpdatesGitignore;
     use MergesConfigsRecursively;
+    use PromptForOptionWhenMissing;
+
+    static int $SLEEP_BETWEEN_STEPS = 1;
 
     protected Manager $manager;
 
     protected $signature = 'janitor:install
-                            {--publish-workflows : When true, Janitor will publish CI Workflows}';
+                                {--publish-workflows : When true, Janitor will publish CI Workflows}
+                                {--quickly : By default Janitor will sleep 1 second every short running installation step to provide readable progress spinners. This option disables that}';
 
     protected $description = 'Install Janitor';
 
@@ -31,8 +36,12 @@ class Install extends Command
 
     public function handle()
     {
+        if($this->option('quickly')) {
+            self::$SLEEP_BETWEEN_STEPS = 0;
+        }
+
         // Prompt for input if missing
-        $publishWorkflows = $this->promptForOptionIfMissing(
+        $publishWorkflows = $this->promptForOptionWhenMissing(
             option: 'publish-workflows',
             label: 'Would you also like to publish CI Workflow files? (recommended)'
         );
@@ -65,7 +74,7 @@ class Install extends Command
 
         spin(
             fn() => Process::path(base_path())
-                ->run("composer require {$commands} --dev")
+                ->run("composer require {$commands} --dev --no-interaction")
                 ->throw(),
             'Installing Composer dependencies'
         );
@@ -86,7 +95,7 @@ class Install extends Command
     protected function publishConfigs()
     {
         spin(function() {
-            sleep(1); // Only for 💅
+            sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $this->callSilent('vendor:publish', [
                 '--tag' => 'janitor-3rd-party-configs',
@@ -98,7 +107,7 @@ class Install extends Command
     protected function updateGitignore()
     {
         spin(function() {
-            sleep(1); // Only for 💅
+            sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $this->removeFromGitignore(
                 $this->manager->removeFromGitignore()
@@ -113,7 +122,7 @@ class Install extends Command
     protected function installDusterConfiguration()
     {
         spin(function() {
-            sleep(1); // Only for 💅
+            sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             // Note we assume duster.json is present since the Duster integration is mandatory
             $path = base_path('duster.json');
@@ -140,7 +149,7 @@ class Install extends Command
     protected function installComposerScripts()
     {
         spin(function() {
-            sleep(1); // Only for 💅
+            sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $composer = json_decode(file_get_contents(base_path('composer.json')));
             $janitorScripts = $this->manager->composerScripts();
@@ -163,7 +172,7 @@ class Install extends Command
     protected function publishWorkflows()
     {
         spin(function() {
-            sleep(1); // Only for 💅
+            sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $this->removeFromGitignore([
                 '.github',
@@ -177,21 +186,5 @@ class Install extends Command
         }, 'Publishing workflow files');
     }
 
-    //--------------------------------------------------------------------------
-    // Support
-    //--------------------------------------------------------------------------
 
-    protected function promptForOptionIfMissing(string $option, string $label, bool $default = true)
-    {
-        $value = $this->option($option);
-
-        if ($value) {
-            return $value;
-        }
-
-        return confirm(
-            label: $label,
-            default: $default
-        );
-    }
 }

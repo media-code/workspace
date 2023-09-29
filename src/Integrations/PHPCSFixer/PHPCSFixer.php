@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\PHPCSFixer;
+namespace Gedachtegoed\Workspace\Integrations\PHPCSFixer;
 
-use Gedachtegoed\Janitor\Core\Builder;
+use Gedachtegoed\Workspace\Core\Builder;
 
 class PHPCSFixer extends Builder
 {
@@ -18,7 +18,7 @@ class PHPCSFixer extends Builder
             ->provideVscodeRecommendedPlugins('junstyle.php-cs-fixer')
             ->provideVscodeWorkspaceConfig([
                 'php-cs-fixer.executablePath' => '${workspaceFolder}/vendor/bin/php-cs-fixer',
-                'php-cs-fixer.config' => '.php-cs-fixer.php;.php-cs-fixer.dist.php;.php_cs;.php_cs.dist;${workspaceFolder}/vendor/gedachtegoed/janitor/resources/config/.php-cs-fixer.dist.php',
+                'php-cs-fixer.config' => '.php-cs-fixer.php;.php-cs-fixer.dist.php;.php_cs;.php_cs.dist;${workspaceFolder}/vendor/gedachtegoed/workspace/resources/config/.php-cs-fixer.dist.php',
                 'php-cs-fixer.onsave' => false,
                 'php-cs-fixer.allowRisky' => false,
                 'php-cs-fixer.pathMode' => 'override',

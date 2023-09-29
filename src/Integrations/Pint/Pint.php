@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\Pint;
+namespace Gedachtegoed\Workspace\Integrations\Pint;
 
-use Gedachtegoed\Janitor\Core\Builder;
+use Gedachtegoed\Workspace\Core\Builder;
 
 class Pint extends Builder
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\PHPCodeSniffer;
+namespace Gedachtegoed\Workspace\Integrations\PHPCodeSniffer;
 
-use Gedachtegoed\Janitor\Core\Builder;
+use Gedachtegoed\Workspace\Core\Builder;
 
 class PHPCodeSniffer extends Builder
 {

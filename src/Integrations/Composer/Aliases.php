@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\Composer;
+namespace Gedachtegoed\Workspace\Integrations\Composer;
 
-use Gedachtegoed\Janitor\Core\Builder;
+use Gedachtegoed\Workspace\Core\Builder;
 use Illuminate\Console\Command;
 
 use function Laravel\Prompts\note;
@@ -21,7 +21,7 @@ class Aliases extends Builder
             ])
 
             ->afterInstall(function (Command $command) {
-                note('Janitor installed composer aliases for your convenience');
+                note('Workspace installed composer aliases for your convenience');
 
                 table(
                     ['Command', 'Description'],

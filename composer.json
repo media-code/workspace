@@ -1,11 +1,11 @@
 {
-    "name": "gedachtegoed/janitor",
+    "name": "gedachtegoed/workspace",
     "description": "Opinionated wrapper around tighten/duster with default configs, Larastan & Prettier blade formatting integration & CI workflows. For internal use.",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Gedachtegoed\\Janitor\\": "src/"
+            "Gedachtegoed\\Workspace\\": "src/"
         }
     },
     "authors": [
@@ -17,7 +17,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Gedachtegoed\\Janitor\\ServiceProvider"
+                "Gedachtegoed\\Workspace\\ServiceProvider"
             ]
         }
     },

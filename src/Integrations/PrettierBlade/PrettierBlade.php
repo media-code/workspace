@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\PrettierBlade;
+namespace Gedachtegoed\Workspace\Integrations\PrettierBlade;
 
-use Gedachtegoed\Janitor\Core\Builder;
+use Gedachtegoed\Workspace\Core\Builder;
 
 class PrettierBlade extends Builder
 {

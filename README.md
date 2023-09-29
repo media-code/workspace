@@ -1,17 +1,17 @@
-# Janitor
+# Workspace
 
-[![codestyle](https://github.com/media-code/janitor/actions/workflows/codestyle.yml/badge.svg)](https://github.com/media-code/janitor/actions/workflows/codestyle.yml)
+[![codestyle](https://github.com/media-code/workspace/actions/workflows/codestyle.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/codestyle.yml)
 
-## Install Janitor in your project
+## Install Workspace in your project
 
 ```bash
-composer require gedachtegoed/janitor --dev
+composer require gedachtegoed/workspace --dev
 ```
 
-Then run the install command to set up Janitor's configs in your project:
+Then run the install command to set up Workspace's configs in your project:
 
 ```bash
-php artisan janitor:install
+php artisan workspace:install
 ```
 
 **_NOTE:_** You will be prompted to optionally publish 3rd party config files & Github Actions scripts. This is recommended for GDD projects. You may skip this prompt by adding the `--publish-configs` & `--publish-actions` options
@@ -43,7 +43,7 @@ composer lint -- --dirty
 Linter, fixer and static analysis rules may change over time. Fortunately it's a breeze to update these locally. Simply run:
 
 ```bash
-php artisan janitor:update
+php artisan workspace:update
 ```
 
 You will be asked again to whether you'd like to publish 3rd party configs. Again, this is recommended. But if you'd like to skip the prompt, simply pass the `--publish-configs` option along with the command.
@@ -52,9 +52,9 @@ You will be asked again to whether you'd like to publish 3rd party configs. Agai
 
 ## Github Actions
 
-If you've chosen to install the Github Actions scripts along when installing Janitor there is nothing left to do. Sensible defaults will work with your next Pull request. However you are free to tweak the file's as you like.
+If you've chosen to install the Github Actions scripts along when installing Workspace there is nothing left to do. Sensible defaults will work with your next Pull request. However you are free to tweak the file's as you like.
 
-If you've skipped this installation step, not to worry; Simply run `php artisan vendor:publish --tag=janitor-3rd-party-configs` to publish the files now.
+If you've skipped this installation step, not to worry; Simply run `php artisan vendor:publish --tag=workspace-3rd-party-configs` to publish the files now.
 
 ## Roadmap
 
@@ -62,7 +62,7 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 
 -   [ ] Rework readme
 -   [ ] Consider GH Pages docs
--   [ ] Add comprehensive guide for extending Janitor
+-   [ ] Add comprehensive guide for extending Workspace
     -   [ ] Override locally with custom implementations
     -   [ ] Share your custom integrations & config across your organization's projects
     -   [ ] Integration Builder API reference

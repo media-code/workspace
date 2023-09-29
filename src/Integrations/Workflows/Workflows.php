@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\Workflows;
+namespace Gedachtegoed\Workspace\Integrations\Workflows;
 
-use Gedachtegoed\Janitor\Core\Builder;
+use Gedachtegoed\Workspace\Core\Builder;
 
 class Workflows extends Builder
 {

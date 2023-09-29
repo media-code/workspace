@@ -1,11 +1,11 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Commands;
+namespace Gedachtegoed\Workspace\Commands;
 
-use Gedachtegoed\Janitor\Commands\Concerns\PromptForOptionWhenMissing;
-use Gedachtegoed\Janitor\Core\Aggregator;
-use Gedachtegoed\Janitor\Core\Concerns\MergesConfigsRecursively;
-use Gedachtegoed\Janitor\Core\Concerns\UpdatesGitignore;
+use Gedachtegoed\Workspace\Core\Aggregator;
+use Gedachtegoed\Workspace\Core\Concerns\MergesConfigsRecursively;
+use Gedachtegoed\Workspace\Core\Concerns\UpdatesGitignore;
+use Gedachtegoed\Workspacece\Commands\Concerns\PromptForOptionWhenMissing;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;
 use RuntimeException;
@@ -22,11 +22,11 @@ class Install extends Command
 
     protected Aggregator $integrations;
 
-    protected $signature = 'janitor:install
-                                {--publish-workflows : When true, Janitor will publish CI Workflows}
-                                {--quickly : By default Janitor will sleep 1 second every short running installation step to provide readable progress spinners. This option disables that}';
+    protected $signature = 'workspace:install
+                                {--publish-workflows : When true, Workspace will publish CI Workflows}
+                                {--quickly : By default Workspace will sleep 1 second every short running installation step to provide readable progress spinners. This option disables that}';
 
-    protected $description = 'Install Janitor';
+    protected $description = 'Install Workspace';
 
     public function __construct(Aggregator $integrations)
     {
@@ -98,7 +98,7 @@ class Install extends Command
             sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $this->callSilent('vendor:publish', [
-                '--tag' => 'janitor-3rd-party-configs',
+                '--tag' => 'workspace-3rd-party-configs',
                 '--force' => true,
             ]);
         }, 'Publishing 3rd party configs');
@@ -152,13 +152,13 @@ class Install extends Command
             sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $composer = json_decode(file_get_contents(base_path('composer.json')));
-            $janitorScripts = $this->integrations->composerScripts();
+            $workspaceScripts = $this->integrations->composerScripts();
             $composerScripts = $composer->scripts ?? (object) [];
 
             throw_unless($composer, RuntimeException::class, "composer.json couldn't be parsed");
 
             // The mergeConfigsRecursively method might be a bit prone to break
-            $merged = $this->mergeConfigsRecursively((array) $composerScripts, (array) $janitorScripts);
+            $merged = $this->mergeConfigsRecursively((array) $composerScripts, (array) $workspaceScripts);
 
             data_set($composer, 'scripts', $merged, overwrite: true);
 
@@ -179,7 +179,7 @@ class Install extends Command
             ]);
 
             $this->callSilent('vendor:publish', [
-                '--tag' => 'janitor-workflows',
+                '--tag' => 'workspace-workflows',
                 '--force' => true,
             ]);
         }, 'Publishing workflow files');

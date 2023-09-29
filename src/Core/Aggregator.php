@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Core;
+namespace Gedachtegoed\Workspace\Core;
 
-use Gedachtegoed\Janitor\Integrations\Duster\Duster;
+use Gedachtegoed\Workspace\Integrations\Duster\Duster;
 use Illuminate\Support\Collection;
 use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
 
@@ -45,7 +45,7 @@ class Aggregator
     public function __construct()
     {
         $defaultIntegrations = $this->resolve(static::DEFAULT_INTEGRATIONS);
-        $configuredIntegrations = $this->resolve(config('janitor-integrations'));
+        $configuredIntegrations = $this->resolve(config('workspace-integrations'));
 
         $this->integrations = $defaultIntegrations->merge($configuredIntegrations);
     }

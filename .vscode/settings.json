@@ -28,7 +28,7 @@
     // PHP-CS-Fixer
     //--------------------------------------------------------------------------
     "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
-    "php-cs-fixer.config": ".php-cs-fixer.php;.php-cs-fixer.dist.php;.php_cs;.php_cs.dist;${workspaceFolder}/vendor/gedachtegoed/janitor/resources/config/.php-cs-fixer.dist.php",
+    "php-cs-fixer.config": ".php-cs-fixer.php;.php-cs-fixer.dist.php;.php_cs;.php_cs.dist;${workspaceFolder}/vendor/gedachtegoed/workspace/resources/config/.php-cs-fixer.dist.php",
     "php-cs-fixer.onsave": false,
     "php-cs-fixer.allowRisky": false,
     "php-cs-fixer.pathMode": "override",
@@ -49,7 +49,7 @@
     //--------------------------------------------------------------------------
     "phpstan.enabled": true,
     "phpstan.enableLanguageServer": true,
-    "phpstan.configFile": "phpstan.neon,phpstan.neon.dist,${workspaceFolder}/vendor/gedachtegoed/janitor/resources/config/phpstan.neon",
+    "phpstan.configFile": "phpstan.neon,phpstan.neon.dist,${workspaceFolder}/vendor/gedachtegoed/workspace/resources/config/phpstan.neon",
     //--------------------------------------------------------------------------
     // TLINT
     //--------------------------------------------------------------------------

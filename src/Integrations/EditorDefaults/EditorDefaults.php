@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\EditorDefaults;
+namespace Gedachtegoed\Workspace\Integrations\EditorDefaults;
 
-use Gedachtegoed\Janitor\Core\Builder;
+use Gedachtegoed\Workspace\Core\Builder;
 
 class EditorDefaults extends Builder
 {

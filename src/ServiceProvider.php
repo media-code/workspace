@@ -2,7 +2,7 @@
 
 namespace Gedachtegoed\Janitor;
 
-use Gedachtegoed\Janitor\Core\Manager;
+use Gedachtegoed\Janitor\Core\Aggregator;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
@@ -18,8 +18,8 @@ class ServiceProvider extends BaseServiceProvider
         ], 'janitor-config');
 
         $this->app->singleton(
-            Manager::class,
-            fn() => new Manager()
+            Aggregator::class,
+            fn() => new Aggregator()
         );
 
         $this->registerCommandAliasses();
@@ -44,15 +44,15 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerIntegrationConfig()
     {
-        $manager = $this->app->make(Manager::class);
+        $integrations = $this->app->make(Aggregator::class);
 
         $this->publishes(
-            $manager->publishesConfigs(),
+            $integrations->publishesConfigs(),
             'janitor-3rd-party-configs'
         );
 
         $this->publishes(
-            $manager->publishesWorkflows(),
+            $integrations->publishesWorkflows(),
             'janitor-workflows'
         );
     }

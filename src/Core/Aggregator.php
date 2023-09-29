@@ -7,11 +7,6 @@ use Gedachtegoed\Janitor\Core\Integration;
 use Gedachtegoed\Janitor\Integrations\Duster\Duster;
 use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
 
-/* NOTES
- *
- * remove .vscode & .idea directories when calling integration command
- */
-
  /**
   * Collection methods for flatMapping Integration properties with magic __call() method
   *
@@ -47,7 +42,7 @@ use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
   * @method array beforeIntegration()
   * @method array afterIntegration()
   */
-class Manager
+class Aggregator
 {
     const DEFAULT_INTEGRATIONS = [
         Duster::class

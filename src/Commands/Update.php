@@ -8,7 +8,7 @@ use function Laravel\Prompts\note;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\warning;
 use function Laravel\Prompts\confirm;
-use Gedachtegoed\Janitor\Core\Manager;
+use Gedachtegoed\Janitor\Core\Aggregator;
 use Illuminate\Support\Facades\Process;
 use Gedachtegoed\Janitor\Commands\Concerns\PromptForOptionWhenMissing;
 
@@ -16,17 +16,17 @@ class Update extends Command
 {
     use PromptForOptionWhenMissing;
 
-    protected Manager $manager;
+    protected Aggregator $integrations;
 
     protected $signature = 'janitor:update
                                 {--publish-workflows : When true, Janitor will publish CI Workflows}';
 
     protected $description = 'Update Janitor';
 
-    public function __construct(Manager $manager)
+    public function __construct(Aggregator $integrations)
     {
         parent::__construct();
-        $this->manager = $manager;
+        $this->integrations = $integrations;
     }
 
     public function handle()
@@ -42,7 +42,7 @@ class Update extends Command
         );
 
         // Before hooks
-        foreach($this->manager->beforeUpdate() as $callback) {
+        foreach($this->integrations->beforeUpdate() as $callback) {
             $callback($this);
         }
 
@@ -52,7 +52,7 @@ class Update extends Command
         $this->runJanitorInstall($publishWorkflows);
 
         // After hooks
-        foreach($this->manager->afterUpdate() as $callback) {
+        foreach($this->integrations->afterUpdate() as $callback) {
             $callback($this);
         }
 
@@ -107,7 +107,7 @@ class Update extends Command
 
     protected function updateNpmDependencies()
     {
-        $commands = implode(' ', $this->manager->npmUpdate());
+        $commands = implode(' ', $this->integrations->npmUpdate());
 
         spin(
             fn() => Process::path(base_path())
@@ -119,7 +119,7 @@ class Update extends Command
 
     protected function updateComposerDependencies()
     {
-        $commands = implode(' ', $this->manager->npmUpdate());
+        $commands = implode(' ', $this->integrations->npmUpdate());
 
         spin(
             fn() => Process::path(base_path())

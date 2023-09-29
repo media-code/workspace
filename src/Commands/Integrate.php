@@ -5,7 +5,7 @@ namespace Gedachtegoed\Janitor\Commands;
 use Illuminate\Console\Command;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\warning;
-use Gedachtegoed\Janitor\Core\Manager;
+use Gedachtegoed\Janitor\Core\Aggregator;
 use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\spin;
 
@@ -15,17 +15,17 @@ class Integrate extends Command
 {
     use UpdatesGitignore;
 
-    protected Manager $manager;
+    protected Aggregator $integrations;
 
     protected $signature = 'janitor:integrate
                             {--editor= : The editor you\'d like to integrate with (vscode, phpstorm)}';
 
     protected $description = 'Integrate Janitor with your favorite IDE';
 
-    public function __construct(Manager $manager)
+    public function __construct(Aggregator $integrations)
     {
         parent::__construct();
-        $this->manager = $manager;
+        $this->integrations = $integrations;
     }
 
     public function handle()
@@ -33,7 +33,7 @@ class Integrate extends Command
         $editors = $this->promptForEditorIfMissing();
 
         // Before hooks
-        foreach($this->manager->beforeIntegration() as $callback) {
+        foreach($this->integrations->beforeIntegration() as $callback) {
             $callback($this);
         }
 
@@ -41,7 +41,7 @@ class Integrate extends Command
         if(in_array('phpstorm', $editors)) $this->integratePhpStorm();
 
         // After hooks
-        foreach($this->manager->afterIntegration() as $callback) {
+        foreach($this->integrations->afterIntegration() as $callback) {
             $callback($this);
         }
 
@@ -69,8 +69,8 @@ class Integrate extends Command
     {
         // Publish extensions.json
         $extensions = (object) [
-            'recommendations' => $this->manager->provideVscodeRecommendedPlugins(),
-            'unwantedRecommendations' => $this->manager->provideVscodeAvoidPlugins()
+            'recommendations' => $this->integrations->provideVscodeRecommendedPlugins(),
+            'unwantedRecommendations' => $this->integrations->provideVscodeAvoidPlugins()
         ];
 
         file_put_contents(
@@ -81,7 +81,7 @@ class Integrate extends Command
         // Publish settings.json
         file_put_contents(
             base_path('.vscode/settings.json'),
-            json_encode($this->manager->provideVscodeWorkspaceConfig(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
+            json_encode($this->integrations->provideVscodeWorkspaceConfig(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
         );
     }
 

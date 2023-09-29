@@ -51,7 +51,7 @@ jobs:
 
       - uses: php-actions/composer@v6
 
-      - name: "Duster Fix"
+      - name: "Duster Lint"
         uses: tighten/duster-action@v2
         with:
           args: lint

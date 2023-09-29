@@ -41,7 +41,7 @@ class Aggregator
     ];
 
     /** @var Collection<Integration> */
-    public readonly Collection $integrations;
+    protected readonly Collection $integrations;
 
     public function __construct()
     {
@@ -96,5 +96,10 @@ class Aggregator
         );
 
         return $this->integrations->flatMap->{$name}->toArray();
+    }
+
+    public function integrations(): Collection
+    {
+        return $this->integrations;
     }
 }

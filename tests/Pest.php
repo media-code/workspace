@@ -39,7 +39,9 @@ uses(Tests\TestCase::class)->in('Unit', 'Feature');
 |
 */
 
-// function something()
-// {
-//     // ..
-// }
+function register(...$args)
+{
+    config(['workspace-integrations' => [
+        ...$args,
+    ]]);
+}

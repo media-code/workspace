@@ -1,4 +1,4 @@
-name: lint & fix
+name: codestyle
 
 # Commits made in here will not trigger any workflows
 # Checkout Duster's documentation for a workaround
@@ -8,7 +8,28 @@ on:
     branches: [development, dev, acceptance, staging, main, master]
 
 jobs:
+  skip-duplicates:
+    # continue-on-error: true # Uncomment once integration is finished
+    runs-on: ubuntu-latest
+
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          # All of these options are optional, so you can remove them if you are happy with the defaults
+          cancel_others: "true"
+          concurrent_skipping: "same_content"
+          skip_after_successful_duplicate: "true"
+          paths_ignore: '["**/README.md", "**/docs/**"]'
+
   duster-fix:
+    needs: skip-duplicates
+    if: needs.skip-duplicates.outputs.should_skip != 'true'
+
     runs-on: ubuntu-latest
 
     permissions:
@@ -42,6 +63,9 @@ jobs:
           commit_user_email: actions@github.com
 
   duster-lint:
+    needs: skip-duplicates
+    if: needs.skip-duplicates.outputs.should_skip != 'true'
+
     runs-on: ubuntu-latest
 
     steps:

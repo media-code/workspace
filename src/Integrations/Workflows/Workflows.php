@@ -9,7 +9,7 @@ class Workflows extends Builder
     public function __invoke()
     {
         $this->publishesWorkflows([
-            'lint-and-fix.yml' => '.github/workflows/lint-and-fix.yml',
+            'codestyle.yml' => '.github/workflows/codestyle.yml',
             'tests.yml' => '.github/workflows/test.yml',
         ]);
     }

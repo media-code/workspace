@@ -1,6 +1,6 @@
 # Janitor
 
-[![Runs Duster fix & lint](https://github.com/media-code/janitor/actions/workflows/fix-and-lint.yml/badge.svg)](https://github.com/media-code/janitor/actions/workflows/fix-and-lint.yml)
+[![codestyle](https://github.com/media-code/janitor/actions/workflows/codestyle.yml/badge.svg)](https://github.com/media-code/janitor/actions/workflows/codestyle.yml)
 
 ## Install Janitor in your project
 

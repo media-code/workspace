@@ -1,5 +1,7 @@
 # Janitor
 
+[![Runs Duster fix & lint](https://github.com/media-code/janitor/actions/workflows/fix-and-lint.yml/badge.svg)](https://github.com/media-code/janitor/actions/workflows/fix-and-lint.yml)
+
 ## Install Janitor in your project
 
 ```bash

@@ -51,6 +51,8 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
+      - uses: php-actions/composer@v6
+
       - name: "Duster Fix"
         uses: tighten/duster-action@v2
         with:

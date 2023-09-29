@@ -4,33 +4,11 @@ name: Runs Duster fix & lint
 # Checkout Duster's documentation for a workaround
 
 on:
-  push:
-    branches: [main, master]
   pull_request:
     branches: [development, dev, acceptance, staging, main, master]
 
 jobs:
-  pre_job:
-    # continue-on-error: true # Uncomment once integration is finished
-    runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v5
-        # with:
-          # All of these options are optional, so you can remove them if you are happy with the defaults
-          # concurrent_skipping: 'never'
-          # skip_after_successful_duplicate: 'true'
-          # paths_ignore: '["**/README.md", "**/docs/**"]'
-          # do_not_skip: '["pull_request", "workflow_dispatch", "schedule"]'
-
-
-  duster-fix:
-    needs: pre_job
-    if: needs.pre_job.outputs.should_skip != 'true'
-
+  duster:
     runs-on: ubuntu-latest
 
     permissions:
@@ -63,10 +41,7 @@ jobs:
           commit_user_name: GitHub Action
           commit_user_email: actions@github.com
 
-  duster-lint:
-    needs: pre_job
-    if: needs.pre_job.outputs.should_skip != 'true'
-
+  static-analysis:
     runs-on: ubuntu-latest
 
     steps:

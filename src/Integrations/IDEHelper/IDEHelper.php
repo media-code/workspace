@@ -2,9 +2,10 @@
 
 namespace Gedachtegoed\Janitor\Integrations\IDEHelper;
 
-use Illuminate\Console\Command;
-use Gedachtegoed\Janitor\Core\Builder;
 use function Laravel\Prompts\spin;
+use Gedachtegoed\Janitor\Core\Builder;
+use Illuminate\Support\Facades\Process;
+use Gedachtegoed\Janitor\Commands\Install;
 
 class IDEHelper extends Builder
 {
@@ -26,17 +27,15 @@ class IDEHelper extends Builder
                 ]
             ])
 
-            ->afterInstall(function(Command $command) {
+            ->afterInstall(function(Install $command) {
                 spin(function() use ($command) {
-                    sleep(1); // Only for 💅
+                    sleep($command::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
-                    $command->callSilently('ide-helper:generate', [
-                        '--ansi', '--helpers',
-                    ]);
-
-                    $command->callSilently('ide-helper:meta', [
-                        '--ansi',
-                    ]);
+                    // We can't call the ide-helper artisan command from here
+                    // Since the install was triggered in the same process
+                    // Run it as a process in a new session instead
+                    // TODO: Document this caveat
+                    Process::run('composer run post-update-cmd')->throw();
 
                 }, 'Generating helper & meta files');
             });

@@ -6,14 +6,13 @@ use Gedachtegoed\Janitor\Core\Builder;
 
 class Pint extends Builder
 {
-
     public function __invoke()
     {
         $this
             ->composerRequire('laravel/pint')
             ->composerUpdate('laravel/pint')
             ->publishesConfigs([
-                'pint.json' => 'pint.json'
+                'pint.json' => 'pint.json',
             ])
             ->provideDusterLintConfig([
                 // Already included in Duster

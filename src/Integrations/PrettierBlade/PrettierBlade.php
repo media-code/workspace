@@ -11,30 +11,30 @@ class PrettierBlade extends Builder
         $this
             ->npmInstall([
                 'prettier@^3',
-                '@shufo/prettier-plugin-blade'
+                '@shufo/prettier-plugin-blade',
             ])
             ->npmUpdate([
                 'prettier',
-                'prettier-plugin-blade'
+                'prettier-plugin-blade',
             ])
 
             ->publishesConfigs([
-                '.prettierrc.json' => '.prettierrc.json'
+                '.prettierrc.json' => '.prettierrc.json',
             ])
 
             ->provideDusterLintConfig([
                 'Prettier Blade' => [
                     './node_modules/.bin/prettier',
                     '--check',
-                    'resources/**/*.blade.php'
-                ]
+                    'resources/**/*.blade.php',
+                ],
             ])
             ->provideDusterFixConfig([
                 'Prettier Blade' => [
                     './node_modules/.bin/prettier',
                     '--write',
-                    'resources/**/*.blade.php'
-                ]
+                    'resources/**/*.blade.php',
+                ],
             ])
 
             ->provideVscodeRecommendedPlugins('esbenp.prettier-vscode')

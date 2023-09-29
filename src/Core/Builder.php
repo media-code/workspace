@@ -2,14 +2,14 @@
 
 namespace Gedachtegoed\Janitor\Core;
 
-use ReflectionClass;
-use Illuminate\Support\Arr;
-use Gedachtegoed\Janitor\Commands\Update;
 use Gedachtegoed\Janitor\Commands\Install;
 use Gedachtegoed\Janitor\Commands\Integrate;
+use Gedachtegoed\Janitor\Commands\Update;
+use Illuminate\Support\Arr;
+use ReflectionClass;
 
-abstract class Builder {
-
+abstract class Builder
+{
     protected Integration $integration;
 
     abstract public function __invoke();
@@ -32,10 +32,11 @@ abstract class Builder {
     {
         // Make sure source path is relative to the Integration path
         $configMap = Arr::mapWithKeys(
-            $configMap, fn($to, $from) =>  [$this->integrationPath($from) => base_path($to)]
+            $configMap, fn ($to, $from) => [$this->integrationPath($from) => base_path($to)]
         );
 
         $this->integration->publishesConfigs = $this->integration->publishesConfigs + $configMap;
+
         return $this;
     }
 
@@ -43,10 +44,11 @@ abstract class Builder {
     {
         // Make sure source path is relative to the Integration path
         $workflowMap = Arr::mapWithKeys(
-            $workflowMap, fn($to, $from) =>  [$this->integrationPath($from) => base_path($to)]
+            $workflowMap, fn ($to, $from) => [$this->integrationPath($from) => base_path($to)]
         );
 
         $this->integration->publishesWorkflows = $this->integration->publishesWorkflows + $workflowMap;
+
         return $this;
     }
 
@@ -57,12 +59,14 @@ abstract class Builder {
     public function provideDusterLintConfig(array $config): self
     {
         $this->integration->dusterLintConfig = $this->integration->dusterLintConfig + $config;
+
         return $this;
     }
 
     public function provideDusterFixConfig(array $config): self
     {
         $this->integration->dusterFixConfig = $this->integration->dusterFixConfig + $config;
+
         return $this;
     }
 
@@ -73,18 +77,21 @@ abstract class Builder {
     public function composerScripts(array|string $scripts): self
     {
         $this->integration->composerScripts = $this->integration->composerScripts + (array) $scripts;
+
         return $this;
     }
 
     public function composerRequire(array|string $dependencies): self
     {
         $this->integration->composerRequire = $this->integration->composerRequire + (array) $dependencies;
+
         return $this;
     }
 
     public function composerUpdate(array|string $dependencies): self
     {
         $this->integration->composerUpdate = $this->integration->composerUpdate + (array) $dependencies;
+
         return $this;
     }
 
@@ -95,12 +102,14 @@ abstract class Builder {
     public function npmInstall(array|string $dependencies): self
     {
         $this->integration->npmInstall = $this->integration->npmInstall + (array) $dependencies;
+
         return $this;
     }
 
     public function npmUpdate(array|string $dependencies): self
     {
         $this->integration->npmUpdate = $this->integration->npmUpdate + (array) $dependencies;
+
         return $this;
     }
 
@@ -111,12 +120,14 @@ abstract class Builder {
     public function addToGitignore(string|array $line): self
     {
         $this->integration->addToGitignore = $this->integration->addToGitignore + (array) $line;
+
         return $this;
     }
 
     public function removeFromGitignore(string|array $line): self
     {
         $this->integration->removeFromGitignore = $this->integration->removeFromGitignore + (array) $line;
+
         return $this;
     }
 
@@ -127,18 +138,21 @@ abstract class Builder {
     public function provideVscodeWorkspaceConfig(string|array $line): self
     {
         $this->integration->provideVscodeWorkspaceConfig = $this->integration->provideVscodeWorkspaceConfig + (array) $line;
+
         return $this;
     }
 
     public function provideVscodeRecommendedPlugins(string|array $plugins): self
     {
         $this->integration->provideVscodeRecommendedPlugins = $this->integration->provideVscodeRecommendedPlugins + (array) $plugins;
+
         return $this;
     }
 
     public function provideVscodeAvoidPlugins(string|array $plugins): self
     {
         $this->integration->provideVscodeAvoidPlugins = $this->integration->provideVscodeAvoidPlugins + (array) $plugins;
+
         return $this;
     }
 
@@ -149,18 +163,21 @@ abstract class Builder {
     public function providePhpStormWorkspaceConfig(string|array $line): self
     {
         $this->integration->providePhpStormWorkspaceConfig = $this->integration->providePhpStormWorkspaceConfig + (array) $line;
+
         return $this;
     }
 
     public function providePhpStormRequiredPlugins(string|array $plugins): self
     {
         $this->integration->providePhpStormRequiredPlugins = $this->integration->providePhpStormRequiredPlugins + (array) $plugins;
+
         return $this;
     }
 
     public function providePhpStormSuggestedPlugins(string|array $plugins): self
     {
         $this->integration->providePhpStormSuggestedPlugins = $this->integration->providePhpStormSuggestedPlugins + (array) $plugins;
+
         return $this;
     }
 
@@ -169,44 +186,50 @@ abstract class Builder {
     //--------------------------------------------------------------------------
 
     /** @param callable(Install $command): void */
-    public function beforeInstall(Callable $callback): self
+    public function beforeInstall(callable $callback): self
     {
         $this->integration->beforeInstall[] = $callback;
+
         return $this;
     }
 
     /** @param callable(Install $command): void */
-    public function afterInstall(Callable $callback): self
+    public function afterInstall(callable $callback): self
     {
         $this->integration->afterInstall[] = $callback;
+
         return $this;
     }
 
     /** @param callable(Update $command): void */
-    public function beforeUpdate(Callable $callback): self
+    public function beforeUpdate(callable $callback): self
     {
         $this->integration->beforeUpdate[] = $callback;
+
         return $this;
     }
 
     /** @param callable(Update $command): void */
-    public function afterUpdate(Callable $callback): self
+    public function afterUpdate(callable $callback): self
     {
         $this->integration->afterInstall[] = $callback;
+
         return $this;
     }
 
     /** @param callable(Integrate $command): void */
-    public function beforeIntegration(Callable $callback): self
+    public function beforeIntegration(callable $callback): self
     {
         $this->integration->beforeIntegration[] = $callback;
+
         return $this;
     }
 
     /** @param callable(Integrate $command): void */
-    public function afterIntegration(Callable $callback): self
+    public function afterIntegration(callable $callback): self
     {
         $this->integration->afterIntegration[] = $callback;
+
         return $this;
     }
 

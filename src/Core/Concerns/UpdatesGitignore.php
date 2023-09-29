@@ -4,7 +4,7 @@ namespace Gedachtegoed\Janitor\Core\Concerns;
 
 trait UpdatesGitignore
 {
-    protected function addToGitignore(array|string $lines, ?string $path = null)
+    protected function addToGitignore(array|string $lines, string $path = null)
     {
         $lines = (array) $lines;
 
@@ -19,18 +19,18 @@ trait UpdatesGitignore
             ? file_get_contents($path)
             : '';
 
-        foreach($lines as $line) {
+        foreach ($lines as $line) {
             $gitignore = $gitignore . PHP_EOL . $line;
         }
 
-        file_put_contents($path, trim($gitignore). PHP_EOL);
+        file_put_contents($path, trim($gitignore) . PHP_EOL);
     }
 
-    protected function removeFromGitignore(array|string $lines, ?string $path = null)
+    protected function removeFromGitignore(array|string $lines, string $path = null)
     {
         $lines = (array) $lines;
 
-        if(empty($lines)) {
+        if (empty($lines)) {
             return;
         }
 
@@ -38,7 +38,7 @@ trait UpdatesGitignore
             ? $path . DIRECTORY_SEPARATOR . '.gitignore'
             : base_path('.gitignore');
 
-        if(! file_exists($path)) {
+        if (! file_exists($path)) {
             return;
         }
 

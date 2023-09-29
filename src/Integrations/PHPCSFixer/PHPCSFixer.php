@@ -12,7 +12,7 @@ class PHPCSFixer extends Builder
             ->composerRequire('friendsofphp/php-cs-fixer')
             ->composerUpdate('friendsofphp/php-cs-fixer')
             ->publishesConfigs([
-                '.php-cs-fixer.dist.php' => '.php-cs-fixer.dist.php'
+                '.php-cs-fixer.dist.php' => '.php-cs-fixer.dist.php',
             ])
 
             ->provideVscodeRecommendedPlugins('junstyle.php-cs-fixer')

@@ -2,6 +2,10 @@
 
 namespace Gedachtegoed\Janitor\Core;
 
+use Gedachtegoed\Janitor\Commands\Update;
+use Gedachtegoed\Janitor\Commands\Install;
+use Gedachtegoed\Janitor\Commands\Integrate;
+
 final class Integration
 {
     //--------------------------------------------------------------------------
@@ -43,18 +47,18 @@ final class Integration
     //--------------------------------------------------------------------------
     // Lifecycle Hooks
     //--------------------------------------------------------------------------
-    /** @var callable(Command)[]: void */
+    /** @var callable(Install $command)[]: void */
     public array $beforeInstall = [];
-    /** @var callable(Command)[]: void */
+    /** @var callable(Install $command)[]: void */
     public array $afterInstall = [];
 
-    /** @var callable(Command)[]: void */
+    /** @var callable(Update $command)[]: void */
     public array $beforeUpdate = [];
-    /** @var callable(Command)[]: void */
+    /** @var callable(Update $command)[]: void */
     public array $afterUpdate = [];
 
-    /** @var callable(Command)[]: void */
+    /** @var callable(Integrate $command)[]: void */
     public array $beforeIntegration = [];
-    /** @var callable(Command)[]: void */
+    /** @var callable(Integrate $command)[]: void */
     public array $afterIntegration = [];
 }

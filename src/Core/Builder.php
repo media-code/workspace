@@ -4,7 +4,9 @@ namespace Gedachtegoed\Janitor\Core;
 
 use ReflectionClass;
 use Illuminate\Support\Arr;
-use Illuminate\Console\Command;
+use Gedachtegoed\Janitor\Commands\Update;
+use Gedachtegoed\Janitor\Commands\Install;
+use Gedachtegoed\Janitor\Commands\Integrate;
 
 abstract class Builder {
 
@@ -166,42 +168,42 @@ abstract class Builder {
     // Lifecycle Hooks
     //--------------------------------------------------------------------------
 
-    /** @param callable(Command): void */
+    /** @param callable(Install $command): void */
     public function beforeInstall(Callable $callback): self
     {
         $this->integration->beforeInstall[] = $callback;
         return $this;
     }
 
-    /** @param callable(Command): void */
+    /** @param callable(Install $command): void */
     public function afterInstall(Callable $callback): self
     {
         $this->integration->afterInstall[] = $callback;
         return $this;
     }
 
-    /** @param callable(Command): void */
+    /** @param callable(Update $command): void */
     public function beforeUpdate(Callable $callback): self
     {
         $this->integration->beforeUpdate[] = $callback;
         return $this;
     }
 
-    /** @param callable(Command): void */
+    /** @param callable(Update $command): void */
     public function afterUpdate(Callable $callback): self
     {
         $this->integration->afterInstall[] = $callback;
         return $this;
     }
 
-    /** @param callable(Command): void */
+    /** @param callable(Integrate $command): void */
     public function beforeIntegration(Callable $callback): self
     {
         $this->integration->beforeIntegration[] = $callback;
         return $this;
     }
 
-    /** @param callable(Command): void */
+    /** @param callable(Integrate $command): void */
     public function afterIntegration(Callable $callback): self
     {
         $this->integration->afterIntegration[] = $callback;

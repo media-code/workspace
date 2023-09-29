@@ -11,7 +11,7 @@ class Workflows extends Builder
         $this->publishesWorkflows([
             'duster-fix.yml' => '.github/workflows/duster-fix.yml',
             'pest-tests.yml' => '.github/workflows/pest-tests.yml',
-            'static-analysis.yml' => '.github/workflows/static-analysis.yml'
+            'static-analysis.yml' => '.github/workflows/static-analysis.yml',
         ]);
     }
 }

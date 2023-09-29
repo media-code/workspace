@@ -13,14 +13,14 @@ class Larastan extends Builder
             ->composerUpdate('nunomaduro/larastan')
 
             ->publishesConfigs([
-                'phpstan.neon' => 'phpstan.neon'
+                'phpstan.neon' => 'phpstan.neon',
             ])
 
             ->provideDusterLintConfig([
                 'Larastan' => [
                     './vendor/bin/phpstan',
                     'analyse',
-                    '--memory-limit=2G'
+                    '--memory-limit=2G',
                 ],
             ])
 

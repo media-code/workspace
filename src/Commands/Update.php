@@ -2,15 +2,16 @@
 
 namespace Gedachtegoed\Janitor\Commands;
 
-use Illuminate\Console\Command;
-use function Laravel\Prompts\spin;
-use function Laravel\Prompts\note;
-use function Laravel\Prompts\info;
-use function Laravel\Prompts\warning;
-use function Laravel\Prompts\confirm;
-use Gedachtegoed\Janitor\Core\Aggregator;
-use Illuminate\Support\Facades\Process;
 use Gedachtegoed\Janitor\Commands\Concerns\PromptForOptionWhenMissing;
+use Gedachtegoed\Janitor\Core\Aggregator;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Process;
+
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\note;
+use function Laravel\Prompts\spin;
+use function Laravel\Prompts\warning;
 
 class Update extends Command
 {
@@ -31,7 +32,7 @@ class Update extends Command
 
     public function handle()
     {
-        if(! $this->promptToContinueWhenWorkspaceHasUncommittedFiles()) {
+        if (! $this->promptToContinueWhenWorkspaceHasUncommittedFiles()) {
             return static::FAILURE;
         }
 
@@ -42,7 +43,7 @@ class Update extends Command
         );
 
         // Before hooks
-        foreach($this->integrations->beforeUpdate() as $callback) {
+        foreach ($this->integrations->beforeUpdate() as $callback) {
             $callback($this);
         }
 
@@ -52,12 +53,12 @@ class Update extends Command
         $this->runJanitorInstall($publishWorkflows);
 
         // After hooks
-        foreach($this->integrations->afterUpdate() as $callback) {
+        foreach ($this->integrations->afterUpdate() as $callback) {
             $callback($this);
         }
 
         // Nice Laravel-style comment for all you geeks out there
-        info(<<<TEXT
+        info(<<<'TEXT'
             /*
             |-----------------------------------------------------------------------------
             | Did you know?
@@ -82,7 +83,7 @@ class Update extends Command
             ->throw();
 
         // No changes in tracked files
-        if($result->output() === '') {
+        if ($result->output() === '') {
             return true;
         }
 
@@ -110,7 +111,7 @@ class Update extends Command
         $commands = implode(' ', $this->integrations->npmUpdate());
 
         spin(
-            fn() => Process::path(base_path())
+            fn () => Process::path(base_path())
                 ->run("npm update {$commands}")
                 ->throw(),
             'Updating NPM dependencies'
@@ -122,7 +123,7 @@ class Update extends Command
         $commands = implode(' ', $this->integrations->npmUpdate());
 
         spin(
-            fn() => Process::path(base_path())
+            fn () => Process::path(base_path())
                 ->run("composer update {$commands}")
                 ->throw(),
             'Updating Composer dependencies'
@@ -132,9 +133,9 @@ class Update extends Command
     protected function runJanitorInstall(bool $publishWorkflows)
     {
         spin(
-            fn() => $this->callSilently('janitor:install', [
+            fn () => $this->callSilently('janitor:install', [
                 '--publish-workflows' => $publishWorkflows,
-                '--quickly' => true
+                '--quickly' => true,
             ]), 'Running janitor:install'
         );
     }

@@ -9,17 +9,17 @@ class ServiceProvider extends BaseServiceProvider
 {
     public function boot(): void
     {
-        if(! $this->app->environment(['local', 'testing'])) {
+        if (! $this->app->environment(['local', 'testing'])) {
             return;
         }
 
         $this->publishes([
-            __DIR__.'/../config/janitor-integrations.php' => base_path('config/janitor-integrations.php'),
+            __DIR__ . '/../config/janitor-integrations.php' => base_path('config/janitor-integrations.php'),
         ], 'janitor-config');
 
         $this->app->singleton(
             Aggregator::class,
-            fn() => new Aggregator()
+            fn () => new Aggregator
         );
 
         $this->registerCommandAliasses();
@@ -28,7 +28,7 @@ class ServiceProvider extends BaseServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/janitor-integrations.php', 'janitor-integrations');
+        $this->mergeConfigFrom(__DIR__ . '/../config/janitor-integrations.php', 'janitor-integrations');
     }
 
     protected function registerCommandAliasses()

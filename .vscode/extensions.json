@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "wongjn.php-sniffer",
+        "junstyle.php-cs-fixer",
+        "d9705996.tighten-lint",
+        "SanderRonde.phpstan-vscode",
+        "open-southeners.laravel-pint"
+    ],
+    "unwantedRecommendations": [
+        "ikappas.phpcs",
+    ]
+}

@@ -10,7 +10,8 @@ trait MergesConfigsRecursively
      *
      * TODO: Refactor to something better & that doesn't make my eyes bleed
      */
-    private function mergeConfigsRecursively(array $left, array $right) {
+    private function mergeConfigsRecursively(array $left, array $right)
+    {
         foreach ($right as $key => $value) {
             if (is_array($value) && isset($left[$key]) && is_array($left[$key])) {
                 $merged = array_values(array_unique(array_merge($left[$key], $value)));
@@ -19,6 +20,7 @@ trait MergesConfigsRecursively
                 $left[$key] = $value;
             }
         }
+
         return $left;
     }
 }

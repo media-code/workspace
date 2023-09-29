@@ -2,23 +2,23 @@
 
 namespace Gedachtegoed\Janitor\Commands;
 
-use RuntimeException;
-use Illuminate\Console\Command;
-use function Laravel\Prompts\spin;
-use Gedachtegoed\Janitor\Core\Aggregator;
-use Illuminate\Support\Facades\Process;
-use Gedachtegoed\Janitor\Core\Concerns\UpdatesGitignore;
-use Gedachtegoed\Janitor\Core\Concerns\MergesConfigsRecursively;
 use Gedachtegoed\Janitor\Commands\Concerns\PromptForOptionWhenMissing;
-use Gedachtegoed\Janitor\Commands\Concerns\DisplaysCustomizationMessage;
+use Gedachtegoed\Janitor\Core\Aggregator;
+use Gedachtegoed\Janitor\Core\Concerns\MergesConfigsRecursively;
+use Gedachtegoed\Janitor\Core\Concerns\UpdatesGitignore;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Process;
+use RuntimeException;
+
+use function Laravel\Prompts\spin;
 
 class Install extends Command
 {
-    use UpdatesGitignore;
     use MergesConfigsRecursively;
     use PromptForOptionWhenMissing;
+    use UpdatesGitignore;
 
-    static int $SLEEP_BETWEEN_STEPS = 1;
+    public static int $SLEEP_BETWEEN_STEPS = 1;
 
     protected Aggregator $integrations;
 
@@ -36,7 +36,7 @@ class Install extends Command
 
     public function handle()
     {
-        if($this->option('quickly')) {
+        if ($this->option('quickly')) {
             self::$SLEEP_BETWEEN_STEPS = 0;
         }
 
@@ -47,7 +47,7 @@ class Install extends Command
         );
 
         // Before hooks
-        foreach($this->integrations->beforeInstall() as $callback) {
+        foreach ($this->integrations->beforeInstall() as $callback) {
             $callback($this);
         }
 
@@ -58,12 +58,12 @@ class Install extends Command
         $this->installDusterConfiguration();
         $this->installComposerScripts();
 
-        if($publishWorkflows) {
+        if ($publishWorkflows) {
             $this->publishWorkflows();
         }
 
         // After hooks
-        foreach($this->integrations->afterInstall() as $callback) {
+        foreach ($this->integrations->afterInstall() as $callback) {
             $callback($this);
         }
     }
@@ -73,7 +73,7 @@ class Install extends Command
         $commands = implode(' ', $this->integrations->composerRequire());
 
         spin(
-            fn() => Process::path(base_path())
+            fn () => Process::path(base_path())
                 ->run("composer require {$commands} --dev --no-interaction")
                 ->throw(),
             'Installing Composer dependencies'
@@ -85,7 +85,7 @@ class Install extends Command
         $commands = implode(' ', $this->integrations->npmInstall());
 
         spin(
-            fn() => Process::path(base_path())
+            fn () => Process::path(base_path())
                 ->run("npm install {$commands} --save-dev")
                 ->throw(),
             'Installing NPM dependencies'
@@ -94,7 +94,7 @@ class Install extends Command
 
     protected function publishConfigs()
     {
-        spin(function() {
+        spin(function () {
             sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $this->callSilent('vendor:publish', [
@@ -106,7 +106,7 @@ class Install extends Command
 
     protected function updateGitignore()
     {
-        spin(function() {
+        spin(function () {
             sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $this->removeFromGitignore(
@@ -121,7 +121,7 @@ class Install extends Command
 
     protected function installDusterConfiguration()
     {
-        spin(function() {
+        spin(function () {
             sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             // Note we assume duster.json is present since the Duster integration is mandatory
@@ -130,11 +130,11 @@ class Install extends Command
             $linters = $this->integrations->dusterLintConfig();
             $fixers = $this->integrations->dusterFixConfig();
 
-            foreach($linters as $name => $integration) {
+            foreach ($linters as $name => $integration) {
                 data_set($config, "scripts.lint.{$name}", $integration);
             }
 
-            foreach($fixers as $name => $integration) {
+            foreach ($fixers as $name => $integration) {
                 data_set($config, "scripts.fix.{$name}", $integration, overwrite: true);
             }
 
@@ -148,7 +148,7 @@ class Install extends Command
 
     protected function installComposerScripts()
     {
-        spin(function() {
+        spin(function () {
             sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $composer = json_decode(file_get_contents(base_path('composer.json')));
@@ -171,7 +171,7 @@ class Install extends Command
 
     protected function publishWorkflows()
     {
-        spin(function() {
+        spin(function () {
             sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $this->removeFromGitignore([
@@ -182,9 +182,6 @@ class Install extends Command
                 '--tag' => 'janitor-workflows',
                 '--force' => true,
             ]);
-
         }, 'Publishing workflow files');
     }
-
-
 }

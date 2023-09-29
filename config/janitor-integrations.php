@@ -1,15 +1,15 @@
 <?php
 
-use Gedachtegoed\Janitor\Integrations\Pint\Pint;
-use Gedachtegoed\Janitor\Integrations\TLint\TLint;
 use Gedachtegoed\Janitor\Integrations\Composer\Aliases;
-use Gedachtegoed\Janitor\Integrations\Larastan\Larastan;
-use Gedachtegoed\Janitor\Integrations\IDEHelper\IDEHelper;
-use Gedachtegoed\Janitor\Integrations\Workflows\Workflows;
-use Gedachtegoed\Janitor\Integrations\PHPCSFixer\PHPCSFixer;
-use Gedachtegoed\Janitor\Integrations\PrettierBlade\PrettierBlade;
 use Gedachtegoed\Janitor\Integrations\EditorDefaults\EditorDefaults;
+use Gedachtegoed\Janitor\Integrations\IDEHelper\IDEHelper;
+use Gedachtegoed\Janitor\Integrations\Larastan\Larastan;
 use Gedachtegoed\Janitor\Integrations\PHPCodeSniffer\PHPCodeSniffer;
+use Gedachtegoed\Janitor\Integrations\PHPCSFixer\PHPCSFixer;
+use Gedachtegoed\Janitor\Integrations\Pint\Pint;
+use Gedachtegoed\Janitor\Integrations\PrettierBlade\PrettierBlade;
+use Gedachtegoed\Janitor\Integrations\TLint\TLint;
+use Gedachtegoed\Janitor\Integrations\Workflows\Workflows;
 
 return [
     EditorDefaults::class,

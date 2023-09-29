@@ -2,10 +2,11 @@
 
 namespace Gedachtegoed\Janitor\Integrations\IDEHelper;
 
-use function Laravel\Prompts\spin;
+use Gedachtegoed\Janitor\Commands\Install;
 use Gedachtegoed\Janitor\Core\Builder;
 use Illuminate\Support\Facades\Process;
-use Gedachtegoed\Janitor\Commands\Install;
+
+use function Laravel\Prompts\spin;
 
 class IDEHelper extends Builder
 {
@@ -17,18 +18,18 @@ class IDEHelper extends Builder
 
             ->addToGitignore([
                 '_ide_helper.php',
-                '.phpstorm.meta.php'
+                '.phpstorm.meta.php',
             ])
 
             ->composerScripts([
                 'post-update-cmd' => [
-                    "@php artisan ide-helper:generate --ansi --helpers",
-                    "@php artisan ide-helper:meta --ansi"
-                ]
+                    '@php artisan ide-helper:generate --ansi --helpers',
+                    '@php artisan ide-helper:meta --ansi',
+                ],
             ])
 
-            ->afterInstall(function(Install $command) {
-                spin(function() use ($command) {
+            ->afterInstall(function (Install $command) {
+                spin(function () use ($command) {
                     sleep($command::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
                     // We can't call the ide-helper artisan command from here
@@ -36,7 +37,6 @@ class IDEHelper extends Builder
                     // Run it as a process in a new session instead
                     // TODO: Document this caveat
                     Process::run('composer run post-update-cmd')->throw();
-
                 }, 'Generating helper & meta files');
             });
     }

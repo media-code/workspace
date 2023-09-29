@@ -12,7 +12,7 @@ class PHPCodeSniffer extends Builder
             ->composerRequire('squizlabs/php_codesniffer')
             ->composerUpdate('squizlabs/php_codesniffer')
             ->publishesConfigs([
-                '.phpcs.xml.dist' => '.phpcs.xml.dist'
+                '.phpcs.xml.dist' => '.phpcs.xml.dist',
             ])
             ->provideDusterLintConfig([
                 // Already included in Duster
@@ -23,12 +23,12 @@ class PHPCodeSniffer extends Builder
             ->provideVscodeRecommendedPlugins('wongjn.php-sniffer')
             ->provideVscodeAvoidPlugins('ikappas.phpcs')
             ->provideVscodeWorkspaceConfig([
-                'phpSniffer.autoDetect' =>  false,
-                'phpSniffer.executablesFolder' =>  './vendor/bin',
-                'phpSniffer.extraFiles' =>  [],
-                'phpSniffer.onTypeDelay' =>  250,
-                'phpSniffer.run' =>  'onType',
-                'phpSniffer.snippetExcludeSniffs' =>  [],
+                'phpSniffer.autoDetect' => false,
+                'phpSniffer.executablesFolder' => './vendor/bin',
+                'phpSniffer.extraFiles' => [],
+                'phpSniffer.onTypeDelay' => 250,
+                'phpSniffer.run' => 'onType',
+                'phpSniffer.snippetExcludeSniffs' => [],
             ]);
     }
 }

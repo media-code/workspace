@@ -2,14 +2,14 @@
 
 namespace Gedachtegoed\Janitor\Commands;
 
-use Illuminate\Console\Command;
-use function Laravel\Prompts\info;
-use function Laravel\Prompts\warning;
 use Gedachtegoed\Janitor\Core\Aggregator;
+use Gedachtegoed\Janitor\Core\Concerns\UpdatesGitignore;
+use Illuminate\Console\Command;
+
+use function Laravel\Prompts\info;
 use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\spin;
-
-use Gedachtegoed\Janitor\Core\Concerns\UpdatesGitignore;
+use function Laravel\Prompts\warning;
 
 class Integrate extends Command
 {
@@ -33,21 +33,29 @@ class Integrate extends Command
         $editors = $this->promptForEditorIfMissing();
 
         // Before hooks
-        foreach($this->integrations->beforeIntegration() as $callback) {
+        foreach ($this->integrations->beforeIntegration() as $callback) {
             $callback($this);
         }
 
-        if(in_array('vscode', $editors)) $this->integrateVSCode();
-        if(in_array('phpstorm', $editors)) $this->integratePhpStorm();
+        if (in_array('vscode', $editors)) {
+            $this->integrateVSCode();
+        }
+        if (in_array('phpstorm', $editors)) {
+            $this->integratePhpStorm();
+        }
 
         // After hooks
-        foreach($this->integrations->afterIntegration() as $callback) {
+        foreach ($this->integrations->afterIntegration() as $callback) {
             $callback($this);
         }
 
         // Show informational messages after integration
-        if(in_array('vscode', $editors)) $this->postInstallInfoVSCode();
-        if(in_array('phpstorm', $editors)) $this->postInstallInfoPhpStorm();
+        if (in_array('vscode', $editors)) {
+            $this->postInstallInfoVSCode();
+        }
+        if (in_array('phpstorm', $editors)) {
+            $this->postInstallInfoPhpStorm();
+        }
     }
 
     /*
@@ -57,7 +65,7 @@ class Integrate extends Command
     */
     protected function integrateVSCode()
     {
-        spin(function() {
+        spin(function () {
             $this->removeFromGitignore('.vscode');
             $this->publishVSCodeWorkspaceConfig();
 
@@ -70,7 +78,7 @@ class Integrate extends Command
         // Publish extensions.json
         $extensions = (object) [
             'recommendations' => $this->integrations->provideVscodeRecommendedPlugins(),
-            'unwantedRecommendations' => $this->integrations->provideVscodeAvoidPlugins()
+            'unwantedRecommendations' => $this->integrations->provideVscodeAvoidPlugins(),
         ];
 
         file_put_contents(
@@ -99,7 +107,7 @@ class Integrate extends Command
     */
     protected function integratePhpStorm()
     {
-        spin(function() {
+        spin(function () {
             $this->removeFromGitignore('.idea');
             $this->publishPhpStormWorkspaceConfig();
 
@@ -129,7 +137,7 @@ class Integrate extends Command
     {
         $editor = $this->option('editor');
 
-        if(in_array($editor, ['vscode', 'phpstorm'])) {
+        if (in_array($editor, ['vscode', 'phpstorm'])) {
             return $editor;
         }
 

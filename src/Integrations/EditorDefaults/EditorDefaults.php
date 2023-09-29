@@ -6,21 +6,22 @@ use Gedachtegoed\Janitor\Core\Builder;
 
 class EditorDefaults extends Builder
 {
-    public function __invoke() {
+    public function __invoke()
+    {
         $this
             ->publishesConfigs([
-                '.editorconfig' => '.editorconfig'
+                '.editorconfig' => '.editorconfig',
             ])
             ->provideVscodeWorkspaceConfig([
                 'files.associations' => (object) [
                     '.php_cs' => 'php',
                     '.php_cs.dist' => 'php',
-                    '.env*' => 'dotenv'
+                    '.env*' => 'dotenv',
                 ],
                 'emmet.includeLanguages' => (object) [
                     'blade' => 'html',
                     'vue-html' => 'html',
-                    'vue' => 'html'
+                    'vue' => 'html',
                 ],
             ]);
     }

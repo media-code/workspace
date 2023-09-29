@@ -22,6 +22,7 @@ jobs:
           concurrent_skipping: "same_content"
           skip_after_successful_duplicate: "true"
           paths_ignore: '["**/README.md", "**/docs/**"]'
+
   laravel-tests:
     needs: skip-duplicates
     if: needs.skip-duplicates.outputs.should_skip != 'true'

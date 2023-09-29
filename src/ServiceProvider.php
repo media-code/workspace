@@ -3,24 +3,30 @@
 namespace Gedachtegoed\Workspace;
 
 use Gedachtegoed\Workspace\Core\Aggregator;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-class ServiceProvider extends BaseServiceProvider
+class ServiceProvider extends BaseServiceProvider implements DeferrableProvider
 {
+    public function provides(): array
+    {
+        return [Aggregator::class];
+    }
+
     public function boot(): void
     {
         if (! $this->app->environment(['local', 'testing'])) {
             return;
         }
 
-        $this->publishes([
-            __DIR__ . '/../config/workspace-integrations.php' => base_path('config/workspace-integrations.php'),
-        ], 'workspace-config');
-
         $this->app->singleton(
             Aggregator::class,
             fn () => new Aggregator
         );
+
+        $this->publishes([
+            __DIR__ . '/../config/workspace-integrations.php' => base_path('config/workspace-integrations.php'),
+        ], 'workspace-config');
 
         $this->registerCommandAliasses();
         $this->registerIntegrationConfig();

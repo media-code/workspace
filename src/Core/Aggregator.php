@@ -4,6 +4,7 @@ namespace Gedachtegoed\Workspace\Core;
 
 use Gedachtegoed\Workspace\Integrations\Duster\Duster;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
 
 /**
@@ -54,13 +55,28 @@ class Aggregator
      * Resolves Integrations by a array of their respective Builder classes
      *
      * @param  array  $integrations Array of fully qualified classnames
+     * @return Collection<Integration>
      */
     private function resolve(array $integrations): Collection
     {
-        return collect($integrations)->map(function (string $fqcn) {
-            $builder = resolve($fqcn);
+        return collect($integrations)->map(function (string|Builder $implementation) {
 
-            call_user_func($builder); // Calls invoke
+            // Check if the given implementation resolves to a Builder implementation
+            throw_unless(
+                $implementation instanceof Builder || is_subclass_of($implementation, Builder::class),
+                InvalidArgumentException::class,
+                'Workspace configuration must be of type Workspace\\Core\\Builder'
+            );
+
+            // Either resolve classname from container or use inlined builder instance from config
+            $builder = $implementation instanceof Builder
+                ? $implementation
+                : resolve($implementation);
+
+            // If the implementation has an invoke method, invoke that automatically
+            method_exists($builder, '__invoke')
+                ? call_user_func($builder)
+                : null;
 
             return $builder->getIntegration();
         });

@@ -7,11 +7,14 @@ use Gedachtegoed\Workspace\Commands\Update;
 use Illuminate\Support\Arr;
 use ReflectionClass;
 
-abstract class Builder
+class Builder
 {
     protected Integration $integration;
 
-    abstract public function __invoke();
+    public static function make(): self
+    {
+        return resolve(self::class);
+    }
 
     public function __construct()
     {

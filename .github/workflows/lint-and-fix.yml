@@ -1,4 +1,4 @@
-name: Runs Duster fix & lint
+name: lint & fix
 
 # Commits made in here will not trigger any workflows
 # Checkout Duster's documentation for a workaround

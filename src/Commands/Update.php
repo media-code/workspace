@@ -74,7 +74,7 @@ class Update extends Command
 
         warning('Successfully updated Workspace!');
         note('Please manually review all changes');
-        // TODO: Notify this command only bumps janitor by minor version. Bumping a whole version requires manual composer update
+        // TODO: Notify this command only bumps workspace package by minor version. Bumping a whole version requires manual composer update
     }
 
     protected function promptToContinueWhenWorkspaceHasUncommittedFiles()

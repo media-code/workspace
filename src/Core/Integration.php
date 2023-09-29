@@ -3,8 +3,8 @@
 namespace Gedachtegoed\Workspace\Core;
 
 use Gedachtegoed\Workspace\Commands\Install;
+use Gedachtegoed\Workspace\Commands\Integrate;
 use Gedachtegoed\Workspace\Commands\Update;
-use Gedachtegoed\Workspacece\Commands\Integrate;
 
 final class Integration
 {

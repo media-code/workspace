@@ -2,8 +2,8 @@
 
 namespace Gedachtegoed\Workspace\Core;
 
+use Gedachtegoed\Workspace\Commands\Install;
 use Gedachtegoed\Workspace\Commands\Update;
-use Gedachtegoed\Workspacece\Commands\Install;
 use Illuminate\Support\Arr;
 use ReflectionClass;
 

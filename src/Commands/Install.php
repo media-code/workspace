@@ -2,10 +2,10 @@
 
 namespace Gedachtegoed\Workspace\Commands;
 
+use Gedachtegoed\Workspace\Commands\Concerns\PromptForOptionWhenMissing;
 use Gedachtegoed\Workspace\Core\Aggregator;
 use Gedachtegoed\Workspace\Core\Concerns\MergesConfigsRecursively;
 use Gedachtegoed\Workspace\Core\Concerns\UpdatesGitignore;
-use Gedachtegoed\Workspacece\Commands\Concerns\PromptForOptionWhenMissing;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;
 use RuntimeException;

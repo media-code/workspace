@@ -17,21 +17,10 @@ $rules = [
     ],
     'braces' => true,
     'cast_spaces' => true,
-    'class_attributes_separation' => [
-        'elements' => [
-            'const' => 'one',
-            'method' => 'one',
-            'property' => 'one',
-            'trait_import' => 'none',
-        ],
-    ],
     'class_definition' => [
         'multi_line_extends_each_single_line' => true,
         'single_item_single_line' => true,
         'single_line' => true,
-    ],
-    'concat_space' => [
-        'spacing' => 'none',
     ],
     'constant_case' => ['case' => 'lower'],
     'declare_equal_normalize' => true,
@@ -61,13 +50,6 @@ $rules = [
     ],
     'native_function_casing' => true,
     'no_alias_functions' => true,
-    'no_extra_blank_lines' => [
-        'tokens' => [
-            'extra',
-            'throw',
-            'use',
-        ],
-    ],
     'no_blank_lines_after_class_opening' => true,
     'no_blank_lines_after_phpdoc' => true,
     'no_closing_tag' => true,
@@ -100,7 +82,6 @@ $rules = [
     'normalize_index_brace' => true,
     'not_operator_with_successor_space' => true,
     'object_operator_without_whitespace' => true,
-    'ordered_imports' => ['sort_algorithm' => 'alpha'],
     'psr_autoloading' => true,
     'phpdoc_indent' => true,
     'phpdoc_inline_tag_normalizer' => true,
@@ -143,14 +124,10 @@ $rules = [
     'whitespace_after_comma_in_array' => true,
 ];
 
-
 $finder = Finder::create()
     ->in([
-        __DIR__ . '/app',
+        __DIR__ . '/src',
         __DIR__ . '/config',
-        __DIR__ . '/database',
-        __DIR__ . '/resources',
-        __DIR__ . '/routes',
         __DIR__ . '/tests',
     ])
     ->name('*.php')

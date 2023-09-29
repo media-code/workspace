@@ -3,7 +3,6 @@
 namespace Gedachtegoed\Janitor\Core;
 
 use Gedachtegoed\Janitor\Commands\Install;
-use Gedachtegoed\Janitor\Commands\Integrate;
 use Gedachtegoed\Janitor\Commands\Update;
 use Illuminate\Support\Arr;
 use ReflectionClass;
@@ -185,15 +184,15 @@ abstract class Builder
     // Lifecycle Hooks
     //--------------------------------------------------------------------------
 
-    /** @param callable(Install $command): void */
-    public function beforeInstall(callable $callback): self
+    /** @param  callable(Install $command):void  $callback */
+    public function beforeInstall(callable $callback): self // @phpstan-ignore argument.type
     {
         $this->integration->beforeInstall[] = $callback;
 
         return $this;
     }
 
-    /** @param callable(Install $command): void */
+    /** @param  callable(Install $command):void  $callback */
     public function afterInstall(callable $callback): self
     {
         $this->integration->afterInstall[] = $callback;
@@ -201,7 +200,7 @@ abstract class Builder
         return $this;
     }
 
-    /** @param callable(Update $command): void */
+    /** @param  callable(Update $command):void  $callback */
     public function beforeUpdate(callable $callback): self
     {
         $this->integration->beforeUpdate[] = $callback;
@@ -209,7 +208,7 @@ abstract class Builder
         return $this;
     }
 
-    /** @param callable(Update $command): void */
+    /** @param  callable(Update $command):void  $callback */
     public function afterUpdate(callable $callback): self
     {
         $this->integration->afterInstall[] = $callback;
@@ -217,7 +216,7 @@ abstract class Builder
         return $this;
     }
 
-    /** @param callable(Integrate $command): void */
+    /** @param  callable(Integration $command):void  $callback */
     public function beforeIntegration(callable $callback): self
     {
         $this->integration->beforeIntegration[] = $callback;
@@ -225,7 +224,7 @@ abstract class Builder
         return $this;
     }
 
-    /** @param callable(Integrate $command): void */
+    /** @param  callable(Integration $command):void  $callback */
     public function afterIntegration(callable $callback): self
     {
         $this->integration->afterIntegration[] = $callback;

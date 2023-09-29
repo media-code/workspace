@@ -57,21 +57,21 @@ final class Integration
     //--------------------------------------------------------------------------
     // Lifecycle Hooks
     //--------------------------------------------------------------------------
-    /** @var callable(Install)[]: void */
+    /** @var array<callable(Install):void> */
     public array $beforeInstall = [];
 
-    /** @var callable(Install)[]: void */
+    /** @var array<callable(Install):void> */
     public array $afterInstall = [];
 
-    /** @var callable(Update)[]: void */
+    /** @var array<callable(Update):void> */
     public array $beforeUpdate = [];
 
-    /** @var callable(Update)[]: void */
+    /** @var array<callable(Update):void> */
     public array $afterUpdate = [];
 
-    /** @var callable(Integrate)[]: void */
+    /** @var array<callable(Integrate):void> */
     public array $beforeIntegration = [];
 
-    /** @var callable(Integrate)[]: void */
+    /** @var array<callable(Integrate):void> */
     public array $afterIntegration = [];
 }

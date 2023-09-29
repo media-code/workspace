@@ -9,7 +9,6 @@ use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
 /**
  * Collection methods for flatMapping Integration properties with magic __call() method
  *
- *
  * @method array publishesConfigs()
  * @method array publishesWorkflows()
  * @method array dusterLintConfig()
@@ -40,7 +39,7 @@ class Aggregator
         Duster::class,
     ];
 
-    /** @param Collection<Integration> */
+    /** @var Collection<Integration> */
     public readonly Collection $integrations;
 
     public function __construct()
@@ -71,7 +70,7 @@ class Aggregator
      * Forwards method calls to collect integration properties.
      * Please see class PHPDoc method hints for a list of methods this provides.
      *
-     * @param  mixed  $name
+     * @param  string  $name property of Integration to aggregate
      */
     public function __call(string $name, ?array $arguments): array
     {

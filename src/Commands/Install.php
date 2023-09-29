@@ -5,7 +5,7 @@ namespace Gedachtegoed\Janitor\Commands;
 use RuntimeException;
 use Illuminate\Console\Command;
 use function Laravel\Prompts\spin;
-use Gedachtegoed\Janitor\Core\Manager;
+use Gedachtegoed\Janitor\Core\Aggregator;
 use Illuminate\Support\Facades\Process;
 use Gedachtegoed\Janitor\Core\Concerns\UpdatesGitignore;
 use Gedachtegoed\Janitor\Core\Concerns\MergesConfigsRecursively;
@@ -20,7 +20,7 @@ class Install extends Command
 
     static int $SLEEP_BETWEEN_STEPS = 1;
 
-    protected Manager $manager;
+    protected Aggregator $integrations;
 
     protected $signature = 'janitor:install
                                 {--publish-workflows : When true, Janitor will publish CI Workflows}
@@ -28,10 +28,10 @@ class Install extends Command
 
     protected $description = 'Install Janitor';
 
-    public function __construct(Manager $manager)
+    public function __construct(Aggregator $integrations)
     {
         parent::__construct();
-        $this->manager = $manager;
+        $this->integrations = $integrations;
     }
 
     public function handle()
@@ -47,7 +47,7 @@ class Install extends Command
         );
 
         // Before hooks
-        foreach($this->manager->beforeInstall() as $callback) {
+        foreach($this->integrations->beforeInstall() as $callback) {
             $callback($this);
         }
 
@@ -63,14 +63,14 @@ class Install extends Command
         }
 
         // After hooks
-        foreach($this->manager->afterInstall() as $callback) {
+        foreach($this->integrations->afterInstall() as $callback) {
             $callback($this);
         }
     }
 
     protected function installComposerDependencies()
     {
-        $commands = implode(' ', $this->manager->composerRequire());
+        $commands = implode(' ', $this->integrations->composerRequire());
 
         spin(
             fn() => Process::path(base_path())
@@ -82,7 +82,7 @@ class Install extends Command
 
     protected function installNpmDependencies()
     {
-        $commands = implode(' ', $this->manager->npmInstall());
+        $commands = implode(' ', $this->integrations->npmInstall());
 
         spin(
             fn() => Process::path(base_path())
@@ -110,11 +110,11 @@ class Install extends Command
             sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $this->removeFromGitignore(
-                $this->manager->removeFromGitignore()
+                $this->integrations->removeFromGitignore()
             );
 
             $this->addToGitignore(
-                $this->manager->addToGitignore()
+                $this->integrations->addToGitignore()
             );
         }, 'Updating .gitignore');
     }
@@ -127,8 +127,8 @@ class Install extends Command
             // Note we assume duster.json is present since the Duster integration is mandatory
             $path = base_path('duster.json');
             $config = json_decode(file_get_contents($path));
-            $linters = $this->manager->dusterLintConfig();
-            $fixers = $this->manager->dusterFixConfig();
+            $linters = $this->integrations->dusterLintConfig();
+            $fixers = $this->integrations->dusterFixConfig();
 
             foreach($linters as $name => $integration) {
                 data_set($config, "scripts.lint.{$name}", $integration);
@@ -152,7 +152,7 @@ class Install extends Command
             sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
             $composer = json_decode(file_get_contents(base_path('composer.json')));
-            $janitorScripts = $this->manager->composerScripts();
+            $janitorScripts = $this->integrations->composerScripts();
             $composerScripts = $composer->scripts ?? (object) [];
 
             throw_unless($composer, RuntimeException::class, "composer.json couldn't be parsed");

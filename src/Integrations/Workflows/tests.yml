@@ -6,7 +6,7 @@ on:
 
 jobs:
   skip-duplicates:
-    # continue-on-error: true # Uncomment once integration is finished
+    continue-on-error: true # Uncomment once integration is finished
     runs-on: ubuntu-latest
 
     # Map a step output to a job output

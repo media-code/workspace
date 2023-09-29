@@ -1,4 +1,4 @@
-name: lint & fix
+name: codestyle
 
 # Commits made in here will not trigger any workflows
 # Checkout Duster's documentation for a workaround

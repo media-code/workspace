@@ -9,9 +9,8 @@ class Workflows extends Builder
     public function __invoke()
     {
         $this->publishesWorkflows([
-            'duster-fix.yml' => '.github/workflows/duster-fix.yml',
-            'pest-tests.yml' => '.github/workflows/pest-tests.yml',
-            'static-analysis.yml' => '.github/workflows/static-analysis.yml',
+            'lint-and-fix.yml' => '.github/workflows/lint-and-fix.yml',
+            'tests.yml' => '.github/workflows/test.yml',
         ]);
     }
 }

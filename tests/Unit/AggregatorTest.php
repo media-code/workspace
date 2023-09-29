@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * These tests do a top down integration test from the Aggregator to the integration Builder
+ * This way we get quite a bit of coverage while covering the inner workings of the
+ * Aggregator in combination with narrow and specific integration features.
+ */
+
 use Gedachtegoed\Workspace\Core\Aggregator;
 use Gedachtegoed\Workspace\Core\Builder;
 

@@ -60,7 +60,6 @@ class Aggregator
     private function resolve(array $integrations): Collection
     {
         return collect($integrations)->map(function (string|Builder $implementation) {
-
             // Check if the given implementation resolves to a Builder implementation
             throw_unless(
                 $implementation instanceof Builder || is_subclass_of($implementation, Builder::class),

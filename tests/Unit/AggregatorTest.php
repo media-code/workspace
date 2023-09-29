@@ -15,14 +15,12 @@ it('always registers Duster integration', function () {
         // FIXME: Can't reflect on the exact implementation used, so use class attributes instead
         ->composerRequire()
         ->toContain('tightenco/duster');
-
 })->todo('Test concrete implementation used, not class properties');
 
 //--------------------------------------------------------------------------
 // Package managers
 //--------------------------------------------------------------------------
 it('aggregates composer install definitions', function () {
-
     register(
         Builder::make()->composerRequire('package/one'),
         Builder::make()->composerRequire([
@@ -41,7 +39,6 @@ it('aggregates composer install definitions', function () {
 });
 
 it('aggregates composer update definitions', function () {
-
     register(
         Builder::make()->composerUpdate('package/one'),
         Builder::make()->composerUpdate([

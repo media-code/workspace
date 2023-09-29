@@ -17,7 +17,7 @@ class Aliases extends Builder
                 'lint' => 'vendor/bin/duster lint',
                 'fix' => 'vendor/bin/duster fix',
                 'analyze' => 'vendor/bin/phpstan analyse',
-                'baseline' => 'vendor/bin/phpstan analyse --generate-baselin'
+                'baseline' => 'vendor/bin/phpstan analyse --generate-baseline'
             ])
 
             ->afterInstall(function(Command $command) {

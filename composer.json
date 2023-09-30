@@ -3,6 +3,21 @@
     "description": "Opinionated wrapper around tighten/duster with default configs, Larastan & Prettier blade formatting integration & CI workflows. For internal use.",
     "type": "library",
     "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Willem Leuverink",
+            "email": "willem@leuver.ink",
+            "homepage": "https://leuver.ink"
+        }
+    ],
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/gwleuverink"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Gedachtegoed\\Workspace\\": "src/"
@@ -11,19 +26,6 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Willem Leuverink",
-            "email": "willem@leuver.ink"
-        }
-    ],
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Gedachtegoed\\Workspace\\ServiceProvider"
-            ]
         }
     },
     "scripts": {
@@ -44,13 +46,30 @@
         "tightenco/duster": "^2.4",
         "tightenco/tlint": "^9.1",
         "orchestra/testbench": "^8.12",
-        "pestphp/pest": "^2.20"
+        "pestphp/pest": "^2.20",
+        "symfony/thanks": "^1.2"
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "config": {
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "symfony/thanks": true
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gedachtegoed\\Workspace\\ServiceProvider"
+            ]
+        },
+        "thanks": [
+            {
+                "name": "tightenco/duster",
+                "url": "https://github.com/tighten/duster"
+            },
+            {
+                "name": "laravel/prompts",
+                "url": "https://github.com/laravel/prompts"
+            }
+        ]
     }
 }

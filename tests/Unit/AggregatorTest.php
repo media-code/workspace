@@ -73,9 +73,11 @@ it('aggregates npm update definitions')->todo();
 //--------------------------------------------------------------------------
 it('aggregates config files to be published')->todo();
 it('maps configs files relative to the integration path and the project base path')->todo();
+it('throws exception when config source file doesnt exist');
 
 it('aggregates workflow files to be published')->todo();
 it('maps workflow files relative to the integration path and the project base path')->todo();
+it('throws exception when workflow source file doesnt exist');
 
 it('aggregates Duster lint scripts to be installed')->todo();
 it('aggregates Duster fix scripts to be installed')->todo();

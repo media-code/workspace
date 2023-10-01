@@ -9,6 +9,8 @@ use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
 
 /**
  * TODO: Consider renaming to Workspace or something that captures the broader intent of the class later down the line
+ * TODO: Consider renaming methods (and proxied Integration properties). Either consistent in structure or mirroring underlying action name (like composerRequire as opposed to installsComposerDependencies)
+ *
  * Collection methods for flatMapping Integration properties with magic __call() method
  *
  * @method array publishesConfigs()

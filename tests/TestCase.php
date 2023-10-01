@@ -2,10 +2,15 @@
 
 namespace Tests;
 
-// use Orchestra\Testbench\Concerns\WithWorkbench;
+use Gedachtegoed\Workspace\ServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
-    // use WithWorkbench;
+    protected function getPackageProviders($app)
+    {
+        return [
+            ServiceProvider::class,
+        ];
+    }
 }

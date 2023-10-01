@@ -2,7 +2,7 @@
 
 /**
  * These tests do a top down integration test from the Aggregator to the integration Builder
- * This way we get quite a bit of coverage while covering the inner workings of the
+ * This way we get quite a bit of coverage by covering the inner workings of the
  * Aggregator in combination with narrow and specific integration features.
  */
 
@@ -12,30 +12,41 @@ use Gedachtegoed\Workspace\Core\Builder;
 //--------------------------------------------------------------------------
 // Defaults
 //--------------------------------------------------------------------------
-it('always registers Duster integration', function () {
-    register(); // Empty registered integrations
 
-    expect(new Aggregator)
-        ->integrations()
-        ->toHaveCount(1)
-        // FIXME: Can't reflect on the exact implementation used, so use class attributes instead
+// FIXME: Can't reflect on the exact implementation used, so use class attributes instead
+it('always registers Duster integration')
+    ->expect(fn () => new Aggregator([]))
+    ->integrations()
+    ->toHaveCount(1)
+    ->composerRequire()
+    ->toContain('tightenco/duster');
+
+it('resolves aggregator with configured integrations from the container', function () {
+    config(['workspace-integrations' => [
+        Builder::make()->composerRequire('package/one'),
+    ]]);
+
+    expect(resolve(Aggregator::class))
         ->composerRequire()
-        ->toContain('tightenco/duster');
-})->todo('Test concrete implementation used, not class properties');
+        ->toContain(
+            'package/one',
+        );
+});
 
 //--------------------------------------------------------------------------
 // Package managers
 //--------------------------------------------------------------------------
 it('aggregates composer install definitions', function () {
-    register(
+
+    $aggregate = new Aggregator([
         Builder::make()->composerRequire('package/one'),
         Builder::make()->composerRequire([
             'package/two',
             'package/three:^2.3',
         ]),
-    );
+    ]);
 
-    expect(new Aggregator)
+    expect($aggregate)
         ->composerRequire()
         ->toContain(
             'package/one',
@@ -45,15 +56,16 @@ it('aggregates composer install definitions', function () {
 });
 
 it('aggregates composer update definitions', function () {
-    register(
+
+    $aggregate = new Aggregator([
         Builder::make()->composerUpdate('package/one'),
         Builder::make()->composerUpdate([
             'package/two',
             'package/three',
         ]),
-    );
+    ]);
 
-    expect(new Aggregator)
+    expect($aggregate)
         ->composerUpdate()
         ->toContain(
             'package/one',
@@ -62,17 +74,115 @@ it('aggregates composer update definitions', function () {
         );
 });
 
-it('aggregates composer script definitions')->todo();
+it('aggregates composer script definitions', function () {
 
-it('aggregates npm install definitions')->todo();
+    $aggregate = new Aggregator([
+        Builder::make()->composerScripts([
+            'some-alias' => 'some-command',
+        ]),
+        Builder::make()->composerScripts([
+            'some-other-alias' => 'some-other-command',
+        ]),
+    ]);
 
-it('aggregates npm update definitions')->todo();
+    expect($aggregate)
+        ->composerScripts()
+        ->toEqual([
+            'some-alias' => 'some-command',
+            'some-other-alias' => 'some-other-command',
+        ]);
+});
+
+it('aggregates nested composer script definitions', function () {
+
+    $aggregate = new Aggregator([
+        Builder::make()->composerScripts([
+            'some-alias' => 'some-command',
+        ]),
+        Builder::make()->composerScripts([
+            'post-update-cmd' => [
+                'some-command',
+            ],
+        ]),
+        Builder::make()->composerScripts([
+            'post-update-cmd' => [
+                'some-other-command',
+            ],
+        ]),
+    ]);
+
+    expect($aggregate)
+        ->composerScripts()
+        ->toEqual([
+            'some-alias' => 'some-command',
+            'post-update-cmd' => [
+                'some-command',
+                'some-other-command',
+            ],
+        ]);
+})->todo('FIXME');
+
+it('aggregates npm install definitions')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->npmInstall('package/one'),
+        Builder::make()->npmInstall([
+            'package/two',
+            'package/three:^2.3',
+        ]),
+    ]))
+    ->npmInstall()
+    ->toContain(
+        'package/one',
+        'package/two',
+        'package/three:^2.3',
+    );
+
+it('aggregates npm update definitions', function () {
+    $aggregate = new Aggregator([
+        Builder::make()->npmUpdate('package/one'),
+        Builder::make()->npmUpdate([
+            'package/two',
+            'package/three:^2.3',
+        ]),
+    ]);
+
+    expect($aggregate)
+        ->npmUpdate()
+        ->toContain(
+            'package/one',
+            'package/two',
+            'package/three:^2.3',
+        );
+});
 
 //--------------------------------------------------------------------------
 // Configs
 //--------------------------------------------------------------------------
-it('aggregates config files to be published')->todo();
-it('maps configs files relative to the integration path and the project base path')->todo();
+it('aggregates config files to be published', function () {
+    $aggregate = new Aggregator([
+        Builder::make()->publishesConfigs(['source-file-one' => 'destination-one']),
+        Builder::make()->publishesConfigs(['source-file-two' => 'destination-two']),
+    ]);
+
+    expect($aggregate)
+        ->publishesConfigs()
+        ->toHaveCount(3); // Count is 3 in stead of expected 2 because duster comes as a default Integration
+});
+
+it('maps configs files relative to the integration path and the project base path', function () {
+    dump('foo');
+    $aggregate = new Aggregator([
+        Builder::make()->publishesConfigs(['source-file-one' => 'destination-one']),
+        Builder::make()->publishesConfigs(['source-file-two' => 'destination-two']),
+    ]);
+
+    // expect($aggregate)
+    //     ->publishesConfigs()
+    //     ->toContain([
+    //         base_path('destionation-one'),
+    //     ]);
+});
+
 it('throws exception when config source file doesnt exist');
 
 it('aggregates workflow files to be published')->todo();

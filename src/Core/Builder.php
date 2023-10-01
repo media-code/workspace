@@ -239,6 +239,7 @@ class Builder
     // Support
     //--------------------------------------------------------------------------
 
+    // FIXME: Does not work with inlined integrations
     private function integrationPath(string $append): string
     {
         $integrationClass = new ReflectionClass(get_class($this));

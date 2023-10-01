@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
 
 /**
+ * TODO: Consider renaming to Workspace or something that captures the broader intent of the class later down the line
  * Collection methods for flatMapping Integration properties with magic __call() method
  *
  * @method array publishesConfigs()
@@ -43,10 +44,11 @@ class Aggregator
     /** @var Collection<Integration> */
     protected readonly Collection $integrations;
 
-    public function __construct()
+    /** @param  array<string|Builder>  $integrations */
+    public function __construct(array $integrations)
     {
         $defaultIntegrations = $this->resolve(static::DEFAULT_INTEGRATIONS);
-        $configuredIntegrations = $this->resolve(config('workspace-integrations'));
+        $configuredIntegrations = $this->resolve($integrations);
 
         $this->integrations = $defaultIntegrations->merge($configuredIntegrations);
     }

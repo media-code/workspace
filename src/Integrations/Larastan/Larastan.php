@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\Larastan;
+namespace Gedachtegoed\Workspace\Integrations\Larastan;
 
-use Gedachtegoed\Janitor\Core\Builder;
+use Gedachtegoed\Workspace\Core\Builder;
 
 class Larastan extends Builder
 {
@@ -28,7 +28,7 @@ class Larastan extends Builder
             ->provideVscodeWorkspaceConfig([
                 'phpstan.enabled' => true,
                 'phpstan.enableLanguageServer' => true,
-                'phpstan.configFile' => 'phpstan.neon,phpstan.neon.dist,${workspaceFolder}/vendor/gedachtegoed/janitor/src/Integrations/Larastan/phpstan.neon',
+                'phpstan.configFile' => 'phpstan.neon,phpstan.neon.dist,${workspaceFolder}/vendor/gedachtegoed/workspace/src/Integrations/Larastan/phpstan.neon',
             ]);
     }
 }

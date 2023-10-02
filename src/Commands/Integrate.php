@@ -1,9 +1,9 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Commands;
+namespace Gedachtegoed\Workspace\Commands;
 
-use Gedachtegoed\Janitor\Core\Aggregator;
-use Gedachtegoed\Janitor\Core\Concerns\UpdatesGitignore;
+use Gedachtegoed\Workspace\Core\Aggregator;
+use Gedachtegoed\Workspace\Core\Concerns\UpdatesGitignore;
 use Illuminate\Console\Command;
 
 use function Laravel\Prompts\info;
@@ -17,10 +17,10 @@ class Integrate extends Command
 
     protected Aggregator $integrations;
 
-    protected $signature = 'janitor:integrate
+    protected $signature = 'workspace:integrate
                             {--editor= : The editor you\'d like to integrate with (vscode, phpstorm)}';
 
-    protected $description = 'Integrate Janitor with your favorite IDE';
+    protected $description = 'Integrate Workspace with your favorite IDE';
 
     public function __construct(Aggregator $integrations)
     {

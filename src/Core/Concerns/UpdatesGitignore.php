@@ -1,6 +1,6 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Core\Concerns;
+namespace Gedachtegoed\Workspace\Core\Concerns;
 
 trait UpdatesGitignore
 {

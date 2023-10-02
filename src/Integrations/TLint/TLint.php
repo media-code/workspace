@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\TLint;
+namespace Gedachtegoed\Workspace\Integrations\TLint;
 
-use Gedachtegoed\Janitor\Core\Builder;
+use Gedachtegoed\Workspace\Core\Builder;
 
 class TLint extends Builder
 {

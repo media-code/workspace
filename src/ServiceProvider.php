@@ -1,8 +1,8 @@
 <?php
 
-namespace Gedachtegoed\Janitor;
+namespace Gedachtegoed\Workspace;
 
-use Gedachtegoed\Janitor\Core\Aggregator;
+use Gedachtegoed\Workspace\Core\Aggregator;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
@@ -14,8 +14,8 @@ class ServiceProvider extends BaseServiceProvider
         }
 
         $this->publishes([
-            __DIR__ . '/../config/janitor-integrations.php' => base_path('config/janitor-integrations.php'),
-        ], 'janitor-config');
+            __DIR__ . '/../config/workspace-integrations.php' => base_path('config/workspace-integrations.php'),
+        ], 'workspace-config');
 
         $this->app->singleton(
             Aggregator::class,
@@ -28,7 +28,7 @@ class ServiceProvider extends BaseServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/janitor-integrations.php', 'janitor-integrations');
+        $this->mergeConfigFrom(__DIR__ . '/../config/workspace-integrations.php', 'workspace-integrations');
     }
 
     protected function registerCommandAliasses()
@@ -48,12 +48,12 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->publishes(
             $integrations->publishesConfigs(),
-            'janitor-3rd-party-configs'
+            'workspace-3rd-party-configs'
         );
 
         $this->publishes(
             $integrations->publishesWorkflows(),
-            'janitor-workflows'
+            'workspace-workflows'
         );
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Core;
+namespace Gedachtegoed\Workspace\Core;
 
-use Gedachtegoed\Janitor\Commands\Install;
-use Gedachtegoed\Janitor\Commands\Integrate;
-use Gedachtegoed\Janitor\Commands\Update;
+use Gedachtegoed\Workspace\Commands\Install;
+use Gedachtegoed\Workspace\Commands\Integrate;
+use Gedachtegoed\Workspace\Commands\Update;
 
 final class Integration
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Commands;
+namespace Gedachtegoed\Workspace\Commands;
 
-use Gedachtegoed\Janitor\Commands\Concerns\PromptForOptionWhenMissing;
-use Gedachtegoed\Janitor\Core\Aggregator;
+use Gedachtegoed\Workspace\Commands\Concerns\PromptForOptionWhenMissing;
+use Gedachtegoed\Workspace\Core\Aggregator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;
 
@@ -19,10 +19,10 @@ class Update extends Command
 
     protected Aggregator $integrations;
 
-    protected $signature = 'janitor:update
-                                {--publish-workflows : When true, Janitor will publish CI Workflows}';
+    protected $signature = 'workspace:update
+                                {--publish-workflows : When true, Workspace will publish CI Workflows}';
 
-    protected $description = 'Update Janitor';
+    protected $description = 'Update Workspace';
 
     public function __construct(Aggregator $integrations)
     {
@@ -47,10 +47,10 @@ class Update extends Command
             $callback($this);
         }
 
-        $this->updateJanitor();
+        $this->updateWorkspace();
         $this->updateComposerDependencies();
         $this->updateNpmDependencies();
-        $this->runJanitorInstall($publishWorkflows);
+        $this->runWorkspaceInstall($publishWorkflows);
 
         // After hooks
         foreach ($this->integrations->afterUpdate() as $callback) {
@@ -64,16 +64,17 @@ class Update extends Command
             | Did you know?
             |-----------------------------------------------------------------------------
             |
-            | Janitor is highly extendable, allowing for sharing of custom integrations
+            | Workspace is highly extendable, allowing for sharing of custom integrations
             | across various projects. This ensures a consistent setup for linting,
             | fixing, static analysis, and editor configuration for your team.
             |
-            | https://github.com/media-code/janitor/docs/portable-integrations
+            | https://github.com/media-code/workspace/docs/portable-workspace
             */
             TEXT);
 
-        warning('Successfully updated Janitor!');
+        warning('Successfully updated Workspace!');
         note('Please manually review all changes');
+        // TODO: Notify this command only bumps workspace package by minor version. Bumping a whole version requires manual composer update
     }
 
     protected function promptToContinueWhenWorkspaceHasUncommittedFiles()
@@ -87,8 +88,8 @@ class Update extends Command
             return true;
         }
 
-        warning('Janitor detected untracked changes in your project');
-        note('We recommend stashing or committing your work before updating Janitor' . PHP_EOL . 'This way it\'s easier to review any upsteam configuration changes');
+        warning('Workspace detected untracked changes in your project');
+        note('We recommend stashing or committing your work before updating your workspace' . PHP_EOL . 'This way it\'s easier to review any upsteam configuration changes');
 
         return confirm(
             label: 'Do you want to continue?',
@@ -96,13 +97,13 @@ class Update extends Command
         );
     }
 
-    protected function updateJanitor()
+    protected function updateWorkspace()
     {
         spin(
             fn () => Process::path(base_path())
-                ->run('composer update gedachtegoed/janitor --no-interaction')
+                ->run('composer update gedachtegoed/workspace --no-interaction')
                 ->throw(),
-            'Updating Janitor'
+            'Updating Workspace'
         );
     }
 
@@ -130,13 +131,13 @@ class Update extends Command
         );
     }
 
-    protected function runJanitorInstall(bool $publishWorkflows)
+    protected function runWorkspaceInstall(bool $publishWorkflows)
     {
         spin(
-            fn () => $this->callSilently('janitor:install', [
+            fn () => $this->callSilently('workspace:install', [
                 '--publish-workflows' => $publishWorkflows,
                 '--quickly' => true,
-            ]), 'Running janitor:install'
+            ]), 'Running workspace:install'
         );
     }
 }

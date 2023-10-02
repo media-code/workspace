@@ -1,6 +1,6 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Commands\Concerns;
+namespace Gedachtegoed\Workspace\Commands\Concerns;
 
 use function Laravel\Prompts\confirm;
 

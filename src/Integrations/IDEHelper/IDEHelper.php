@@ -1,9 +1,9 @@
 <?php
 
-namespace Gedachtegoed\Janitor\Integrations\IDEHelper;
+namespace Gedachtegoed\Workspace\Integrations\IDEHelper;
 
-use Gedachtegoed\Janitor\Commands\Install;
-use Gedachtegoed\Janitor\Core\Builder;
+use Gedachtegoed\Workspace\Commands\Install;
+use Gedachtegoed\Workspace\Core\Builder;
 use Illuminate\Support\Facades\Process;
 
 use function Laravel\Prompts\spin;

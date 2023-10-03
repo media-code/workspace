@@ -100,6 +100,13 @@ class Builder
         return $this;
     }
 
+    public function composerRequireDev(array|string $dependencies): self
+    {
+        $this->integration->composerRequireDev = $this->integration->composerRequireDev + (array) $dependencies;
+
+        return $this;
+    }
+
     public function composerUpdate(array|string $dependencies): self
     {
         $this->integration->composerUpdate = $this->integration->composerUpdate + (array) $dependencies;
@@ -114,6 +121,13 @@ class Builder
     public function npmInstall(array|string $dependencies): self
     {
         $this->integration->npmInstall = $this->integration->npmInstall + (array) $dependencies;
+
+        return $this;
+    }
+
+    public function npmInstallDev(array|string $dependencies): self
+    {
+        $this->integration->npmInstallDev = $this->integration->npmInstallDev + (array) $dependencies;
 
         return $this;
     }

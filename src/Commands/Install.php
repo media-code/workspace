@@ -70,12 +70,22 @@ class Install extends Command
 
     protected function installComposerDependencies()
     {
-        $commands = implode(' ', $this->integrations->composerRequire());
-        dump("composer require {$commands} --dev --no-interaction");
         spin(
-            fn () => Process::path(base_path())
-                ->run("composer require {$commands} --dev --no-interaction")
-                ->throw(),
+            function () {
+                // composer install
+                $commands = implode(' ', $this->integrations->composerRequire());
+
+                Process::path(base_path())
+                    ->run("composer require {$commands} --no-interaction")
+                    ->throw();
+
+                // composer install
+                $commands = implode(' ', $this->integrations->composerRequireDev());
+
+                Process::path(base_path())
+                    ->run("composer require {$commands} --dev --no-interaction")
+                    ->throw();
+            },
             'Installing Composer dependencies'
         );
     }
@@ -85,9 +95,21 @@ class Install extends Command
         $commands = implode(' ', $this->integrations->npmInstall());
 
         spin(
-            fn () => Process::path(base_path())
-                ->run("npm install {$commands} --save-dev")
-                ->throw(),
+            function () {
+                // Npm install
+                $commands = implode(' ', $this->integrations->npmInstall());
+
+                Process::path(base_path())
+                    ->run("npm install {$commands}")
+                    ->throw();
+
+                // Npm install dev
+                $commands = implode(' ', $this->integrations->npmInstallDev());
+
+                Process::path(base_path())
+                    ->run("npm install {$commands} --save-dev")
+                    ->throw();
+            },
             'Installing NPM dependencies'
         );
     }

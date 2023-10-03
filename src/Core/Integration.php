@@ -26,9 +26,13 @@ class Integration
 
     public array $composerRequire = [];
 
+    public array $composerRequireDev = [];
+
     public array $composerUpdate = [];
 
     public array $npmInstall = [];
+
+    public array $npmInstallDev = [];
 
     public array $npmUpdate = [];
 

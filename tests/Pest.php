@@ -13,7 +13,7 @@ use Gedachtegoed\Workspace\Tests;
 |
 */
 
-uses(Tests\TestCase::class)->in('Unit', 'Integration');
+uses(Tests\TestCase::class)->in('Unit', 'Feature', 'Integration');
 
 /*
 |--------------------------------------------------------------------------

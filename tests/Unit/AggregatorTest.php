@@ -71,7 +71,6 @@ it('aggregates Duster fix scripts to be installed')
 // Package managers
 //--------------------------------------------------------------------------
 it('aggregates composer install definitions', function () {
-
     $aggregate = new Aggregator([
         Builder::make()->composerRequire('package/one'),
         Builder::make()->composerRequire([
@@ -90,7 +89,6 @@ it('aggregates composer install definitions', function () {
 });
 
 it('aggregates composer update definitions', function () {
-
     $aggregate = new Aggregator([
         Builder::make()->composerUpdate('package/one'),
         Builder::make()->composerUpdate([
@@ -109,7 +107,6 @@ it('aggregates composer update definitions', function () {
 });
 
 it('aggregates composer script definitions', function () {
-
     $aggregate = new Aggregator([
         Builder::make()->composerScripts([
             'some-alias' => 'some-command',
@@ -128,7 +125,6 @@ it('aggregates composer script definitions', function () {
 });
 
 it('aggregates nested composer script definitions', function () {
-
     $aggregate = new Aggregator([
         Builder::make()->composerScripts([
             'some-alias' => 'some-command',
@@ -193,7 +189,6 @@ it('aggregates npm update definitions', function () {
 // Configs
 //--------------------------------------------------------------------------
 it('aggregates config files to be published', function () {
-
     $aggregate = new Aggregator([
         Builder::make()->publishesConfigs([package_path('tests/Stubs/Integration/source-one.json') => 'destination-one']),
         Builder::make()->publishesConfigs([package_path('tests/Stubs/Integration/source-two.json') => 'destination-two']),

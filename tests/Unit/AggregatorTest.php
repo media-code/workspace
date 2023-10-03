@@ -8,8 +8,6 @@
 
 use Gedachtegoed\Workspace\Core\Aggregator;
 use Gedachtegoed\Workspace\Core\Builder;
-use Gedachtegoed\Workspace\Exceptions\ConfigNotFoundException;
-use Gedachtegoed\Workspace\Exceptions\WorkflowNotFoundException;
 use Gedachtegoed\Workspace\Tests\Stubs\Integration\IntegrationStub;
 
 use function Orchestra\Testbench\package_path;
@@ -151,7 +149,7 @@ it('aggregates nested composer script definitions', function () {
                 'some-other-command',
             ],
         ]);
-})->todo('FIXME');
+});
 
 it('aggregates npm install definitions')
     ->expect(fn () => new Aggregator([
@@ -226,13 +224,6 @@ it('maps configs files relative to inlined integration invokation path and the p
         ]);
 });
 
-// TODO: Move this to BuilderTest
-it('throws exception when config source file doesnt exist')
-    ->expect(fn () => Builder::make()->publishesConfigs([
-        'non-existing-path' => 'destination.json',
-    ]))
-    ->throws(ConfigNotFoundException::class);
-
 it('aggregates workflow files to be published', function () {
     $aggregate = new Aggregator([
         Builder::make()->publishesWorkflows([package_path('tests/Stubs/Integration/source-one.json') => 'destination-one']),
@@ -269,13 +260,6 @@ it('maps workflow files relative to inlined integration invokation path and the 
             package_path('tests/Stubs/Integration/source-one.json') => base_path('destination.json'),
         ]);
 });
-
-// TODO: Move this to BuilderTest
-it('throws exception when workflow source file doesnt exist')
-    ->expect(fn () => Builder::make()->publishesWorkflows([
-        'non-existing-path' => 'destination.json',
-    ]))
-    ->throws(WorkflowNotFoundException::class);
 
 //--------------------------------------------------------------------------
 // Gitignore

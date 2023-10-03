@@ -2,6 +2,7 @@
 
 namespace Gedachtegoed\Workspace\Core;
 
+use Gedachtegoed\Workspace\Core\Concerns\MergesConfigsRecursively;
 use Gedachtegoed\Workspace\Integrations\Duster\Duster;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
@@ -39,6 +40,8 @@ use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
  */
 class Aggregator
 {
+    use MergesConfigsRecursively;
+
     const DEFAULT_INTEGRATIONS = [
         Duster::class,
     ];
@@ -53,6 +56,12 @@ class Aggregator
         $configuredIntegrations = $this->resolve($integrations);
 
         $this->integrations = $defaultIntegrations->merge($configuredIntegrations);
+    }
+
+    /** Returns all resolved integrations */
+    public function integrations(): Collection
+    {
+        return $this->integrations;
     }
 
     /**
@@ -101,8 +110,15 @@ class Aggregator
         return $this->integrations->flatMap->{$name}->toArray();
     }
 
-    public function integrations(): Collection
+    /**
+     * Returns aggregated composer script definition
+     * Not proxied via magic __call because configs need to be merged recursively
+     */
+    public function composerScripts(): array
     {
-        return $this->integrations;
+        return $this->integrations->reduce(
+            fn ($carry, $integration) => $this->mergeConfigsRecursively($carry, $integration->composerScripts),
+            []
+        );
     }
 }

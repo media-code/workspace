@@ -39,7 +39,7 @@ jobs:
       - uses: php-actions/composer@v6
 
       - name: Directory Permissions
-        run: sudo chown -R $(whoami) vendor/orchestra/testbench-core/laravel/bootstrap/cache
+        run: sudo chown -R $(whoami) vendor/orchestra/testbench-core/laravel
 
       - name: Execute tests
         run: ./vendor/bin/pest --stop-on-failure --bootstrap vendor/autoload.php

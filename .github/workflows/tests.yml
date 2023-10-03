@@ -42,4 +42,4 @@ jobs:
         run: sudo chown -R $(whoami) /home/runner/work/workspace/workspace/vendor/orchestra/testbench-core/laravel/bootstrap/cache
 
       - name: Execute tests
-        run: ./vendor/bin/pest
+        run: ./vendor/bin/pest --stop-on-failure --bootstrap vendor/autoload.php

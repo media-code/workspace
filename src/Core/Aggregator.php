@@ -15,8 +15,8 @@ use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
  *
  * @method array publishesConfigs()
  * @method array publishesWorkflows()
- * @method array provideDusterLintConfig()
- * @method array provideDusterFixConfig()
+ * @method array dusterLintConfig()
+ * @method array dusterFixConfig()
  * @method array composerScripts()
  * @method array composerRequire()
  * @method array composerUpdate()

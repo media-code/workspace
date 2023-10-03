@@ -18,7 +18,7 @@ use function Orchestra\Testbench\package_path;
 
 // FIXME: Can't reflect on the exact implementation used, so use class attributes instead
 it('always registers Duster integration')
-    ->expect(fn () => new Aggregator([]))
+    ->expect(fn () => Aggregator::make([]))
     ->integrations()
     ->toHaveCount(1)
     ->composerRequire()
@@ -37,7 +37,7 @@ it('resolves aggregator with configured integrations from the container', functi
 });
 
 it('aggregates Duster lint scripts to be installed')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->provideDusterLintConfig([
             'extra-linter' => ['some-command'],
         ]),
@@ -52,7 +52,7 @@ it('aggregates Duster lint scripts to be installed')
     ]);
 
 it('aggregates Duster fix scripts to be installed')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->provideDusterFixConfig([
             'extra-fixer' => ['some-command'],
         ]),
@@ -70,7 +70,7 @@ it('aggregates Duster fix scripts to be installed')
 // Package managers
 //--------------------------------------------------------------------------
 it('aggregates composer install definitions', function () {
-    $aggregate = new Aggregator([
+    $aggregate = Aggregator::make([
         Builder::make()->composerRequire('package/one'),
         Builder::make()->composerRequire([
             'package/two',
@@ -88,7 +88,7 @@ it('aggregates composer install definitions', function () {
 });
 
 it('aggregates composer update definitions', function () {
-    $aggregate = new Aggregator([
+    $aggregate = Aggregator::make([
         Builder::make()->composerUpdate('package/one'),
         Builder::make()->composerUpdate([
             'package/two',
@@ -106,7 +106,7 @@ it('aggregates composer update definitions', function () {
 });
 
 it('aggregates composer script definitions', function () {
-    $aggregate = new Aggregator([
+    $aggregate = Aggregator::make([
         Builder::make()->composerScripts([
             'some-alias' => 'some-command',
         ]),
@@ -124,7 +124,7 @@ it('aggregates composer script definitions', function () {
 });
 
 it('aggregates nested composer script definitions', function () {
-    $aggregate = new Aggregator([
+    $aggregate = Aggregator::make([
         Builder::make()->composerScripts([
             'some-alias' => 'some-command',
         ]),
@@ -152,7 +152,7 @@ it('aggregates nested composer script definitions', function () {
 });
 
 it('aggregates npm install definitions')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->npmInstall('package/one'),
         Builder::make()->npmInstall([
             'package/two',
@@ -167,7 +167,7 @@ it('aggregates npm install definitions')
     );
 
 it('aggregates npm update definitions', function () {
-    $aggregate = new Aggregator([
+    $aggregate = Aggregator::make([
         Builder::make()->npmUpdate('package/one'),
         Builder::make()->npmUpdate([
             'package/two',
@@ -188,7 +188,7 @@ it('aggregates npm update definitions', function () {
 // Configs
 //--------------------------------------------------------------------------
 it('aggregates config files to be published', function () {
-    $aggregate = new Aggregator([
+    $aggregate = Aggregator::make([
         Builder::make()->publishesConfigs([package_path('tests/Stubs/Integration/source-one.json') => 'destination-one']),
         Builder::make()->publishesConfigs([package_path('tests/Stubs/Integration/source-two.json') => 'destination-two']),
     ]);
@@ -199,7 +199,7 @@ it('aggregates config files to be published', function () {
 });
 
 it('maps configs files relative to the integration class path and the project base path', function () {
-    $aggregate = new Aggregator([
+    $aggregate = Aggregator::make([
         IntegrationStub::class,
     ]);
 
@@ -211,7 +211,7 @@ it('maps configs files relative to the integration class path and the project ba
 });
 
 it('maps configs files relative to inlined integration invokation path and the project base path', function () {
-    $aggregate = new Aggregator([
+    $aggregate = Aggregator::make([
         Builder::make()->publishesConfigs([
             package_path('tests/Stubs/Integration/source-one.json') => 'destination.json',
         ]),
@@ -225,7 +225,7 @@ it('maps configs files relative to inlined integration invokation path and the p
 });
 
 it('aggregates workflow files to be published', function () {
-    $aggregate = new Aggregator([
+    $aggregate = Aggregator::make([
         Builder::make()->publishesWorkflows([package_path('tests/Stubs/Integration/source-one.json') => 'destination-one']),
         Builder::make()->publishesWorkflows([package_path('tests/Stubs/Integration/source-two.json') => 'destination-two']),
     ]);
@@ -236,7 +236,7 @@ it('aggregates workflow files to be published', function () {
 });
 
 it('maps workflow files relative to the integration class path and the project base path', function () {
-    $aggregate = new Aggregator([
+    $aggregate = Aggregator::make([
         IntegrationStub::class,
     ]);
 
@@ -248,7 +248,7 @@ it('maps workflow files relative to the integration class path and the project b
 });
 
 it('maps workflow files relative to inlined integration invokation path and the project base path', function () {
-    $aggregate = new Aggregator([
+    $aggregate = Aggregator::make([
         Builder::make()->publishesWorkflows([
             package_path('tests/Stubs/Integration/source-one.json') => 'destination.json',
         ]),
@@ -265,7 +265,7 @@ it('maps workflow files relative to inlined integration invokation path and the 
 // Gitignore
 //--------------------------------------------------------------------------
 it('aggregates gitignore lines to be added')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->addToGitignore('file-one'),
         Builder::make()->addToGitignore([
             'file-two',
@@ -280,7 +280,7 @@ it('aggregates gitignore lines to be added')
     ]);
 
 it('aggregates gitignore lines to be removed')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->removeFromGitignore('file-one'),
         Builder::make()->removeFromGitignore([
             'file-two',
@@ -298,7 +298,7 @@ it('aggregates gitignore lines to be removed')
 // IDE integrations
 //--------------------------------------------------------------------------
 it('aggregates vscode workspace config definitions')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->provideVscodeWorkspaceConfig(['setting-one.enabled' => true]),
         Builder::make()->provideVscodeWorkspaceConfig(['setting-two.enabled' => true]),
     ]))
@@ -309,7 +309,7 @@ it('aggregates vscode workspace config definitions')
     ]);
 
 it('aggregates vscode reccommended plugin definitions')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->provideVscodeRecommendedPlugins('gdd.plugin-one'),
         Builder::make()->provideVscodeRecommendedPlugins('gdd.plugin-two'),
     ]))
@@ -320,7 +320,7 @@ it('aggregates vscode reccommended plugin definitions')
     ]);
 
 it('aggregates vscode avoid plugin definitions')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->provideVscodeAvoidPlugins('gdd.plugin-one'),
         Builder::make()->provideVscodeAvoidPlugins('gdd.plugin-two'),
     ]))
@@ -333,7 +333,7 @@ it('aggregates vscode avoid plugin definitions')
 it('intelligently merges vscode reccomended and avoid plugin definitions')->todo();
 
 it('aggregates phpstorm workspace config definitions')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->providePhpStormWorkspaceConfig(['setting-one.enabled' => true]),
         Builder::make()->providePhpStormWorkspaceConfig(['setting-two.enabled' => true]),
     ]))
@@ -344,7 +344,7 @@ it('aggregates phpstorm workspace config definitions')
     ]);
 
 it('aggregates phpstorm required plugin definitions')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->providePhpStormRequiredPlugins('gdd.plugin-one'),
         Builder::make()->providePhpStormRequiredPlugins('gdd.plugin-two'),
     ]))
@@ -355,7 +355,7 @@ it('aggregates phpstorm required plugin definitions')
     ]);
 
 it('aggregates phpstorm suggested plugin definitions')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->providePhpStormSuggestedPlugins('gdd.plugin-one'),
         Builder::make()->providePhpStormSuggestedPlugins('gdd.plugin-two'),
     ]))
@@ -372,7 +372,7 @@ it('intelligently merges phpstorm reccomended and avoid plugin definitions')->to
 // Lifecycle Hooks
 //--------------------------------------------------------------------------
 it('aggregates beforeInstall hooks')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->beforeInstall(fn () => null),
         Builder::make()->beforeInstall(fn () => null),
     ]))
@@ -380,7 +380,7 @@ it('aggregates beforeInstall hooks')
     ->toHaveCount(2);
 
 it('aggregates afterInstall hooks')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->afterInstall(fn () => null),
         Builder::make()->afterInstall(fn () => null),
     ]))
@@ -388,7 +388,7 @@ it('aggregates afterInstall hooks')
     ->toHaveCount(2);
 
 it('aggregates beforeUpdate hooks')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->beforeUpdate(fn () => null),
         Builder::make()->beforeUpdate(fn () => null),
     ]))
@@ -396,7 +396,7 @@ it('aggregates beforeUpdate hooks')
     ->toHaveCount(2);
 
 it('aggregates afterUpdate hooks')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->afterUpdate(fn () => null),
         Builder::make()->afterUpdate(fn () => null),
     ]))
@@ -404,7 +404,7 @@ it('aggregates afterUpdate hooks')
     ->toHaveCount(2);
 
 it('aggregates beforeIntegrate hooks')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->beforeIntegration(fn () => null),
         Builder::make()->beforeIntegration(fn () => null),
     ]))
@@ -412,7 +412,7 @@ it('aggregates beforeIntegrate hooks')
     ->toHaveCount(2);
 
 it('aggregates afterIntegrate hooks')
-    ->expect(fn () => new Aggregator([
+    ->expect(fn () => Aggregator::make([
         Builder::make()->afterIntegration(fn () => null),
         Builder::make()->afterIntegration(fn () => null),
     ]))

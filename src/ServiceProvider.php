@@ -21,7 +21,7 @@ class ServiceProvider extends BaseServiceProvider implements DeferrableProvider
 
         $this->app->bind(
             Aggregator::class,
-            fn () => new Aggregator(config('workspace-integrations'))
+            fn () => Aggregator::make(config('workspace-integrations'))
         );
 
         $this->publishes([

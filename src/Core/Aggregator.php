@@ -58,7 +58,19 @@ class Aggregator
         $this->integrations = $defaultIntegrations->merge($configuredIntegrations);
     }
 
-    /** Returns all resolved integrations */
+    /**
+     * Static constructor
+     *
+     * @param  array<string|Builder>  $integrations
+     */
+    public static function make(array $integrations)
+    {
+        return new self($integrations);
+    }
+
+    /**
+     * Returns all resolved integrations
+     */
     public function integrations(): Collection
     {
         return $this->integrations;

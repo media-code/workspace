@@ -6,6 +6,7 @@ use Gedachtegoed\Workspace\Commands\Install;
 use Gedachtegoed\Workspace\Commands\Update;
 use Illuminate\Support\Arr;
 use ReflectionClass;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class Builder
 {
@@ -37,6 +38,14 @@ class Builder
             $configMap, fn ($to, $from) => [$this->integrationPath($from) => base_path($to)]
         );
 
+        foreach ($configMap as $from => $to) {
+            throw_unless(
+                file_exists($from),
+                FileNotFoundException::class,
+                "The config file '{$from}' doesn't exist. Source should be relative to the Integration class namespace or relative to where the builder was invoked when using inline Integrations."
+            );
+        }
+
         $this->integration->publishesConfigs = $this->integration->publishesConfigs + $configMap;
 
         return $this;
@@ -48,6 +57,14 @@ class Builder
         $workflowMap = Arr::mapWithKeys(
             $workflowMap, fn ($to, $from) => [$this->integrationPath($from) => base_path($to)]
         );
+
+        foreach ($workflowMap as $from => $to) {
+            throw_unless(
+                file_exists($from),
+                FileNotFoundException::class,
+                "The workflow '{$from}' doesn't exist. Source should be relative to the Integration class namespace or relative to where the builder was invoked when using inline Integrations."
+            );
+        }
 
         $this->integration->publishesWorkflows = $this->integration->publishesWorkflows + $workflowMap;
 
@@ -242,7 +259,10 @@ class Builder
     // FIXME: Does not work with inlined integrations
     private function integrationPath(string $append): string
     {
-        $integrationClass = new ReflectionClass(get_class($this));
+        // Is used inline. Assume absolute path is used
+        if ($this::class === self::class) {
+            return $append;
+        }
 
         // Normalize the append arg
         $file = str($append)
@@ -251,6 +271,8 @@ class Builder
             ->toString();
 
         // Make it relative to the integration path
+        $integrationClass = new ReflectionClass(get_class($this));
+
         return str($integrationClass->getFileName())
             ->beforeLast(DIRECTORY_SEPARATOR) // Strip filename
             ->append($file)

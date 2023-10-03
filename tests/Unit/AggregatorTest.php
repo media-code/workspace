@@ -8,6 +8,10 @@
 
 use Gedachtegoed\Workspace\Core\Aggregator;
 use Gedachtegoed\Workspace\Core\Builder;
+use Gedachtegoed\Workspace\Tests\Stubs\Integration\IntegrationStub;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+
+use function Orchestra\Testbench\package_path;
 
 //--------------------------------------------------------------------------
 // Defaults
@@ -32,6 +36,36 @@ it('resolves aggregator with configured integrations from the container', functi
             'package/one',
         );
 });
+
+it('aggregates Duster lint scripts to be installed')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->provideDusterLintConfig([
+            'extra-linter' => ['some-command'],
+        ]),
+        Builder::make()->provideDusterLintConfig([
+            'another-extra-linter' => ['some-command'],
+        ]),
+    ]))
+    ->dusterLintConfig()
+    ->toMatchArray([
+        'extra-linter' => ['some-command'],
+        'another-extra-linter' => ['some-command'],
+    ]);
+
+it('aggregates Duster fix scripts to be installed')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->provideDusterFixConfig([
+            'extra-fixer' => ['some-command'],
+        ]),
+        Builder::make()->provideDusterFixConfig([
+            'another-extra-fixer' => ['some-command'],
+        ]),
+    ]))
+    ->dusterFixConfig()
+    ->toMatchArray([
+        'extra-fixer' => ['some-command'],
+        'another-extra-fixer' => ['some-command'],
+    ]);
 
 //--------------------------------------------------------------------------
 // Package managers
@@ -159,9 +193,10 @@ it('aggregates npm update definitions', function () {
 // Configs
 //--------------------------------------------------------------------------
 it('aggregates config files to be published', function () {
+
     $aggregate = new Aggregator([
-        Builder::make()->publishesConfigs(['source-file-one' => 'destination-one']),
-        Builder::make()->publishesConfigs(['source-file-two' => 'destination-two']),
+        Builder::make()->publishesConfigs([package_path('tests/Stubs/Integration/source-one.json') => 'destination-one']),
+        Builder::make()->publishesConfigs([package_path('tests/Stubs/Integration/source-two.json') => 'destination-two']),
     ]);
 
     expect($aggregate)
@@ -169,34 +204,117 @@ it('aggregates config files to be published', function () {
         ->toHaveCount(3); // Count is 3 in stead of expected 2 because duster comes as a default Integration
 });
 
-it('maps configs files relative to the integration path and the project base path', function () {
-    dump('foo');
+it('maps configs files relative to the integration class path and the project base path', function () {
     $aggregate = new Aggregator([
-        Builder::make()->publishesConfigs(['source-file-one' => 'destination-one']),
-        Builder::make()->publishesConfigs(['source-file-two' => 'destination-two']),
+        IntegrationStub::class,
     ]);
 
-    // expect($aggregate)
-    //     ->publishesConfigs()
-    //     ->toContain([
-    //         base_path('destionation-one'),
-    //     ]);
+    expect($aggregate)
+        ->publishesConfigs()
+        ->toMatchArray([
+            realpath('tests/Stubs/Integration') . '/source-one.json' => base_path('destination.json'),
+        ]);
 });
 
-it('throws exception when config source file doesnt exist');
+it('maps configs files relative to inlined integration invokation path and the project base path', function () {
+    $aggregate = new Aggregator([
+        Builder::make()->publishesConfigs([
+            package_path('tests/Stubs/Integration/source-one.json') => 'destination.json',
+        ]),
+    ]);
 
-it('aggregates workflow files to be published')->todo();
-it('maps workflow files relative to the integration path and the project base path')->todo();
-it('throws exception when workflow source file doesnt exist');
+    expect($aggregate)
+        ->publishesConfigs()
+        ->toMatchArray([
+            package_path('tests/Stubs/Integration/source-one.json') => base_path('destination.json'),
+        ]);
+});
 
-it('aggregates Duster lint scripts to be installed')->todo();
-it('aggregates Duster fix scripts to be installed')->todo();
+// TODO: Move this to BuilderTest
+it('throws exception when config source file doesnt exist')
+    ->expect(fn () => Builder::make()->publishesConfigs([
+        'non-existing-path' => 'destination.json',
+    ]))
+    ->toThrow(FileNotFoundException::class)
+    ->todo('FIXME: Fails but does throw expected exception?');
+
+it('aggregates workflow files to be published', function () {
+    $aggregate = new Aggregator([
+        Builder::make()->publishesWorkflows([package_path('tests/Stubs/Integration/source-one.json') => 'destination-one']),
+        Builder::make()->publishesWorkflows([package_path('tests/Stubs/Integration/source-two.json') => 'destination-two']),
+    ]);
+
+    expect($aggregate)
+        ->publishesWorkflows()
+        ->toHaveCount(2);
+});
+
+it('maps workflow files relative to the integration class path and the project base path', function () {
+    $aggregate = new Aggregator([
+        IntegrationStub::class,
+    ]);
+
+    expect($aggregate)
+        ->publishesWorkflows()
+        ->toMatchArray([
+            package_path('tests/Stubs/Integration/source-one.json') => base_path('destination.json'),
+        ]);
+});
+
+it('maps workflow files relative to inlined integration invokation path and the project base path', function () {
+    $aggregate = new Aggregator([
+        Builder::make()->publishesWorkflows([
+            package_path('tests/Stubs/Integration/source-one.json') => 'destination.json',
+        ]),
+    ]);
+
+    expect($aggregate)
+        ->publishesWorkflows()
+        ->toMatchArray([
+            package_path('tests/Stubs/Integration/source-one.json') => base_path('destination.json'),
+        ]);
+});
+
+// TODO: Move this to BuilderTest
+it('throws exception when workflow source file doesnt exist')
+    ->expect(fn () => Builder::make()->publishesWorkflows([
+        'non-existing-path' => 'destination.json',
+    ]))
+    ->toThrow(FileNotFoundException::class)
+    ->todo('FIXME: Fails but does throw expected exception?');
 
 //--------------------------------------------------------------------------
 // Gitignore
 //--------------------------------------------------------------------------
-it('aggregates gitignore lines to be added')->todo();
-it('aggregates gitignore lines to be removed')->todo();
+it('aggregates gitignore lines to be added')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->addToGitignore('file-one'),
+        Builder::make()->addToGitignore([
+            'file-two',
+            'file-three',
+        ]),
+    ]))
+    ->addToGitignore()
+    ->toMatchArray([
+        'file-one',
+        'file-two',
+        'file-three',
+    ]);
+
+it('aggregates gitignore lines to be removed')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->removeFromGitignore('file-one'),
+        Builder::make()->removeFromGitignore([
+            'file-two',
+            'file-three',
+        ]),
+    ]))
+    ->removeFromGitignore()
+    ->toMatchArray([
+        'file-one',
+        'file-two',
+        'file-three',
+    ]);
 
 //--------------------------------------------------------------------------
 // IDE integrations

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Gedachtegoed\Workspace\Tests;
 
 use Gedachtegoed\Workspace\ServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;

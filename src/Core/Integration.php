@@ -6,7 +6,7 @@ use Gedachtegoed\Workspace\Commands\Install;
 use Gedachtegoed\Workspace\Commands\Integrate;
 use Gedachtegoed\Workspace\Commands\Update;
 
-final class Integration
+class Integration
 {
     //--------------------------------------------------------------------------
     // Configs

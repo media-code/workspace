@@ -224,7 +224,7 @@ class Builder
     /** @param  callable(Update $command):void  $callback */
     public function afterUpdate(callable $callback): self
     {
-        $this->integration->afterInstall[] = $callback;
+        $this->integration->afterUpdate[] = $callback;
 
         return $this;
     }

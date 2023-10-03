@@ -318,25 +318,124 @@ it('aggregates gitignore lines to be removed')
 //--------------------------------------------------------------------------
 // IDE integrations
 //--------------------------------------------------------------------------
-it('aggregates vscode workspace config definitions')->todo();
-it('aggregates vscode reccommended plugin definitions')->todo();
-it('aggregates vscode avoid plugin definitions')->todo();
+it('aggregates vscode workspace config definitions')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->provideVscodeWorkspaceConfig(['setting-one.enabled' => true]),
+        Builder::make()->provideVscodeWorkspaceConfig(['setting-two.enabled' => true]),
+    ]))
+    ->provideVscodeWorkspaceConfig()
+    ->toMatchArray([
+        'setting-one.enabled' => true,
+        'setting-two.enabled' => true,
+    ]);
+
+it('aggregates vscode reccommended plugin definitions')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->provideVscodeRecommendedPlugins('gdd.plugin-one'),
+        Builder::make()->provideVscodeRecommendedPlugins('gdd.plugin-two'),
+    ]))
+    ->provideVscodeRecommendedPlugins()
+    ->toMatchArray([
+        'gdd.plugin-one',
+        'gdd.plugin-two',
+    ]);
+
+it('aggregates vscode avoid plugin definitions')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->provideVscodeAvoidPlugins('gdd.plugin-one'),
+        Builder::make()->provideVscodeAvoidPlugins('gdd.plugin-two'),
+    ]))
+    ->provideVscodeAvoidPlugins()
+    ->toMatchArray([
+        'gdd.plugin-one',
+        'gdd.plugin-two',
+    ]);
+
 it('intelligently merges vscode reccomended and avoid plugin definitions')->todo();
 
-it('aggregates phpstorm workspace config definitions')->todo();
-it('aggregates phpstorm required plugin definitions')->todo();
-it('aggregates phpstorm suggested plugin definitions')->todo();
-it('aggregates phpstorm disabled plugin definitions')->todo(); // Is this even possible?
+it('aggregates phpstorm workspace config definitions')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->providePhpStormWorkspaceConfig(['setting-one.enabled' => true]),
+        Builder::make()->providePhpStormWorkspaceConfig(['setting-two.enabled' => true]),
+    ]))
+    ->providePhpStormWorkspaceConfig()
+    ->toMatchArray([
+        'setting-one.enabled' => true,
+        'setting-two.enabled' => true,
+    ]);
+
+it('aggregates phpstorm required plugin definitions')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->providePhpStormRequiredPlugins('gdd.plugin-one'),
+        Builder::make()->providePhpStormRequiredPlugins('gdd.plugin-two'),
+    ]))
+    ->providePhpStormRequiredPlugins()
+    ->toMatchArray([
+        'gdd.plugin-one',
+        'gdd.plugin-two',
+    ]);
+
+it('aggregates phpstorm suggested plugin definitions')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->providePhpStormSuggestedPlugins('gdd.plugin-one'),
+        Builder::make()->providePhpStormSuggestedPlugins('gdd.plugin-two'),
+    ]))
+    ->providePhpStormSuggestedPlugins()
+    ->toMatchArray([
+        'gdd.plugin-one',
+        'gdd.plugin-two',
+    ]);
+
+it('aggregates phpstorm disabled plugin definitions')->todo('Not sure if possible');
 it('intelligently merges phpstorm reccomended and avoid plugin definitions')->todo();
 
 //--------------------------------------------------------------------------
 // Lifecycle Hooks
 //--------------------------------------------------------------------------
-it('aggregates beforeInstall hooks')->todo();
-it('aggregates afterInstall hooks')->todo();
+it('aggregates beforeInstall hooks')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->beforeInstall(fn () => null),
+        Builder::make()->beforeInstall(fn () => null),
+    ]))
+    ->beforeInstall()
+    ->toHaveCount(2);
 
-it('aggregates beforeUpdate hooks')->todo();
-it('aggregates afterUpdate hooks')->todo();
+it('aggregates afterInstall hooks')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->afterInstall(fn () => null),
+        Builder::make()->afterInstall(fn () => null),
+    ]))
+    ->afterInstall()
+    ->toHaveCount(2);
 
-it('aggregates beforeIntegrate hooks')->todo();
-it('aggregates afterIntegrate hooks')->todo();
+it('aggregates beforeUpdate hooks')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->beforeUpdate(fn () => null),
+        Builder::make()->beforeUpdate(fn () => null),
+    ]))
+    ->beforeUpdate()
+    ->toHaveCount(2);
+
+it('aggregates afterUpdate hooks')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->afterUpdate(fn () => null),
+        Builder::make()->afterUpdate(fn () => null),
+    ]))
+    ->afterUpdate()
+    ->toHaveCount(2);
+
+it('aggregates beforeIntegrate hooks')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->beforeIntegration(fn () => null),
+        Builder::make()->beforeIntegration(fn () => null),
+    ]))
+    ->beforeIntegration()
+    ->toHaveCount(2);
+
+it('aggregates afterIntegrate hooks')
+    ->expect(fn () => new Aggregator([
+        Builder::make()->afterIntegration(fn () => null),
+        Builder::make()->afterIntegration(fn () => null),
+    ]))
+    ->afterIntegration()
+    ->toHaveCount(2);

@@ -4,9 +4,10 @@ namespace Gedachtegoed\Workspace\Core;
 
 use Gedachtegoed\Workspace\Commands\Install;
 use Gedachtegoed\Workspace\Commands\Update;
+use Gedachtegoed\Workspace\Exceptions\ConfigNotFoundException;
+use Gedachtegoed\Workspace\Exceptions\WorkflowNotFoundException;
 use Illuminate\Support\Arr;
 use ReflectionClass;
-use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class Builder
 {
@@ -39,11 +40,7 @@ class Builder
         );
 
         foreach ($configMap as $from => $to) {
-            throw_unless(
-                file_exists($from),
-                FileNotFoundException::class,
-                "The config file '{$from}' doesn't exist. Source should be relative to the Integration class namespace or relative to where the builder was invoked when using inline Integrations."
-            );
+            throw_unless(file_exists($from), new ConfigNotFoundException($from));
         }
 
         $this->integration->publishesConfigs = $this->integration->publishesConfigs + $configMap;
@@ -59,11 +56,7 @@ class Builder
         );
 
         foreach ($workflowMap as $from => $to) {
-            throw_unless(
-                file_exists($from),
-                FileNotFoundException::class,
-                "The workflow '{$from}' doesn't exist. Source should be relative to the Integration class namespace or relative to where the builder was invoked when using inline Integrations."
-            );
+            throw_unless(file_exists($from), new WorkflowNotFoundException($from));
         }
 
         $this->integration->publishesWorkflows = $this->integration->publishesWorkflows + $workflowMap;

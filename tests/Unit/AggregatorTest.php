@@ -8,8 +8,9 @@
 
 use Gedachtegoed\Workspace\Core\Aggregator;
 use Gedachtegoed\Workspace\Core\Builder;
+use Gedachtegoed\Workspace\Exceptions\ConfigNotFoundException;
+use Gedachtegoed\Workspace\Exceptions\WorkflowNotFoundException;
 use Gedachtegoed\Workspace\Tests\Stubs\Integration\IntegrationStub;
-use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 use function Orchestra\Testbench\package_path;
 
@@ -235,8 +236,7 @@ it('throws exception when config source file doesnt exist')
     ->expect(fn () => Builder::make()->publishesConfigs([
         'non-existing-path' => 'destination.json',
     ]))
-    ->toThrow(FileNotFoundException::class)
-    ->todo('FIXME: Fails but does throw expected exception?');
+    ->throws(ConfigNotFoundException::class);
 
 it('aggregates workflow files to be published', function () {
     $aggregate = new Aggregator([
@@ -280,8 +280,7 @@ it('throws exception when workflow source file doesnt exist')
     ->expect(fn () => Builder::make()->publishesWorkflows([
         'non-existing-path' => 'destination.json',
     ]))
-    ->toThrow(FileNotFoundException::class)
-    ->todo('FIXME: Fails but does throw expected exception?');
+    ->throws(WorkflowNotFoundException::class);
 
 //--------------------------------------------------------------------------
 // Gitignore

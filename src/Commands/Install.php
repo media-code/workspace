@@ -92,8 +92,6 @@ class Install extends Command
 
     protected function installNpmDependencies()
     {
-        $commands = implode(' ', $this->integrations->npmInstall());
-
         spin(
             function () {
                 // Npm install

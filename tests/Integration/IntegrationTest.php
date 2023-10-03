@@ -5,6 +5,7 @@
  * Should be added to the Portable Integrations template repository
  */
 
+use Gedachtegoed\Workspace\Core\Aggregator;
 use Gedachtegoed\Workspace\Core\Builder;
 use Gedachtegoed\Workspace\ServiceProvider;
 
@@ -26,8 +27,8 @@ test('configurated integrations are registered')
     ->not->toBeEmpty();
 
 test('configurated integrations are invokable')
-    ->expect(fn () => config('workspace-integrations'))
-    ->not->toBeEmpty();
+    ->expect(fn () => resolve(Aggregator::class))
+    ->integrations()->not->toBeEmpty(); // integrations in config('workspace-integrations') are invoked internally
 
 //--------------------------------------------------------------------------
 // Custom expectations

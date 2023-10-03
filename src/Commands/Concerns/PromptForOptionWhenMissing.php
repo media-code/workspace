@@ -10,7 +10,7 @@ trait PromptForOptionWhenMissing
     {
         $value = $this->option($option);
 
-        if ($value) {
+        if ($value !== null) {
             return $value;
         }
 

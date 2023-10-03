@@ -23,7 +23,7 @@ class Install extends Command
     protected Aggregator $integrations;
 
     protected $signature = 'workspace:install
-                                {--publish-workflows : When true, Workspace will publish CI Workflows}
+                                {--publish-workflows= : When true, Workspace will publish CI Workflows}
                                 {--quickly : By default Workspace will sleep 1 second every short running installation step to provide readable progress spinners. This option disables that}';
 
     protected $description = 'Install Workspace';
@@ -71,7 +71,7 @@ class Install extends Command
     protected function installComposerDependencies()
     {
         $commands = implode(' ', $this->integrations->composerRequire());
-
+        dump("composer require {$commands} --dev --no-interaction");
         spin(
             fn () => Process::path(base_path())
                 ->run("composer require {$commands} --dev --no-interaction")

@@ -36,6 +36,19 @@ it('resolves aggregator with configured integrations from the container', functi
         );
 });
 
+it('combines default and configured integrations', function () {
+    register(
+        Builder::make()->composerRequire('foo/bar:^2'),
+        Builder::make()->composerRequire('bar/baz'),
+    );
+
+    expect(resolve(Aggregator::class))
+        ->integrations()
+        ->toHaveCount(
+            2 + count(Aggregator::DEFAULT_INTEGRATIONS)
+        );
+});
+
 it('aggregates Duster lint scripts to be installed')
     ->expect(fn () => Aggregator::make([
         Builder::make()->provideDusterLintConfig([

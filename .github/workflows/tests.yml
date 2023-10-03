@@ -39,7 +39,7 @@ jobs:
       - uses: php-actions/composer@v6
 
       - name: Directory Permissions
-        run: chmod -R 777 storage vendor/orchestra/testbench-core/laravel/bootstrap/cache
+        run: chmod -R 777 vendor/orchestra/testbench-core/laravel/bootstrap/cache
 
       - name: Execute tests
         run: ./vendor/bin/pest --parallel

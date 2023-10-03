@@ -39,4 +39,4 @@ jobs:
       - uses: php-actions/composer@v6
 
       - name: Execute tests
-        run: ./vendor/bin/testbench package:test --stop-on-failure
+        run: ./vendor/bin/pest --parallel --stop-on-failure

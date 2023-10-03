@@ -38,5 +38,8 @@ jobs:
 
       - uses: php-actions/composer@v6
 
+      - name: Directory Permissions
+        run: sudo chown -R $(whoami) vendor/orchestra/testbench-core/laravel/bootstrap/cache
+
       - name: Execute tests
         run: ./vendor/bin/pest --parallel --stop-on-failure

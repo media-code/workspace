@@ -11,13 +11,13 @@ beforeEach(fn () => Process::fake());
 //--------------------------------------------------------------------------
 it('installs composer dependencies', function () {
     register(
-        Builder::make()->composerRequireDev('foo/bar:^2'),
-        Builder::make()->composerRequireDev('bar/baz'),
+        Builder::make()->composerRequire('foo/bar:^2'),
+        Builder::make()->composerRequire('bar/baz'),
     );
 
     $this->artisan('workspace:install', ['--quickly' => true, '--publish-workflows' => false])->assertSuccessful();
 
-    $dependencies = implode(' ', resolve(Aggregator::class)->composerRequireDev());
+    $dependencies = implode(' ', resolve(Aggregator::class)->composerRequire());
     Process::assertRan("composer require {$dependencies} --no-interaction");
 });
 
@@ -35,13 +35,13 @@ it('installs composer dev dependencies', function () {
 
 it('installs npm dependencies', function () {
     register(
-        Builder::make()->npmInstallDev('foo/bar:^2'),
-        Builder::make()->npmInstallDev('bar/baz'),
+        Builder::make()->npmInstall('foo/bar:^2'),
+        Builder::make()->npmInstall('bar/baz'),
     );
 
     $this->artisan('workspace:install', ['--quickly' => true, '--publish-workflows' => false])->assertSuccessful();
 
-    $dependencies = implode(' ', resolve(Aggregator::class)->npmInstallDev());
+    $dependencies = implode(' ', resolve(Aggregator::class)->npmInstall());
     Process::assertRan("npm install {$dependencies}");
 });
 
@@ -76,22 +76,6 @@ it('publishes configs')->todo();
 // Publishes workflows
 //--------------------------------------------------------------------------
 it('publishes workflows')->todo();
-
-//--------------------------------------------------------------------------
-// Integrates with vscode
-//--------------------------------------------------------------------------
-it('removes .vscode from gitignore')->todo();
-it('publishes vscode recommended extensions')->todo();
-it('publishes vscode unwanted extensions')->todo();
-it('publishes vscode workspace config')->todo();
-
-//--------------------------------------------------------------------------
-// Integrates with phpstorm
-//--------------------------------------------------------------------------
-it('removes .idea from gitignore')->todo();
-it('publishes phpstorm required plugins')->todo();
-it('publishes phpstorm suggested plugins')->todo();
-it('publishes phpstorm workspace config')->todo();
 
 //--------------------------------------------------------------------------
 // Invokes hooks

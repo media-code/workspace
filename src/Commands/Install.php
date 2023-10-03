@@ -117,7 +117,7 @@ class Install extends Command
         spin(function () {
             sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
-            $this->callSilent('vendor:publish', [
+            $this->callSilently('vendor:publish', [
                 '--tag' => 'workspace-3rd-party-configs',
                 '--force' => true,
             ]);
@@ -198,7 +198,7 @@ class Install extends Command
                 '.github',
             ]);
 
-            $this->callSilent('vendor:publish', [
+            $this->callSilently('vendor:publish', [
                 '--tag' => 'workspace-workflows',
                 '--force' => true,
             ]);

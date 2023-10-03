@@ -9,7 +9,7 @@ class Pint extends Builder
     public function __invoke()
     {
         $this
-            ->composerRequire('laravel/pint')
+            ->composerRequireDev('laravel/pint')
             ->composerUpdate('laravel/pint')
             ->publishesConfigs([
                 'pint.json' => 'pint.json',

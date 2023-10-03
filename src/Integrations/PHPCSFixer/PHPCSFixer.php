@@ -9,7 +9,7 @@ class PHPCSFixer extends Builder
     public function __invoke()
     {
         $this
-            ->composerRequire('friendsofphp/php-cs-fixer')
+            ->composerRequireDev('friendsofphp/php-cs-fixer')
             ->composerUpdate('friendsofphp/php-cs-fixer')
             ->publishesConfigs([
                 '.php-cs-fixer.dist.php' => '.php-cs-fixer.dist.php',

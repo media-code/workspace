@@ -21,16 +21,16 @@ it('always registers Duster integration')
     ->expect(fn () => Aggregator::make([]))
     ->integrations()
     ->toHaveCount(1)
-    ->composerRequire()
+    ->composerRequireDev()
     ->toContain('tightenco/duster');
 
 it('resolves aggregator with configured integrations from the container', function () {
     config(['workspace-integrations' => [
-        Builder::make()->composerRequire('package/one'),
+        Builder::make()->composerRequireDev('package/one'),
     ]]);
 
     expect(resolve(Aggregator::class))
-        ->composerRequire()
+        ->composerRequireDev()
         ->toContain(
             'package/one',
         );
@@ -38,8 +38,8 @@ it('resolves aggregator with configured integrations from the container', functi
 
 it('combines default and configured integrations', function () {
     register(
-        Builder::make()->composerRequire('foo/bar:^2'),
-        Builder::make()->composerRequire('bar/baz'),
+        Builder::make()->composerRequireDev('foo/bar:^2'),
+        Builder::make()->composerRequireDev('bar/baz'),
     );
 
     expect(resolve(Aggregator::class))
@@ -84,15 +84,15 @@ it('aggregates Duster fix scripts to be installed')
 //--------------------------------------------------------------------------
 it('aggregates composer install definitions', function () {
     $aggregate = Aggregator::make([
-        Builder::make()->composerRequire('package/one'),
-        Builder::make()->composerRequire([
+        Builder::make()->composerRequireDev('package/one'),
+        Builder::make()->composerRequireDev([
             'package/two',
             'package/three:^2.3',
         ]),
     ]);
 
     expect($aggregate)
-        ->composerRequire()
+        ->composerRequireDev()
         ->toContain(
             'package/one',
             'package/two',
@@ -166,13 +166,13 @@ it('aggregates nested composer script definitions', function () {
 
 it('aggregates npm install definitions')
     ->expect(fn () => Aggregator::make([
-        Builder::make()->npmInstall('package/one'),
-        Builder::make()->npmInstall([
+        Builder::make()->npmInstallDev('package/one'),
+        Builder::make()->npmInstallDev([
             'package/two',
             'package/three:^2.3',
         ]),
     ]))
-    ->npmInstall()
+    ->npmInstallDev()
     ->toContain(
         'package/one',
         'package/two',

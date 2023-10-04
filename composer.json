@@ -47,7 +47,8 @@
         "tightenco/tlint": "^9.1",
         "orchestra/testbench": "^8.12",
         "pestphp/pest": "^2.20",
-        "symfony/thanks": "^1.2"
+        "symfony/thanks": "^1.2",
+        "timacdonald/callable-fake": "^1.6"
     },
     "config": {
         "allow-plugins": {

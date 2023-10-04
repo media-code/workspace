@@ -4,6 +4,7 @@ use Gedachtegoed\Workspace\Core\Aggregator;
 use Gedachtegoed\Workspace\Core\Builder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Process;
+use TiMacDonald\CallableFake\CallableFake;
 
 beforeEach(fn () => Process::fake());
 //--------------------------------------------------------------------------
@@ -54,5 +55,34 @@ it('calls workspace:install', function () {
 //--------------------------------------------------------------------------
 // Invokes hooks
 //--------------------------------------------------------------------------
-it('invokes beforeUpdate hooks')->todo();
-it('invokes afterUpdate hooks')->todo();
+it('invokes beforeUpdate hooks', function () {
+
+    $callableOne = new CallableFake;
+    $callableTwo = new CallableFake;
+
+    register(
+        Builder::make()->beforeUpdate($callableOne),
+        Builder::make()->beforeUpdate($callableTwo),
+    );
+
+    $this->artisan('workspace:update', ['--publish-workflows' => false])->assertSuccessful();
+
+    expect($callableOne)->assertTimesInvoked(1);
+    expect($callableTwo)->assertTimesInvoked(1);
+});
+
+it('invokes afterUpdate hooks', function () {
+
+    $callableOne = new CallableFake;
+    $callableTwo = new CallableFake;
+
+    register(
+        Builder::make()->afterUpdate($callableOne),
+        Builder::make()->afterUpdate($callableTwo),
+    );
+
+    $this->artisan('workspace:update', ['--publish-workflows' => false])->assertSuccessful();
+
+    expect($callableOne)->assertTimesInvoked(1);
+    expect($callableTwo)->assertTimesInvoked(1);
+});

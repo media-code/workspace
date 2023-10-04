@@ -32,7 +32,9 @@
         "lint": "vendor/bin/duster lint",
         "fix": "vendor/bin/duster fix",
         "analyze": "vendor/bin/phpstan analyse",
-        "baseline": "vendor/bin/phpstan analyse --generate-baseline"
+        "baseline": "vendor/bin/phpstan analyse --generate-baseline",
+        "test": "vendor/bin/testbench package:test",
+        "purge-skeleton": "vendor/bin/testbench package:purge-skeleton"
     },
     "require": {
         "php": "^8.1.0",
@@ -70,6 +72,10 @@
             {
                 "name": "laravel/prompts",
                 "url": "https://github.com/laravel/prompts"
+            },
+            {
+                "name": "timacdonald/callable-fake",
+                "url": "https://github.com/timacdonald/callable-fake"
             }
         ]
     }

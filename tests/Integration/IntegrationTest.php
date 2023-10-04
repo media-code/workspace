@@ -19,6 +19,10 @@ test('integrations pass sanity checks')
     ->classes()->toBeInvokable()
     ->classes()->not->toBeFinal();
 
+test("integrations don't use forbidden globals")
+    ->expectIntegrationNamespace()
+    ->expect(['dd', 'dump', 'ray'])->not->toBeUsed();
+
 //--------------------------------------------------------------------------
 // Configured Integrations (also coveres inline Builders)
 //--------------------------------------------------------------------------

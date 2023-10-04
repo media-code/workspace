@@ -9,15 +9,21 @@ use InvalidArgumentException;
 use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
 
 /**
- * TODO: Consider renaming to Workspace or something that captures the broader intent of the class later down the line
+ * Collection methods for flatMapping Integration properties with magic __call() method
+ *
  * TODO: Consider renaming methods (and proxied Integration properties). Either consistent in structure or mirroring underlying action name (like composerRequire as opposed to installsComposerDependencies)
  *
- * Collection methods for flatMapping Integration properties with magic __call() method
+ * |--------------------------------------------------------------------------
+ * | Configs
+ * |--------------------------------------------------------------------------
  *
  * @method array publishesConfigs()
  * @method array publishesWorkflows()
  * @method array dusterLintConfig()
  * @method array dusterFixConfig()
+ * |--------------------------------------------------------------------------
+ * | Package managers
+ * |--------------------------------------------------------------------------
  * @method array composerScripts()
  * @method array composerRequire()
  * @method array composerRequireDev()
@@ -25,14 +31,23 @@ use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
  * @method array npmInstall()
  * @method array npmInstallDev()
  * @method array npmUpdate()
+ * |--------------------------------------------------------------------------
+ * | Gitignore
+ * |--------------------------------------------------------------------------
  * @method array addToGitignore()
  * @method array removeFromGitignore()
+ * |--------------------------------------------------------------------------
+ * | Integrations
+ * |--------------------------------------------------------------------------
  * @method array provideVscodeWorkspaceConfig()
  * @method array provideVscodeRecommendedPlugins()
  * @method array provideVscodeAvoidPlugins()
  * @method array providePhpStormWorkspaceConfig()
  * @method array providePhpStormRequiredPlugins()
  * @method array providePhpStormSuggestedPlugins()
+ * |--------------------------------------------------------------------------
+ * | Hooks
+ * |--------------------------------------------------------------------------
  * @method array beforeInstall()
  * @method array afterInstall()
  * @method array beforeUpdate()

@@ -56,7 +56,6 @@ it('calls workspace:install', function () {
 // Invokes hooks
 //--------------------------------------------------------------------------
 it('invokes beforeUpdate hooks', function () {
-
     $callableOne = new CallableFake;
     $callableTwo = new CallableFake;
 
@@ -72,7 +71,6 @@ it('invokes beforeUpdate hooks', function () {
 });
 
 it('invokes afterUpdate hooks', function () {
-
     $callableOne = new CallableFake;
     $callableTwo = new CallableFake;
 

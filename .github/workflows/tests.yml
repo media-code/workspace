@@ -42,4 +42,4 @@ jobs:
         run: sudo chown -R $(whoami) vendor/orchestra/testbench-core/laravel
 
       - name: Execute tests
-        run: ./vendor/bin/testbench package:test --stop-on-failure --bootstrap vendor/autoload.php
+        run: ./vendor/bin/testbench package:test --bail --retry

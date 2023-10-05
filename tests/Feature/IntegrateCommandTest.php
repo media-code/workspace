@@ -4,7 +4,6 @@ use Gedachtegoed\Workspace\Core\Builder;
 use Illuminate\Support\Facades\Process;
 use TiMacDonald\CallableFake\CallableFake;
 
-// beforeEach(fn () => Process::run('composer purge-skeleton') && Process::fake());
 beforeEach(fn () => pugreSkeleton());
 beforeEach(fn () => Process::fake());
 afterAll(fn () => pugreSkeleton());

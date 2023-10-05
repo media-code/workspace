@@ -17,7 +17,12 @@ use function Orchestra\Testbench\package_path;
 |
 */
 
-uses(Tests\TestCase::class)->in('Unit', 'Feature', 'Integration');
+uses(Tests\TestCase::class)
+    ->in('Unit', 'Integration');
+
+uses(Tests\TestCase::class)
+    ->group('integration')
+    ->in('Feature');
 
 /*
 |--------------------------------------------------------------------------

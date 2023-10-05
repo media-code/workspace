@@ -1,6 +1,6 @@
 <?php
 
-use Gedachtegoed\Workspace\Core\Concerns\ReplacesDirectoryContents;
+use Gedachtegoed\Workspace\Core\Concerns\InteractsWithDirectories;
 use Gedachtegoed\Workspace\Tests;
 use Illuminate\Support\Facades\Process;
 
@@ -54,19 +54,25 @@ function register(...$args)
 
 function pugreSkeleton()
 {
-    dd(
-        getcwd() . DIRECTORY_SEPARATOR . 'tests/workbench-skeleton',
-        package_path('vendor/orchestra/testbench-core/laravel')
-    );
-    // new class {
-    //     use ReplacesDirectoryContents;
-    //     function __invoke() {
-    //         $this->replaceDirectoryContents(
-    //             test_path('workbench-skeleton'),
-    //             package_path('vendor/orchestra/testbench-core/laravel')
-    //         )
-    //     }
-    // }
+    // dd(
+    //     getcwd() . DIRECTORY_SEPARATOR . 'tests/workbench-skeleton',
+    //     package_path('vendor/orchestra/testbench-core/laravel')
+    // );
+
+    $purgeSkeleton = new class
+    {
+        use InteractsWithDirectories;
+
+        public function __construct()
+        {
+            $this->replaceDirectory(
+                package_path('tests/workbench-skeleton'),
+                package_path('skeleton')
+            );
+        }
+    };
+
+    new $purgeSkeleton;
 
     // Process::run('composer purge-skeleton')
 }

@@ -7,6 +7,7 @@ use TiMacDonald\CallableFake\CallableFake;
 // beforeEach(fn () => Process::run('composer purge-skeleton') && Process::fake());
 beforeEach(fn () => pugreSkeleton());
 beforeEach(fn () => Process::fake());
+afterAll(fn () => pugreSkeleton());
 
 //--------------------------------------------------------------------------
 // Integrates with vscode

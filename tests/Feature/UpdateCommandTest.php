@@ -8,6 +8,8 @@ use TiMacDonald\CallableFake\CallableFake;
 
 beforeEach(fn () => pugreSkeleton());
 beforeEach(fn () => Process::fake());
+afterAll(fn () => pugreSkeleton());
+
 //--------------------------------------------------------------------------
 // Updates dependencies
 //--------------------------------------------------------------------------

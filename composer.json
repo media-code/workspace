@@ -33,9 +33,8 @@
         "fix": "vendor/bin/duster fix",
         "analyze": "vendor/bin/phpstan analyse",
         "baseline": "vendor/bin/phpstan analyse --generate-baseline",
-        "test": "vendor/bin/testbench package:test --exclude-testsuite Integration",
-        "test-integration": "vendor/bin/testbench package:test --testsuite Integration",
-        "purge-skeleton": "vendor/bin/testbench package:purge-skeleton"
+        "test": "vendor/bin/testbench package:test --bail",
+        "test-integration": "vendor/bin/testbench package:test --bail --testsuite Integration"
     },
     "require": {
         "php": "^8.1.0",

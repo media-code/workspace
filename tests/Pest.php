@@ -1,8 +1,8 @@
 <?php
 
 use Gedachtegoed\Workspace\Core\Concerns\InteractsWithDirectories;
+use Gedachtegoed\Workspace\Core\Concerns\UpdatesGitignore;
 use Gedachtegoed\Workspace\Tests;
-use Illuminate\Support\Facades\Process;
 
 use function Orchestra\Testbench\package_path;
 
@@ -59,11 +59,6 @@ function register(...$args)
 
 function pugreSkeleton()
 {
-    // dd(
-    //     getcwd() . DIRECTORY_SEPARATOR . 'tests/workbench-skeleton',
-    //     package_path('vendor/orchestra/testbench-core/laravel')
-    // );
-
     $purgeSkeleton = new class
     {
         use InteractsWithDirectories;
@@ -78,6 +73,12 @@ function pugreSkeleton()
     };
 
     new $purgeSkeleton;
+}
 
-    // Process::run('composer purge-skeleton')
+function gitignore()
+{
+    return new class
+    {
+        use UpdatesGitignore;
+    };
 }

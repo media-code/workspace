@@ -11,29 +11,94 @@ afterAll(fn () => pugreSkeleton());
 //--------------------------------------------------------------------------
 // Integrates with vscode
 //--------------------------------------------------------------------------
-it('removes .vscode from gitignore')->todo('testbench does not allow resetting .gitignore. Use unit level test instead');
+it('removes .vscode from gitignore', function () {
+    // Assert .gitignore doesn't exist
+    expect(file_exists(base_path('.gitignore')))->toBeFalse();
+    // Add .vscode to gitignore
+    gitignore()->addToGitignore('.vscode');
+    // Assert that it's there
+    expect(file_get_contents(base_path('.gitignore')))
+        ->toContain('.vscode');
+
+    $this->artisan('workspace:integrate', ['--editor' => 'vscode'])->assertSuccessful();
+
+    // Assert string is removed from .gitignore
+    expect(file_get_contents(base_path('.gitignore')))
+        ->not->toContain('.vscode');
+});
 
 it('publishes vscode recommended extensions', function () {
     // Assert extentions.json doesn't exist
-    // expect(file_exists(base_path('.vscode/extentions.json')))->toBeFalse();
+    expect(file_exists(base_path('.vscode/extentions.json')))->toBeFalse();
 
-    // register(
-    //     Builder::make()->provideVscodeRecommendedPlugins('foo'),
-    // );
+    register(
+        Builder::make()->provideVscodeRecommendedPlugins('foo'),
+    );
 
-    // $this->artisan('workspace:integrate', ['--editor' => 'vscode'])->assertSuccessful();
+    $this->artisan('workspace:integrate', ['--editor' => 'vscode'])->assertSuccessful();
 
-    // // Assert string is present in extensions.json
-    // expect(file_get_contents(base_path('.vscode/extentions.json')))->toContain('foo');
-})->todo();
+    // Assert string is present in extensions.json
+    expect(file_get_contents(base_path('.vscode/extensions.json')))
+        ->json()
+        ->recommendations
+        ->toContain('foo');
+});
 
-it('publishes vscode unwanted extensions')->todo();
-it('publishes vscode workspace config')->todo();
+it('publishes vscode unwanted extensions', function () {
+    // Assert extentions.json doesn't exist
+    expect(file_exists(base_path('.vscode/extentions.json')))->toBeFalse();
+
+    register(
+        Builder::make()->provideVscodeAvoidPlugins('foo'),
+    );
+
+    $this->artisan('workspace:integrate', ['--editor' => 'vscode'])->assertSuccessful();
+
+    // Assert string is present in extensions.json
+    expect(file_get_contents(base_path('.vscode/extensions.json')))
+        ->json()
+        ->unwantedRecommendations
+        ->toContain('foo');
+});
+
+it('publishes vscode workspace config', function () {
+    // Assert settings.json doesn't exist
+    expect(file_exists(base_path('.vscode/settings.json')))->toBeFalse();
+
+    register(
+        Builder::make()->provideVscodeWorkspaceConfig([
+            'foobar.enabled' => true,
+        ]),
+    );
+
+    $this->artisan('workspace:integrate', ['--editor' => 'vscode'])->assertSuccessful();
+
+    // Assert string is present in settings.json
+    expect(file_get_contents(base_path('.vscode/settings.json')))
+        ->json()
+        ->{'foobar.enabled'}
+        ->toBeTrue();
+});
 
 //--------------------------------------------------------------------------
 // Integrates with phpstorm
 //--------------------------------------------------------------------------
-it('removes .idea from gitignore')->todo();
+it('removes .idea from gitignore', function () {
+    // Assert .gitignore doesn't exist
+    expect(file_exists(base_path('.gitignore')))->toBeFalse();
+    // Add .idea to gitignore
+    gitignore()->addToGitignore('.idea');
+    // Assert that it's there
+    expect(file_get_contents(base_path('.gitignore')))
+        ->toContain('.idea');
+
+    $this->artisan('workspace:integrate', ['--editor' => 'phpstorm'])->assertSuccessful();
+
+    // Assert string is removed from .gitignore
+    expect(file_get_contents(base_path('.gitignore')))
+        ->not->toContain('.idea');
+});
+
 it('publishes phpstorm required plugins')->todo();
 it('publishes phpstorm suggested plugins')->todo();
 it('publishes phpstorm workspace config')->todo();

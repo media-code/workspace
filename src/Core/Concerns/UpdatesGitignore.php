@@ -4,7 +4,7 @@ namespace Gedachtegoed\Workspace\Core\Concerns;
 
 trait UpdatesGitignore
 {
-    protected function addToGitignore(array|string $lines, string $path = null)
+    public function addToGitignore(array|string $lines, string $path = null)
     {
         $lines = (array) $lines;
 
@@ -26,7 +26,7 @@ trait UpdatesGitignore
         file_put_contents($path, trim($gitignore) . PHP_EOL);
     }
 
-    protected function removeFromGitignore(array|string $lines, string $path = null)
+    public function removeFromGitignore(array|string $lines, string $path = null)
     {
         $lines = (array) $lines;
 

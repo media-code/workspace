@@ -84,7 +84,6 @@ it('publishes workflows')->todo();
 // Invokes hooks
 //--------------------------------------------------------------------------
 it('invokes beforeInstall hooks', function () {
-
     $callableOne = new CallableFake;
     $callableTwo = new CallableFake;
 
@@ -100,7 +99,6 @@ it('invokes beforeInstall hooks', function () {
 });
 
 it('invokes afterInstall hooks', function () {
-
     $callableOne = new CallableFake;
     $callableTwo = new CallableFake;
 

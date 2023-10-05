@@ -42,7 +42,6 @@ it('publishes phpstorm workspace config')->todo();
 // Invokes hooks
 //--------------------------------------------------------------------------
 it('invokes beforeIntegrate hooks', function () {
-
     $callableOne = new CallableFake;
     $callableTwo = new CallableFake;
 
@@ -58,7 +57,6 @@ it('invokes beforeIntegrate hooks', function () {
 });
 
 it('invokes afterIntegrate hooks', function () {
-
     $callableOne = new CallableFake;
     $callableTwo = new CallableFake;
 

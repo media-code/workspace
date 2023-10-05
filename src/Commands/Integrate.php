@@ -15,10 +15,13 @@ class Integrate extends Command
 {
     use UpdatesGitignore;
 
+    public static int $SLEEP_BETWEEN_STEPS = 1;
+
     protected Aggregator $integrations;
 
     protected $signature = 'workspace:integrate
-                            {--editor=* : The editor you\'d like to integrate with (vscode, phpstorm)}';
+                            {--editor=* : The editor you\'d like to integrate with (vscode, phpstorm)}
+                            {--quickly : By default Workspace will sleep 1 second every short running installation step to provide readable progress spinners. This option disables that}';
 
     protected $description = 'Integrate Workspace with your favorite IDE';
 
@@ -30,6 +33,10 @@ class Integrate extends Command
 
     public function handle()
     {
+        if ($this->option('quickly')) {
+            self::$SLEEP_BETWEEN_STEPS = 0;
+        }
+
         $editors = $this->promptForEditorIfMissing();
 
         // Before hooks
@@ -70,7 +77,7 @@ class Integrate extends Command
             $this->removeFromGitignore('.vscode');
             $this->publishVSCodeWorkspaceConfig();
 
-            sleep(1); // Only for 💅
+            sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
         }, 'Integrating Visual Studio Code in your project');
     }
 
@@ -118,7 +125,7 @@ class Integrate extends Command
             $this->removeFromGitignore('.idea');
             $this->publishPhpStormWorkspaceConfig();
 
-            sleep(1); // Only for 💅
+            sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
         }, 'Integrating PhpStorm in your project');
     }
 

@@ -50,7 +50,7 @@ it('invokes beforeIntegrate hooks', function () {
         Builder::make()->afterIntegration($callableTwo),
     );
 
-    $this->artisan('workspace:integrate', ['--editor' => 'vscode'])->assertSuccessful();
+    $this->artisan('workspace:integrate', ['--editor' => 'vscode', '--quickly' => true])->assertSuccessful();
 
     expect($callableOne)->assertTimesInvoked(1);
     expect($callableTwo)->assertTimesInvoked(1);
@@ -65,7 +65,7 @@ it('invokes afterIntegrate hooks', function () {
         Builder::make()->afterIntegration($callableTwo),
     );
 
-    $this->artisan('workspace:integrate', ['--editor' => 'vscode'])->assertSuccessful();
+    $this->artisan('workspace:integrate', ['--editor' => 'vscode', '--quickly' => true])->assertSuccessful();
 
     expect($callableOne)->assertTimesInvoked(1);
     expect($callableTwo)->assertTimesInvoked(1);

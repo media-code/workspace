@@ -34,8 +34,7 @@
         "analyze": "vendor/bin/phpstan analyse",
         "baseline": "vendor/bin/phpstan analyse --generate-baseline",
 
-        "test": "vendor/bin/testbench package:test --bail --retry --exclude-group=integration",
-        "test-integration": "vendor/bin/testbench package:test --bail --retry --group=integration"
+        "test": "vendor/bin/testbench package:test --bail --retry"
     },
     "require": {
         "php": "^8.1.0",

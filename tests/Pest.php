@@ -1,6 +1,10 @@
 <?php
 
+use Gedachtegoed\Workspace\Core\Concerns\ReplacesDirectoryContents;
 use Gedachtegoed\Workspace\Tests;
+use Illuminate\Support\Facades\Process;
+
+use function Orchestra\Testbench\package_path;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,4 +50,23 @@ function register(...$args)
     config(['workspace-integrations' => [
         ...$args,
     ]]);
+}
+
+function pugreSkeleton()
+{
+    dd(
+        getcwd() . DIRECTORY_SEPARATOR . 'tests/workbench-skeleton',
+        package_path('vendor/orchestra/testbench-core/laravel')
+    );
+    // new class {
+    //     use ReplacesDirectoryContents;
+    //     function __invoke() {
+    //         $this->replaceDirectoryContents(
+    //             test_path('workbench-skeleton'),
+    //             package_path('vendor/orchestra/testbench-core/laravel')
+    //         )
+    //     }
+    // }
+
+    // Process::run('composer purge-skeleton')
 }

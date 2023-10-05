@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Process;
 use TiMacDonald\CallableFake\CallableFake;
 
+beforeEach(fn () => pugreSkeleton());
 beforeEach(fn () => Process::fake());
 //--------------------------------------------------------------------------
 // Updates dependencies

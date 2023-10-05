@@ -1,0 +1,30 @@
+{
+    "name": "gedachtegoed/workspace",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Willem Leuverink",
+            "email": "willem@leuver.ink",
+            "homepage": "https://leuver.ink"
+        }
+    ],
+    "extra": {
+        "thanks": [
+            {
+                "name": "tightenco/duster",
+                "url": "https://github.com/tighten/duster"
+            },
+            {
+                "name": "laravel/prompts",
+                "url": "https://github.com/laravel/prompts"
+            },
+            {
+                "name": "timacdonald/callable-fake",
+                "url": "https://github.com/timacdonald/callable-fake"
+            }
+        ]
+    }
+}

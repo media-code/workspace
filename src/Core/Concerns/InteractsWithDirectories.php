@@ -26,12 +26,10 @@ trait InteractsWithDirectories
             }
             copy($item, $destination . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
         }
-
     }
 
     public function clearDirectory($dir)
     {
-
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
             RecursiveIteratorIterator::CHILD_FIRST

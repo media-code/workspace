@@ -150,6 +150,7 @@ We provide a beautiful fluent integration builder API to automate all sorts of t
 
 -   Installing & updating composer & npm dependencies
 -   Installing & merging composer script aliases
+-   Integrating custom linters & fixers with [Duster](https://github.com/tighten/duster)
 -   Publishing integration config files
 -   Publishing CI workflow files
 -   Adding & removing lines from your gitignore files

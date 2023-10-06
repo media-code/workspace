@@ -50,14 +50,14 @@ jobs:
       - name: Directory Permissions
         run: sudo chown -R $(whoami) skeleton vendor/pestphp/pest/.temp
 
-      - name: Create coverage report directory
-        run: mkdir -p build/logs
+      #   - name: Create coverage report directory
+      - run: mkdir -p build/logs
 
-      - name: Execute tests
-        run: ./vendor/bin/pest --bail --retry --coverage --coverage-clover --min=90
+      - name: Execute tests - coverage threshold 90%
+        run: ./vendor/bin/pest --bail --retry --coverage --min=90 --coverage-clover build/logs/clover.xml
 
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:
           format: clover
-          file: build/logs
+          file: build/logs/clover.xml

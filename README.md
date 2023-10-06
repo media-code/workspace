@@ -1,5 +1,7 @@
 # Workspace
 
+Extendible workspace configurator for Laravel to effortlessly keep linters, fixers, static analysis, CI workflows, editor integrations and more in sync across all your teams & projects
+
 [![codestyle](https://github.com/media-code/workspace/actions/workflows/codestyle.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/codestyle.yml)
 [![tests](https://github.com/media-code/workspace/actions/workflows/tests.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/tests.yml)
 

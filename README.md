@@ -5,7 +5,8 @@ Extendible workspace configurator for Laravel to effortlessly keep linters, fixe
 [![codestyle](https://github.com/media-code/workspace/actions/workflows/codestyle.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/codestyle.yml)
 [![tests](https://github.com/media-code/workspace/actions/workflows/tests.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/tests.yml)
 [![Codecov](https://img.shields.io/codecov/c/github/media-code/workspace?token=ON4MTY8C1B)](https://codecov.io/gh/media-code/workspace)
-[![Packagist Downloads](https://img.shields.io/packagist/dm/gedachtegoed/workspace?label=installs)](https://packagist.org/packages/gedachtegoed/workspace)
+
+<!-- [![Packagist Downloads](https://img.shields.io/packagist/dm/gedachtegoed/workspace?label=installs)](https://packagist.org/packages/gedachtegoed/workspace) -->
 
 ## Install Workspace in your project
 

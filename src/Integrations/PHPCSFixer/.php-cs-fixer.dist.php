@@ -1,5 +1,7 @@
 <?php
 
+// @codeCoverageIgnoreStart
+
 // Prefer adding customizations to pint.json unless adding custom fixers
 
 use PhpCsFixer\Config;
@@ -24,3 +26,5 @@ return (new Config)
     ->setRules([])
     ->setRiskyAllowed(true)
     ->setUsingCache(false);
+
+// @codeCoverageIgnoreEnd

@@ -164,4 +164,4 @@ Documentation on using your own Portable Workspaces is pending! Stay tuned!
 
 ## Roadmap
 
-[Link to roadmap doc](https://github.com/media-code/workspace/ROADMAP.md)
+[Link to roadmap document](https://github.com/media-code/workspace/ROADMAP.md)

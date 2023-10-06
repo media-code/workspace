@@ -43,6 +43,8 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
       - uses: php-actions/composer@v6
+        with:
+          version: 2.x
 
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"

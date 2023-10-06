@@ -32,7 +32,7 @@ php artisan workspace:update
 php artisan workspace:integrate
 ```
 
-**_NOTE:_** Workspace ships with opinionated default integrations. These are easy to change & extend, but the recommended way to work with this package is to publish your own [Portable Workspace](#portable-workspaces). This way you have full control of any upstream configuration changes & very customized setups.
+Workspace ships with opinionated default integrations. These are easy to change & extend, but the recommended way to work with this package is to publish your own [Portable Workspace](#portable-workspaces). This way you have full control of any upstream configuration changes & very customized setups.
 
 The following composer script aliases will be installed by default inside your project:
 
@@ -54,13 +54,13 @@ For example, if you'd only like to fix dirty files you may use
 composer lint -- --dirty
 ```
 
-If you don't want Workspace to install composer scripts for you, please remove or edit `Aliases::class` in the package config.
+**_NOTE:_** If you don't want Workspace to install composer scripts for you, please remove or edit `Aliases::class` in the package config.
 
 ## Integrating with your editor
 
 So far we've got composer scripts & CI workflows to run all your linting, fixing & static analysis.
 
-Let's take it one step further & make sure your IDE seamlessly apply all the same rules.
+Let's bridge the gap & make sure your IDE seamlessly applies all the same rules.
 
 ```bash
 php artisan workspace:integrate
@@ -78,7 +78,7 @@ Linter, fixer and static analysis rules may change over time. Fortunately it's a
 php artisan workspace:update
 ```
 
-**Note:**
+**_NOTE:_**
 Workspace checks if your working directory is clean (has no uncommitted files) before starting the internal update. This way it is easier to review upstream changes to the published files.
 
 ## Overriding default Integrations

@@ -53,8 +53,7 @@ jobs:
       - name: Execute tests - coverage threshold 90%
         run: ./vendor/bin/pest --bail --retry --coverage --min=90 --coverage-clover clover.xml
 
-      - name: Create coverage badge
-        uses: coverallsapp/github-action@v2
-        with:
-          format: clover
-          file: clover.xml
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

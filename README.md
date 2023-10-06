@@ -15,8 +15,6 @@ Then run the install command to set up Workspace's configs in your project:
 php artisan workspace:install
 ```
 
-**_NOTE:_** You will be prompted to optionally publish CI workflow scripts. You may skip this prompt by adding the `--publish-workflows={true/false}` option
-
 ## Usage
 
 Workspace will add a couple of `artisan` commands to your project to help keep Integrations in sync with upstream changes:

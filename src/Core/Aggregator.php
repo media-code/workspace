@@ -4,6 +4,7 @@ namespace Gedachtegoed\Workspace\Core;
 
 use Gedachtegoed\Workspace\Core\Concerns\MergesConfigsRecursively;
 use Gedachtegoed\Workspace\Integrations\Duster\Duster;
+use Gedachtegoed\Workspace\ServiceProvider;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
@@ -73,6 +74,8 @@ class Aggregator
         $configuredIntegrations = $this->resolve($integrations);
 
         $this->integrations = $defaultIntegrations->merge($configuredIntegrations);
+
+        $this->registerIntegrationPublishGroups();
     }
 
     /**
@@ -121,6 +124,21 @@ class Aggregator
 
             return $builder->getIntegration();
         });
+    }
+
+    private function registerIntegrationPublishGroups()
+    {
+        // @phpstan-ignore-next-line
+        app()->getProvider(ServiceProvider::class)->publishes(
+            $this->publishesConfigs(),
+            'workspace-3rd-party-configs'
+        );
+
+        // @phpstan-ignore-next-line
+        app()->getProvider(ServiceProvider::class)->publishes(
+            $this->publishesWorkflows(),
+            'workspace-workflows'
+        );
     }
 
     /**

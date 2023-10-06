@@ -5,6 +5,8 @@ use Gedachtegoed\Workspace\Core\Builder;
 use Illuminate\Support\Facades\Process;
 use TiMacDonald\CallableFake\CallableFake;
 
+use function Orchestra\Testbench\package_path;
+
 beforeEach(fn () => pugreSkeleton());
 beforeEach(fn () => Process::fake());
 afterAll(fn () => pugreSkeleton());
@@ -60,25 +62,127 @@ it('installs npm dev dependencies', function () {
     Process::assertRan("npm install {$dependencies} --save-dev");
 });
 
-it('installs composer scripts')->todo();
-it('merges nested composer scripts')->todo();
+it('installs composer scripts', function () {
+    expectFileContents('composer.json')->json()->scripts->toBeEmpty();
+
+    register(
+        Builder::make()->composerScripts(['foo' => './vendor/bin some-command --with-flags']),
+    );
+
+    $this->artisan('workspace:install', ['--quickly' => true, '--publish-workflows' => false])->assertSuccessful();
+
+    expectFileContents('composer.json')
+        ->json()
+        ->scripts
+        ->foo->toBe('./vendor/bin some-command --with-flags');
+});
+
+it('merges nested composer scripts', function () {
+    expectFileContents('composer.json')->json()->scripts->toBeEmpty();
+
+    register(
+        Builder::make()->composerScripts(['some-alias' => 'some-command --with-flags']),
+        Builder::make()->composerScripts(['post-update-cmd' => ['some-command']]),
+        Builder::make()->composerScripts(['post-update-cmd' => ['some-other-command']]),
+    );
+
+    $this->artisan('workspace:install', ['--quickly' => true, '--publish-workflows' => false])->assertSuccessful();
+
+    expectFileContents('composer.json')
+        ->json()
+        ->scripts
+        ->toMatchArray([
+            'some-alias' => 'some-command --with-flags',
+            'post-update-cmd' => [
+                'some-command',
+                'some-other-command',
+            ],
+        ]);
+});
 
 //--------------------------------------------------------------------------
 // Updates gitignore
 //--------------------------------------------------------------------------
-it('adds lines to gitignore')->todo();
-it('adds lines to gitignore only once when line already present')->todo();
-it('removes commented lines from gitignore by regex')->todo();
+it('adds lines to gitignore', function () {
+    expectFileExists('.gitignore')->toBeFalse();
+
+    register(
+        Builder::make()->addToGitignore('foobar')
+    );
+
+    $this->artisan('workspace:install', ['--quickly' => true, '--publish-workflows' => false])->assertSuccessful();
+
+    expectFileContents('.gitignore')->toContain('foobar');
+});
+
+it('adds lines to gitignore only once when line already present', function () {
+    expectFileExists('.gitignore')->toBeFalse();
+
+    register(
+        Builder::make()->addToGitignore('foobar'),
+        Builder::make()->addToGitignore('foobar')
+    );
+
+    $this->artisan('workspace:install', ['--quickly' => true, '--publish-workflows' => false])->assertSuccessful();
+
+    $gitignore = file_get_contents(base_path('.gitignore'));
+    expect(substr_count($gitignore, 'foobar'))->toBe(1);
+});
+
+it('removes commented lines from gitignore by regex', function () {
+    expectFileExists('.gitignore')->toBeFalse();
+
+    file_put_contents(base_path('.gitignore'), '
+        # foobar
+        #foobar
+        foobar
+        baz
+    ');
+
+    register(
+        Builder::make()->removeFromGitignore('foobar')
+    );
+
+    $this->artisan('workspace:install', ['--quickly' => true, '--publish-workflows' => false])->assertSuccessful();
+
+    expectFileContents('.gitignore')
+        ->not->toContain('foobar')
+        ->toContain('baz');
+});
 
 //--------------------------------------------------------------------------
 // Publishes configs
 //--------------------------------------------------------------------------
-it('publishes configs')->todo();
+it('publishes configs', function () {
+    expectFileExists('destination.json')->toBeFalse();
+
+    register(
+        Builder::make()->publishesConfigs([
+            package_path('tests/Stubs/Integration/source-one.json') => 'destination.json',
+        ]),
+    );
+
+    $this->artisan('workspace:install', ['--quickly' => true, '--publish-workflows' => false])->assertSuccessful();
+
+    expectFileExists('destination.json')->toBeTrue();
+});
 
 //--------------------------------------------------------------------------
 // Publishes workflows
 //--------------------------------------------------------------------------
-it('publishes workflows')->todo();
+it('publishes workflows', function () {
+    expectFileExists('.github/workflows/workflow.yml')->toBeFalse();
+
+    register(
+        Builder::make()->publishesWorkflows([
+            package_path('tests/Stubs/Integration/source-one.json') => '.github/workflows/workflow.yml',
+        ]),
+    );
+
+    $this->artisan('workspace:install', ['--quickly' => true, '--publish-workflows' => true])->assertSuccessful();
+
+    expectFileExists('.github/workflows/workflow.yml')->toBeTrue();
+});
 
 //--------------------------------------------------------------------------
 // Invokes hooks

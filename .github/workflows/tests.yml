@@ -34,9 +34,20 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.3"
+          php-version: "8.2"
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
       - uses: php-actions/composer@v6
+        with:
+          version: 2.x
+
+      - name: Directory Permissions
+        run: sudo chown -R $(whoami) skeleton vendor/pestphp/pest/.temp
 
       - name: Execute tests
         run: ./vendor/bin/testbench package:test --bail --retry

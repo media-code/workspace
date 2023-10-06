@@ -70,6 +70,8 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 
 **Refactors**
 
+-   [ ] Add easy method to create portable workspaces as a package that extends gdd/workspace internally
+-   [ ] Refactor default integrations to a standalone portable workspace (except for duster)
 -   [ ] Refactor `Manager` so it intelligently diffs `suggestedPlugins` & `requiredPlugins` with `avoidPlugins`. (when people want to extend it for their own organization this will avoid plugin conflicts)
 -   [ ] Consider intelligently merging configs instead of overwriting them? (out of scope?)
 

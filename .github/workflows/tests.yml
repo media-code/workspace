@@ -54,10 +54,10 @@ jobs:
         run: mkdir -p build/logs
 
       - name: Execute tests
-        run: ./vendor/bin/pest --bail --retry --coverage --coverage-clover build/logs
+        run: ./vendor/bin/pest --bail --retry --coverage --coverage-clover --min=90
 
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          format: phpunit
+          format: clover
           file: build/logs

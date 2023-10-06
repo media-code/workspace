@@ -35,9 +35,15 @@ uses(Tests\TestCase::class)
 |
 */
 
-// expect()->extend('toBeOne', function () {
-//     return $this->toBe(1);
-// });
+function expectFileContents($path)
+{
+    return expect(file_get_contents(base_path($path)));
+}
+
+function expectFileExists($path)
+{
+    return expect(file_exists(base_path($path)));
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -55,16 +61,6 @@ function register(...$args)
     config(['workspace-integrations' => [
         ...$args,
     ]]);
-}
-
-function expectFileContents($path)
-{
-    return expect(file_get_contents(base_path($path)));
-}
-
-function expectFileExists($path)
-{
-    return expect(file_exists(base_path($path)));
 }
 
 function pugreSkeleton()

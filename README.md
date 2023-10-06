@@ -47,7 +47,7 @@ If you don't want Workspace to install composer scripts for you, please remove o
 
 So far we've got composer scripts & CI workflows to run all your linting, fixing & static analysis.
 
-Let's take it one step further & make sure your IDE seamlessly applies all the same rules while you work.
+Let's take it one step further & make sure your IDE seamlessly apply all the same rules.
 
 ```bash
 php artisan workspace:integrate

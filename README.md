@@ -65,10 +65,6 @@ Linter, fixer and static analysis rules may change over time. Fortunately it's a
 php artisan workspace:update
 ```
 
-You will be asked again to whether you'd like to publish 3rd party configs. Again, this is recommended. But if you'd like to skip the prompt, simply pass the `--publish-configs` option along with the command.
-
-**Important:** If you choose not to publish CI workflow files. You may skip this prompt by adding the `--publish-workflows={true/false}` option
-
 **Note:**
 Workspace checks if your working directory is clean (has no uncommitted files) before starting the internal update. This way it is easier to review upstream changes to the published files.
 

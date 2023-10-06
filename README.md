@@ -19,6 +19,19 @@ php artisan workspace:install
 
 ## Usage
 
+Workspace will add a couple of `artisan` commands to your project to help keep Integrations in sync with upstream changes:
+
+``` bash
+# Install configured Integrations
+php artisan workspace:install 
+
+# Updates workspace & Integration dependencies + rebuilds configs
+php artisan workspace:update 
+
+# Integrates configured Integrations with your editor
+php artisan workspace:integrate
+```
+
 **_NOTE:_** Workspace ships with opinionated default integrations. These are easy to change & extend, but the recommended way to work with this package is to publish your own [Portable Workspace](#portable-workspaces). This way you have full control of any upstream configuration changes & very customized setups.
 
 The following composer script aliases will be installed by default inside your project:
@@ -91,7 +104,7 @@ These can be disabled by publishing Workspace's config file
 
 `php artisan vendor:publish --tag=workspace-config`
 
-You can disable any integrations you don't like or extend them with your own implementation. [Check here](https://github.com/media-code/workspace/src/Integrations) to see how the default Integrations are implemented for context.
+You can disable any integrations you don't like or extend them with your own implementation. [Check here](https://github.com/media-code/workspace/tree/main/src/Integrations) to see how the default Integrations are implemented for context.
 
 You may add class names your own Integrations inside the config, or you may simply add Integration builders inline
 

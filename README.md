@@ -70,8 +70,6 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 
 **Refactors**
 
--   [ ] Add comprehensive test coverage
-
 -   [ ] Refactor `Manager` so it intelligently diffs `suggestedPlugins` & `requiredPlugins` with `avoidPlugins`. (when people want to extend it for their own organization this will avoid plugin conflicts)
 -   [ ] Consider intelligently merging configs instead of overwriting them? (out of scope?)
 
@@ -115,3 +113,4 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 -   [x] Refactor `update` command
 
 -   [x] Integrate Duster -> linting and fixing for the project
+-   [x] Add comprehensive test coverage

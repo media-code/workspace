@@ -50,8 +50,13 @@ jobs:
       - name: Directory Permissions
         run: sudo chown -R $(whoami) skeleton vendor/pestphp/pest/.temp
 
+      - name: Create coverage report directory
+        run: mkdir -p build/logs
+
       - name: Execute tests
         run: ./vendor/bin/pest --bail --retry --coverage --coverage-clover build/logs
 
       - name: Coveralls
         uses: coverallsapp/github-action@v2
+        with:
+          format:

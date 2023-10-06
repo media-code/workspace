@@ -15,11 +15,13 @@ Then run the install command to set up Workspace's configs in your project:
 php artisan workspace:install
 ```
 
-**_NOTE:_** You will be prompted to optionally publish 3rd party config files & Github Actions scripts. This is recommended for GDD projects. You may skip this prompt by adding the `--publish-configs` & `--publish-actions` options
+**_NOTE:_** You will be prompted to optionally publish CI workflow scripts. You may skip this prompt by adding the `--publish-workflows={true/false}` option
 
 ## Usage
 
-The following composer script aliases will be automatically installed inside your project:
+**_NOTE:_** Workspace ships with opinionated default integrations. These are easy to change & extend, but the recommended way to work with this package is to publish your own [Portable Workspace](#portable-workspaces). This way you have full control of any upstream configuration changes & very customized setups.
+
+The following composer script aliases will be installed by default inside your project:
 
 ```bash
 # Linting and fixing
@@ -39,6 +41,22 @@ For example, if you'd only like to fix dirty files you may use
 composer lint -- --dirty
 ```
 
+If you don't want Workspace to install composer scripts for you, please remove or edit `Aliases::class` in the package config.
+
+## Integrating with your editor
+
+So far we've got composer scripts & CI workflows to run all your linting, fixing & static analysis.
+
+Let's take it one step further & make sure your IDE seamlessly applies all the same rules while you work.
+
+```bash
+php artisan workspace:integrate
+```
+
+You will be prompted to either integrate with `vscode` or `intellij` (like phpstorm).
+
+All default integrations come with publishing of workspace plugins & extensions + workspace specific config. This way we can ensure everyone in your team has the same IDE integration as a baseline, which can be tweaked via the global config.
+
 ## Keeping rules up-to-date
 
 Linter, fixer and static analysis rules may change over time. Fortunately it's a breeze to update these locally. Simply run:
@@ -49,70 +67,90 @@ php artisan workspace:update
 
 You will be asked again to whether you'd like to publish 3rd party configs. Again, this is recommended. But if you'd like to skip the prompt, simply pass the `--publish-configs` option along with the command.
 
-**Important:** If you choose not to publish third party configs you will opt out of any upstream configuration updates and use the underlying tooling as is.
+**Important:** If you choose not to publish CI workflow files. You may skip this prompt by adding the `--publish-workflows={true/false}` option
 
-## Github Actions
+**Note:**
+Workspace checks if your working directory is clean (has no uncommitted files) before starting the internal update. This way it is easier to review upstream changes to the published files.
 
-If you've chosen to install the Github Actions scripts along when installing Workspace there is nothing left to do. Sensible defaults will work with your next Pull request. However you are free to tweak the file's as you like.
+## Overriding default Integrations
 
-If you've skipped this installation step, not to worry; Simply run `php artisan vendor:publish --tag=workspace-3rd-party-configs` to publish the files now.
+Workspace's ships with the following default Integrations:
+
+```php
+ return [
+    EditorDefaults::class,
+    PHPCodeSniffer::class,
+    PrettierBlade::class,
+    PHPCSFixer::class,
+    IDEHelper::class,
+    Workflows::class,
+    Larastan::class,
+    Aliases::class,
+    TLint::class,
+    Pint::class,
+];
+```
+
+These can be disabled by publishing Workspace's config file
+
+`php artisan vendor:publish --tag=workspace-config`
+
+You can disable any integrations you don't like or extend them with your own implementation. [Check here](https://github.com/media-code/workspace/src/Integrations) to see how the default Integrations are implemented for context.
+
+You may add class names your own Integrations inside the config, or you may simply add Integration builders inline
+
+See the snippet below for a usage example using both flavors:
+
+```php
+use Gedachtegoed\Workspace\Integrations\EditorDefaults\EditorDefaults;
+use Gedachtegoed\Workspace\Core\Builder;
+
+use App\Workspace\MyCustomPrettierIntegration;
+
+return [
+    // Ships with Workspace. Can be combined with custom Integrations
+    EditorDefaults::class,
+
+    // FQCN to your custom Integration
+    MyCustomPrettierIntegration::class,
+
+    // Inlined Integration using the Builder directly
+    Builder::make()
+        // Register composer dependencies
+        ->composerRequireDev('laravel/telescope:^4')
+        ->composerUpdate('laravel/telescope')
+
+        // Hook into afterInstall to configure Telescope
+        ->afterInstall(function (Command $command) {
+            $command->call('telescope:install');
+            $command->call('artisan migrate');
+
+            // NOTE: You can use Laravel Prompts in here to make anything interactive
+        })
+
+];
+```
+
+A comprehensive Builder API reference & guide on making your own Integrations is in the works. Check back soon.
+
+## Portable Workspaces
+
+Workspace ships with opinionated default Integrations setup. We understand your organization or team has very specific needs. That is why it is easy to distribute your own configuration as a package.
+
+We provide a beautiful fluent integration builder API to automate all sorts of tasks, like:
+
+-   Installing & updating composer & npm dependencies
+-   Installing & merging composer script aliases
+-   Publishing integration config files
+-   Publishing CI workflow files
+-   Adding & removing lines from your gitignore files
+-   Provide plugins/extensions for vscode & phpstorm
+-   Provide workspace config for vscode & phpstorm
+
+Furthermore Workspace Integrations are fully extendible by use of callable hooks. So you can make the install, update & integrate command do pretty much anything you'd like.
+
+Documentation on using your own Portable Workspaces is pending! Stay tuned!
 
 ## Roadmap
 
-**Docs**
-
--   [ ] Rework readme
--   [ ] Consider GH Pages docs
--   [ ] Add comprehensive guide for extending Workspace
-    -   [ ] Override locally with custom implementations
-    -   [ ] Share your custom integrations & config across your organization's projects
-    -   [ ] Integration Builder API reference
-
-**Refactors**
-
--   [ ] Add easy method to create portable workspaces as a package that extends gdd/workspace internally
--   [ ] Refactor default integrations to a standalone portable workspace (except for duster)
--   [ ] Refactor `Manager` so it intelligently diffs `suggestedPlugins` & `requiredPlugins` with `avoidPlugins`. (when people want to extend it for their own organization this will avoid plugin conflicts)
--   [ ] Consider intelligently merging configs instead of overwriting them? (out of scope?)
-
-**Default configs**
-
--   [ ] Customize Linter & fixer configuration according to GDD flavored styleguide specifications (ongoing)
--   [ ] Add sensible default workspace configs
-    -   [ ] vscode
-    -   [ ] phpstorm
--   [ ] Improve default CI config using merge queues
-    -   [ ] Add info panel in install command explaining required Github config
-
-**Editor integrations**
-
--   [ ] Implement integration command for PhpStorm (waiting on input)
--   [ ] Suggest IDE integrations & workspace for code highlighting & in IDE code fixing
-    -   [x] vscode
-        -   [x] PHP CS Fixer
-        -   [x] PHP CodeSniffer
-        -   [x] Laravel Pint
-        -   [x] Tlint
-        -   [x] PHPStan
-        -   [x] Prettier
-    -   [ ] phpstorm
-        -   [ ] PHP CS Fixer
-        -   [ ] PHP CodeSniffer
-        -   [ ] Laravel Pint
-        -   [ ] Tlint
-        -   [ ] PHPStan
-        -   [ ] Prettier
-
-### Done
-
--   [x] Integrate ide-helper with auto update via composer hook
--   [x] Add prettier blade plugin support
--   [x] Add .editorconfig to EditorDefaults integration
-
--   [x] Major architecture refactor -> fluent integration builder
--   [x] Refactor `install` command
--   [x] Refactor `integrate` command
--   [x] Refactor `update` command
-
--   [x] Integrate Duster -> linting and fixing for the project
--   [x] Add comprehensive test coverage
+[Link to roadmap doc](https://github.com/media-code/workspace/ROADMAP.md)

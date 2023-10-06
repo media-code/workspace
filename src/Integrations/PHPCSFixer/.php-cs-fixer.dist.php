@@ -1,7 +1,5 @@
 <?php
 
-/** @codeCoverageIgnore */
-
 // Prefer adding customizations to pint.json unless adding custom fixers
 
 use PhpCsFixer\Config;

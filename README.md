@@ -4,6 +4,7 @@ Extendible workspace configurator for Laravel to effortlessly keep linters, fixe
 
 [![codestyle](https://github.com/media-code/workspace/actions/workflows/codestyle.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/codestyle.yml)
 [![tests](https://github.com/media-code/workspace/actions/workflows/tests.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/tests.yml)
+[![coverage](https://coveralls.io/repos/github/media-code/workspace/badge.svg)](https://coveralls.io/github/media-code/workspace)
 
 ## Install Workspace in your project
 
@@ -21,12 +22,12 @@ php artisan workspace:install
 
 Workspace will add a couple of `artisan` commands to your project to help keep Integrations in sync with upstream changes:
 
-``` bash
+```bash
 # Install configured Integrations
-php artisan workspace:install 
+php artisan workspace:install
 
 # Updates workspace & Integration dependencies + rebuilds configs
-php artisan workspace:update 
+php artisan workspace:update
 
 # Integrates configured Integrations with your editor
 php artisan workspace:integrate
@@ -83,7 +84,7 @@ Workspace checks if your working directory is clean (has no uncommitted files) b
 
 ## Overriding default Integrations
 
-Workspace's ships with the following default Integrations:
+Workspace ships with the following default Integrations:
 
 ```php
  return [

@@ -35,6 +35,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
+          coverage: xdebug
 
       - name: Cache Composer dependencies
         uses: actions/cache@v3
@@ -49,5 +50,14 @@ jobs:
       - name: Directory Permissions
         run: sudo chown -R $(whoami) skeleton vendor/pestphp/pest/.temp
 
-      - name: Execute tests
-        run: ./vendor/bin/testbench package:test --bail --retry
+      # Create coverage report directory
+      - run: mkdir -p build/logs
+
+      - name: Execute tests - coverage threshold 90%
+        run: ./vendor/bin/pest --bail --retry --coverage --min=90 --coverage-clover build/logs/clover.xml
+
+      - name: Create coverage badge
+        uses: coverallsapp/github-action@v2
+        with:
+          format: clover
+          file: build/logs/clover.xml

@@ -4,6 +4,7 @@ Extendible workspace configurator for Laravel to effortlessly keep linters, fixe
 
 [![codestyle](https://github.com/media-code/workspace/actions/workflows/codestyle.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/codestyle.yml)
 [![tests](https://github.com/media-code/workspace/actions/workflows/tests.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/tests.yml)
+[![coverage](https://coveralls.io/repos/github/media-code/workspace/badge.svg)](https://coveralls.io/github/media-code/workspace)
 
 ## Install Workspace in your project
 

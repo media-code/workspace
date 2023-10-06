@@ -51,7 +51,7 @@ jobs:
         run: sudo chown -R $(whoami) skeleton vendor/pestphp/pest/.temp
 
       - name: Execute tests
-        run: ./vendor/bin/testbench package:test --bail --retry --coverage --coverage-clover build/logs
+        run: ./vendor/bin/pest --bail --retry --coverage --coverage-clover build/logs
 
       - name: Coveralls
         uses: coverallsapp/github-action@v2

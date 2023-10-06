@@ -50,9 +50,6 @@ jobs:
       - name: Directory Permissions
         run: sudo chown -R $(whoami) skeleton vendor/pestphp/pest/.temp
 
-      # Create coverage report directory
-      - run: mkdir -p build/logs
-
       - name: Execute tests - coverage threshold 90%
         run: ./vendor/bin/pest --bail --retry --coverage --min=90 --coverage-clover clover.xml
 

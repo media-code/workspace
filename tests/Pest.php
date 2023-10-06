@@ -57,6 +57,16 @@ function register(...$args)
     ]]);
 }
 
+function expectFileContents($path)
+{
+    return expect(file_get_contents(base_path($path)));
+}
+
+function expectFileExists($path)
+{
+    return expect(file_exists(base_path($path)));
+}
+
 function pugreSkeleton()
 {
     $purgeSkeleton = new class

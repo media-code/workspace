@@ -8,22 +8,22 @@ trait UpdatesGitignore
     {
         $lines = (array) $lines;
 
-        // Remove lines if already there (also removes commented lines) so we get a
-        $this->removeFromGitignore($lines);
-
         $path = $path
             ? $path . DIRECTORY_SEPARATOR . '.gitignore'
             : base_path('.gitignore');
 
-        $gitignore = file_exists($path)
-            ? file_get_contents($path)
-            : '';
-
         foreach ($lines as $line) {
-            $gitignore = $gitignore . PHP_EOL . $line;
-        }
+            // Remove lines if already there (also removes commented lines) before re-adding them
+            $this->removeFromGitignore($line);
 
-        file_put_contents($path, trim($gitignore) . PHP_EOL);
+            $gitignore = file_exists($path)
+                ? file_get_contents($path)
+                : '';
+
+            $gitignore = $gitignore . PHP_EOL . $line;
+
+            file_put_contents($path, trim($gitignore) . PHP_EOL);
+        }
     }
 
     public function removeFromGitignore(array|string $lines, string $path = null)

@@ -30,9 +30,4 @@
         </include>
     </coverage>
 
-    <filter>
-        <blacklist>
-            <file>src/Integrations/PHPCSFixer/.php-cs-fixer.dist.php</file>
-        </blacklist>
-    </filter>
 </phpunit>

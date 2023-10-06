@@ -1,6 +1,7 @@
 # Workspace
 
 [![codestyle](https://github.com/media-code/workspace/actions/workflows/codestyle.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/codestyle.yml)
+[![tests](https://github.com/media-code/workspace/actions/workflows/tests.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/tests.yml)
 
 ## Install Workspace in your project
 
@@ -69,11 +70,8 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 
 **Refactors**
 
--   [ ] Add comprehensive test coverage
-
 -   [ ] Add easy method to create portable workspaces as a package that extends gdd/workspace internally
 -   [ ] Refactor default integrations to a standalone portable workspace (except for duster)
-
 -   [ ] Refactor `Manager` so it intelligently diffs `suggestedPlugins` & `requiredPlugins` with `avoidPlugins`. (when people want to extend it for their own organization this will avoid plugin conflicts)
 -   [ ] Consider intelligently merging configs instead of overwriting them? (out of scope?)
 
@@ -117,3 +115,4 @@ If you've skipped this installation step, not to worry; Simply run `php artisan 
 -   [x] Refactor `update` command
 
 -   [x] Integrate Duster -> linting and fixing for the project
+-   [x] Add comprehensive test coverage

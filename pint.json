@@ -7,10 +7,7 @@
         },
         "class_attributes_separation": {
             "elements": {
-                "const": "one",
-                "method": "one",
-                "property": "one",
-                "trait_import": "none"
+                "method": "one"
             }
         },
         "curly_braces_position": {

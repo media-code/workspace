@@ -4,14 +4,19 @@ namespace Gedachtegoed\Workspace\Core;
 
 use Gedachtegoed\Workspace\Commands\Install;
 use Gedachtegoed\Workspace\Commands\Update;
+use Gedachtegoed\Workspace\Exceptions\ConfigNotFoundException;
+use Gedachtegoed\Workspace\Exceptions\WorkflowNotFoundException;
 use Illuminate\Support\Arr;
 use ReflectionClass;
 
-abstract class Builder
+class Builder
 {
     protected Integration $integration;
 
-    abstract public function __invoke();
+    public static function make(): self
+    {
+        return resolve(self::class);
+    }
 
     public function __construct()
     {
@@ -34,6 +39,10 @@ abstract class Builder
             $configMap, fn ($to, $from) => [$this->integrationPath($from) => base_path($to)]
         );
 
+        foreach ($configMap as $from => $to) {
+            throw_unless(file_exists($from), new ConfigNotFoundException($from));
+        }
+
         $this->integration->publishesConfigs = $this->integration->publishesConfigs + $configMap;
 
         return $this;
@@ -45,6 +54,10 @@ abstract class Builder
         $workflowMap = Arr::mapWithKeys(
             $workflowMap, fn ($to, $from) => [$this->integrationPath($from) => base_path($to)]
         );
+
+        foreach ($workflowMap as $from => $to) {
+            throw_unless(file_exists($from), new WorkflowNotFoundException($from));
+        }
 
         $this->integration->publishesWorkflows = $this->integration->publishesWorkflows + $workflowMap;
 
@@ -87,6 +100,13 @@ abstract class Builder
         return $this;
     }
 
+    public function composerRequireDev(array|string $dependencies): self
+    {
+        $this->integration->composerRequireDev = $this->integration->composerRequireDev + (array) $dependencies;
+
+        return $this;
+    }
+
     public function composerUpdate(array|string $dependencies): self
     {
         $this->integration->composerUpdate = $this->integration->composerUpdate + (array) $dependencies;
@@ -101,6 +121,13 @@ abstract class Builder
     public function npmInstall(array|string $dependencies): self
     {
         $this->integration->npmInstall = $this->integration->npmInstall + (array) $dependencies;
+
+        return $this;
+    }
+
+    public function npmInstallDev(array|string $dependencies): self
+    {
+        $this->integration->npmInstallDev = $this->integration->npmInstallDev + (array) $dependencies;
 
         return $this;
     }
@@ -211,7 +238,7 @@ abstract class Builder
     /** @param  callable(Update $command):void  $callback */
     public function afterUpdate(callable $callback): self
     {
-        $this->integration->afterInstall[] = $callback;
+        $this->integration->afterUpdate[] = $callback;
 
         return $this;
     }
@@ -236,9 +263,13 @@ abstract class Builder
     // Support
     //--------------------------------------------------------------------------
 
+    // FIXME: Does not work with inlined integrations
     private function integrationPath(string $append): string
     {
-        $integrationClass = new ReflectionClass(get_class($this));
+        // Is used inline. Assume absolute path is used
+        if ($this::class === self::class) {
+            return $append;
+        }
 
         // Normalize the append arg
         $file = str($append)
@@ -247,6 +278,8 @@ abstract class Builder
             ->toString();
 
         // Make it relative to the integration path
+        $integrationClass = new ReflectionClass(get_class($this));
+
         return str($integrationClass->getFileName())
             ->beforeLast(DIRECTORY_SEPARATOR) // Strip filename
             ->append($file)

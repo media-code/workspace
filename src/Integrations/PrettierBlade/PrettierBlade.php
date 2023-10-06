@@ -9,7 +9,7 @@ class PrettierBlade extends Builder
     public function __invoke()
     {
         $this
-            ->npmInstall([
+            ->npmInstallDev([
                 'prettier@^3',
                 '@shufo/prettier-plugin-blade',
             ])

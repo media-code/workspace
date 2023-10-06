@@ -28,6 +28,8 @@
     <rule ref="PSR1.Files.SideEffects">
         <!-- Disable side effects for index file -->
         <exclude-pattern>/public/index.php</exclude-pattern>
+        <!-- Disable side effects for tests (Pest) -->
+        <exclude-pattern>/tests</exclude-pattern>
     </rule>
 
     <!-- PSR1 3 Namespaces and classes MUST follow PSR-0. -->

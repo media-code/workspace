@@ -37,6 +37,7 @@ jobs:
           php-version: "8.3"
 
       - uses: php-actions/composer@v6
+
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 

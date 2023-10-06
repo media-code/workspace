@@ -3,27 +3,35 @@
 namespace Gedachtegoed\Workspace;
 
 use Gedachtegoed\Workspace\Core\Aggregator;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-class ServiceProvider extends BaseServiceProvider
+class ServiceProvider extends BaseServiceProvider implements DeferrableProvider
 {
+    public function provides(): array
+    {
+        return [Aggregator::class];
+    }
+
     public function boot(): void
     {
         if (! $this->app->environment(['local', 'testing'])) {
             return;
         }
 
+        $this->app->bind(
+            Aggregator::class,
+            fn () => Aggregator::make(config('workspace-integrations'))
+        );
+
         $this->publishes([
             __DIR__ . '/../config/workspace-integrations.php' => base_path('config/workspace-integrations.php'),
         ], 'workspace-config');
 
-        $this->app->singleton(
-            Aggregator::class,
-            fn () => new Aggregator
-        );
-
         $this->registerCommandAliasses();
-        $this->registerIntegrationConfig();
+
+        // TODO: Disabled for now. Not sure about the added benefit
+        // $this->registerIntegrationConfig();
     }
 
     public function register()
@@ -42,6 +50,11 @@ class ServiceProvider extends BaseServiceProvider
         }
     }
 
+    /**
+     * Only used to provide defaults when running vendor:publish outside of the workspace command
+     * The Aggregator class modifies this during runtime to provide up to date config files
+     * for your configured Integrations
+     */
     protected function registerIntegrationConfig()
     {
         $integrations = $this->app->make(Aggregator::class);
@@ -55,5 +68,11 @@ class ServiceProvider extends BaseServiceProvider
             $integrations->publishesWorkflows(),
             'workspace-workflows'
         );
+    }
+
+    /** Makes protected methd on parent class accessible so we can register config publishing on the fly */
+    public function publishes(array $paths, $groups = null)
+    {
+        parent::publishes($paths, $groups);
     }
 }

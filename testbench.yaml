@@ -1,0 +1,18 @@
+providers:
+  - Gedachtegoed\Workspace\ServiceProvider
+
+laravel: ./skeleton
+# purge:
+#   directories:
+#     - .vscode
+#     - .idea
+#   files:
+#     - .gitignore
+#     - .editorconfig
+#     - .php-cs-fixer.dist.php
+#     - .phpcs.xml.dist
+#     - .prettierrc.json
+#     - duster.json
+#     - phpstan.neon
+#     - pint.json
+#     - tlint.json

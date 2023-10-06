@@ -20,7 +20,7 @@ class Update extends Command
     protected Aggregator $integrations;
 
     protected $signature = 'workspace:update
-                                {--publish-workflows : When true, Workspace will publish CI Workflows}';
+                                {--publish-workflows= : When true, Workspace will publish CI Workflows}';
 
     protected $description = 'Update Workspace';
 
@@ -121,7 +121,7 @@ class Update extends Command
 
     protected function updateComposerDependencies()
     {
-        $commands = implode(' ', $this->integrations->npmUpdate());
+        $commands = implode(' ', $this->integrations->composerUpdate());
 
         spin(
             fn () => Process::path(base_path())

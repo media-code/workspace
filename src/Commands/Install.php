@@ -23,7 +23,7 @@ class Install extends Command
     protected Aggregator $integrations;
 
     protected $signature = 'workspace:install
-                                {--publish-workflows : When true, Workspace will publish CI Workflows}
+                                {--publish-workflows= : When true, Workspace will publish CI Workflows}
                                 {--quickly : By default Workspace will sleep 1 second every short running installation step to provide readable progress spinners. This option disables that}';
 
     protected $description = 'Install Workspace';
@@ -70,24 +70,44 @@ class Install extends Command
 
     protected function installComposerDependencies()
     {
-        $commands = implode(' ', $this->integrations->composerRequire());
-
         spin(
-            fn () => Process::path(base_path())
-                ->run("composer require {$commands} --dev --no-interaction")
-                ->throw(),
+            function () {
+                // composer install
+                $commands = implode(' ', $this->integrations->composerRequire());
+
+                Process::path(base_path())
+                    ->run("composer require {$commands} --no-interaction")
+                    ->throw();
+
+                // composer install
+                $commands = implode(' ', $this->integrations->composerRequireDev());
+
+                Process::path(base_path())
+                    ->run("composer require {$commands} --dev --no-interaction")
+                    ->throw();
+            },
             'Installing Composer dependencies'
         );
     }
 
     protected function installNpmDependencies()
     {
-        $commands = implode(' ', $this->integrations->npmInstall());
-
         spin(
-            fn () => Process::path(base_path())
-                ->run("npm install {$commands} --save-dev")
-                ->throw(),
+            function () {
+                // Npm install
+                $commands = implode(' ', $this->integrations->npmInstall());
+
+                Process::path(base_path())
+                    ->run("npm install {$commands}")
+                    ->throw();
+
+                // Npm install dev
+                $commands = implode(' ', $this->integrations->npmInstallDev());
+
+                Process::path(base_path())
+                    ->run("npm install {$commands} --save-dev")
+                    ->throw();
+            },
             'Installing NPM dependencies'
         );
     }
@@ -97,7 +117,7 @@ class Install extends Command
         spin(function () {
             sleep(self::$SLEEP_BETWEEN_STEPS); // Only for 💅
 
-            $this->callSilent('vendor:publish', [
+            $this->callSilently('vendor:publish', [
                 '--tag' => 'workspace-3rd-party-configs',
                 '--force' => true,
             ]);
@@ -178,7 +198,7 @@ class Install extends Command
                 '.github',
             ]);
 
-            $this->callSilent('vendor:publish', [
+            $this->callSilently('vendor:publish', [
                 '--tag' => 'workspace-workflows',
                 '--force' => true,
             ]);

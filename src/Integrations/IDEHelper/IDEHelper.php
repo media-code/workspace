@@ -13,7 +13,7 @@ class IDEHelper extends Builder
     public function __invoke()
     {
         $this
-            ->composerRequire('barryvdh/laravel-ide-helper')
+            ->composerRequireDev('barryvdh/laravel-ide-helper')
             ->composerUpdate('barryvdh/laravel-ide-helper')
 
             ->addToGitignore([

@@ -6,7 +6,7 @@ use Gedachtegoed\Workspace\Commands\Install;
 use Gedachtegoed\Workspace\Commands\Integrate;
 use Gedachtegoed\Workspace\Commands\Update;
 
-final class Integration
+class Integration
 {
     //--------------------------------------------------------------------------
     // Configs
@@ -26,9 +26,13 @@ final class Integration
 
     public array $composerRequire = [];
 
+    public array $composerRequireDev = [];
+
     public array $composerUpdate = [];
 
     public array $npmInstall = [];
+
+    public array $npmInstallDev = [];
 
     public array $npmUpdate = [];
 

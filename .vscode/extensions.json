@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "wongjn.php-sniffer",
+        "m1guelpf.better-pest",
         "junstyle.php-cs-fixer",
         "d9705996.tighten-lint",
         "SanderRonde.phpstan-vscode",

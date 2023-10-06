@@ -59,4 +59,5 @@ jobs:
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          format:
+          format: phpunit
+          file: build/logs

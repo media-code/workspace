@@ -25,9 +25,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Gedachtegoed\\Workspace\\Tests\\": "tests/",
-            "Gedachtegoed\\Workspace\\Core\\": "core/src/",
-            "Gedachtegoed\\Workspace\\Core\\Tests\\": "core/tests/src/"
+            "Gedachtegoed\\Workspace\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -38,10 +36,13 @@
 
         "test": "vendor/bin/testbench package:test --bail --retry"
     },
-    "repositories": [
+"repositories": [
         {
-            "type": "path",
-            "url": "core"
+            "type": "vcs",
+            "url": "https://github.com/media-code/workspace-core",
+            "options": {
+                "symlink": false
+            }
         }
     ],
     "require": {

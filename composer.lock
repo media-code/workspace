@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c56d6935bbf75d0d735b63e9b198badc",
+    "content-hash": "10be2f4d7bbb89780fd532296b6c2cbe",
     "packages": [
         {
             "name": "brick/math",
@@ -506,10 +506,16 @@
         {
             "name": "gedachtegoed/workspace-core",
             "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/media-code/workspace-core.git",
+                "reference": "26673a1766f41b48f6628cde9f36d575835c3d12"
+            },
             "dist": {
-                "type": "path",
-                "url": "core",
-                "reference": "077cfdfcb08b8a0486920ac6a6c216c13cf00941"
+                "type": "zip",
+                "url": "https://api.github.com/repos/media-code/workspace-core/zipball/26673a1766f41b48f6628cde9f36d575835c3d12",
+                "reference": "26673a1766f41b48f6628cde9f36d575835c3d12",
+                "shasum": ""
             },
             "require": {
                 "illuminate/support": "^10.23",
@@ -527,6 +533,7 @@
                 "tightenco/tlint": "^9.1",
                 "timacdonald/callable-fake": "^1.6"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -583,15 +590,17 @@
                 }
             ],
             "description": "Core for building your own Portable Workspace",
+            "support": {
+                "source": "https://github.com/media-code/workspace-core/tree/main",
+                "issues": "https://github.com/media-code/workspace-core/issues"
+            },
             "funding": [
                 {
                     "type": "github",
                     "url": "https://github.com/sponsors/gwleuverink"
                 }
             ],
-            "transport-options": {
-                "relative": true
-            }
+            "time": "2023-10-09T21:52:24+00:00"
         },
         {
             "name": "graham-campbell/result-type",

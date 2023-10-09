@@ -25,7 +25,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Gedachtegoed\\Workspace\\Tests\\": "tests/"
+            "Gedachtegoed\\Workspace\\Tests\\": "tests/",
+            "Gedachtegoed\\Workspace\\Core\\": "core/src/",
+            "Gedachtegoed\\Workspace\\Core\\Tests\\": "core/tests/src/"
         }
     },
     "scripts": {
@@ -36,9 +38,16 @@
 
         "test": "vendor/bin/testbench package:test --bail --retry"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "core"
+        }
+    ],
     "require": {
         "php": "^8.1.0",
-        "illuminate/support": "^10.23"
+        "illuminate/support": "^10.23",
+        "gedachtegoed/workspace-core": "dev-main"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.30",
@@ -76,6 +85,10 @@
             {
                 "name": "timacdonald/callable-fake",
                 "url": "https://github.com/timacdonald/callable-fake"
+            },
+            {
+                "name": "gedachtegoed/workspace-core",
+                "url": "https://github.com/media-code/workspace-core"
             }
         ]
     }

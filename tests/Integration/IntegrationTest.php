@@ -5,7 +5,7 @@
  * Should be added to the Portable Integrations template repository
  */
 
-// use Gedachtegoed\Workspace\Core\Aggregator;
+use Gedachtegoed\Workspace\Core\Aggregator;
 use Gedachtegoed\Workspace\Core\Builder;
 use Gedachtegoed\Workspace\ServiceProvider;
 
@@ -20,8 +20,8 @@ test('integrations pass sanity checks')
     ->classes()->not->toBeFinal();
 
 test("integrations don't use forbidden globals")
-    ->expectIntegrationNamespace()
-    ->expect(['dd', 'dump', 'ray'])->not->toBeUsed();
+    ->expect(['dd', 'dump', 'ray'])
+    ->not->toBeUsedIn(integrationNamespace());
 
 //--------------------------------------------------------------------------
 // Configured Integrations (also coveres inline Builders)
@@ -31,18 +31,21 @@ test('configurated integrations are registered')
     ->not->toBeEmpty();
 
 test('configurated integrations are invokable')
-    ->expect(fn () => resolve(Aggregator::class));
-// ->integrations()->not->toBeEmpty(); // integrations in config('workspace-integrations') are invoked internally
+    ->expect(fn () => resolve(Aggregator::class))
+    ->integrations()->not->toBeEmpty(); // integrations in config('workspace-integrations') are invoked internally
 
 //--------------------------------------------------------------------------
 // Custom expectations
 //--------------------------------------------------------------------------
 function expectIntegrationNamespace()
 {
-    return expect(
-        str(ServiceProvider::class)
-            ->beforeLast('\\')
-            ->append('\\Integrations')
-            ->toString()
-    );
+    return expect(integrationNamespace());
+}
+
+function integrationNamespace()
+{
+    return str(ServiceProvider::class)
+        ->beforeLast('\\')
+        ->append('\\Integrations')
+        ->toString();
 }

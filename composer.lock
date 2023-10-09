@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10be2f4d7bbb89780fd532296b6c2cbe",
+    "content-hash": "00cbdc4751bcf4019cfb1df03816d139",
     "packages": [
         {
             "name": "brick/math",
@@ -505,16 +505,16 @@
         },
         {
             "name": "gedachtegoed/workspace-core",
-            "version": "dev-main",
+            "version": "v0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/media-code/workspace-core.git",
-                "reference": "26673a1766f41b48f6628cde9f36d575835c3d12"
+                "reference": "b6c37027f3cb60721965cc9a9972e35635f60188"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/media-code/workspace-core/zipball/26673a1766f41b48f6628cde9f36d575835c3d12",
-                "reference": "26673a1766f41b48f6628cde9f36d575835c3d12",
+                "url": "https://api.github.com/repos/media-code/workspace-core/zipball/b6c37027f3cb60721965cc9a9972e35635f60188",
+                "reference": "b6c37027f3cb60721965cc9a9972e35635f60188",
                 "shasum": ""
             },
             "require": {
@@ -533,7 +533,6 @@
                 "tightenco/tlint": "^9.1",
                 "timacdonald/callable-fake": "^1.6"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -591,7 +590,7 @@
             ],
             "description": "Core for building your own Portable Workspace",
             "support": {
-                "source": "https://github.com/media-code/workspace-core/tree/main",
+                "source": "https://github.com/media-code/workspace-core/tree/v0.0.1",
                 "issues": "https://github.com/media-code/workspace-core/issues"
             },
             "funding": [
@@ -600,7 +599,7 @@
                     "url": "https://github.com/sponsors/gwleuverink"
                 }
             ],
-            "time": "2023-10-09T21:52:24+00:00"
+            "time": "2023-10-09T20:38:21+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -10334,9 +10333,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "gedachtegoed/workspace-core": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

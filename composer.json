@@ -20,7 +20,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Gedachtegoed\\Workspace\\": "src/"
+            "Gedachtegoed\\Workspace\\": "src/",
+            "Gedachtegoed\\Workspace\\Core\\": "core/"
         }
     },
     "autoload-dev": {
@@ -48,7 +49,7 @@
     "require": {
         "php": "^8.1.0",
         "illuminate/support": "^10.23",
-        "gedachtegoed/workspace-core": "dev-main"
+        "gedachtegoed/workspace-core": "^0.0.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.30",

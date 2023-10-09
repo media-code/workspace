@@ -1,4 +1,4 @@
 [submodule "core"]
 	path = core
-	url = https://github.com/media-code/workspace-core.git
+	url = https://github.com/media-code/workspace-core
     branch = main

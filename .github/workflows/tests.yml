@@ -48,7 +48,7 @@ jobs:
           version: 2.x
 
       - name: Directory Permissions
-        run: sudo chown -R $(whoami) skeleton vendor/pestphp/pest/.temp
+        run: sudo chown -R $(whoami) vendor/pestphp/pest/.temp
 
       - name: Execute tests - coverage threshold 90%
         run: ./vendor/bin/pest --bail --retry --coverage --min=90 --coverage-clover clover.xml

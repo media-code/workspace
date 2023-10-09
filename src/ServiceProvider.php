@@ -9,7 +9,7 @@ class ServiceProvider extends BaseServiceProvider
     public function boot(): void
     {
         if (! $this->app->environment(['local', 'testing'])) {
-            return;
+            return; // @codeCoverageIgnore
         }
 
         $this->publishes([

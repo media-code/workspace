@@ -16,6 +16,13 @@ Then run the install command to set up Workspace's configs in your project:
 php artisan workspace:install
 ```
 
+
+
+{: .note-title }
+> My note title
+>
+> A paragraph with a custom title callout
+
 {: .note }
 > Workspace ships with a handfull carefully selected Integrations.
 >

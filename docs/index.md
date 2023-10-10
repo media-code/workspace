@@ -4,7 +4,7 @@
 
 A extendible workspace configurator for Laravel to effortlessly keep linters, fixers, static analysis, CI workflows, editor integrations and more in sync across all your teams & projects.
 
-## Install Workspace in your project
+## Installation
 
 ```bash
 composer require gedachtegoed/workspace --dev
@@ -15,3 +15,8 @@ Then run the install command to set up Workspace's configs in your project:
 ```bash
 php artisan workspace:install
 ```
+
+{: .note }
+> Workspace ships with a handfull carefully selected Integrations.
+>
+> If you'd like to roll out your own Portable Workspace to share between projects and teams refer to [this section](media-code/github.io/workspace/portable-workspaces) of the documentation

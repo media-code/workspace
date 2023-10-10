@@ -7,3 +7,7 @@ url: https://media-code.github.io/workspace
 aux_links: # remove if you don't want this link to appear on your pages
   Github: https://github.com/media-code/workspace
   
+callouts:
+  note:
+    title: note
+    color: purple

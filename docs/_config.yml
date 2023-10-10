@@ -1,1 +1,10 @@
-remote_theme: just-the-docs/just-the-docs
+title: workspace
+description: Extendible workspace configurator for Laravel
+theme: just-the-docs
+
+url: https://media-code.github.io/workspace
+
+aux_links: # remove if you don't want this link to appear on your pages
+  Template Repository: https://github.com/media-code/workspace
+  
+# remote_theme: just-the-docs/just-the-docs

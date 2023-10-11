@@ -20,8 +20,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Gedachtegoed\\Workspace\\": "src/",
-            "Gedachtegoed\\Workspace\\Core\\": "core/"
+            "Gedachtegoed\\Workspace\\": "src/"
         }
     },
     "autoload-dev": {

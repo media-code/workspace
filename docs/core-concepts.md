@@ -3,5 +3,3 @@
 ## Integrations
 
 ## Commands
-
-# Foo bar

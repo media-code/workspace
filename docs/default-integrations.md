@@ -1,4 +1,8 @@
-# Default integrations
+---
+order: 3
+---
+
+# Integrations
 
 Workspace ships with a handfull of default Integrations. Lorem ipsum dolor sit amet.
 

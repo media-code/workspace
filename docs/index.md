@@ -1,5 +1,5 @@
 ---
-order: 1
+nav_order: 1
 ---
 
 [![codestyle](https://github.com/media-code/workspace/actions/workflows/codestyle.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/codestyle.yml)

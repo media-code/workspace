@@ -1,6 +1,5 @@
 ---
 order: 1
-title: Installation
 ---
 
 [![codestyle](https://github.com/media-code/workspace/actions/workflows/codestyle.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/codestyle.yml)

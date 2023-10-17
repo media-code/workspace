@@ -1,5 +1,6 @@
 ---
 nav_order: 1
+title: Quickstart
 ---
 
 [![codestyle](https://github.com/media-code/workspace/actions/workflows/codestyle.yml/badge.svg)](https://github.com/media-code/workspace/actions/workflows/codestyle.yml)
@@ -7,7 +8,7 @@ nav_order: 1
 [![coverage](https://img.shields.io/codecov/c/github/media-code/workspace?token=ON4MTY8C1B&color=45%2C190%2C65)](https://codecov.io/gh/media-code/workspace)
 [![core coverage](https://img.shields.io/codecov/c/github/media-code/workspace-core?label=core%20coverage&token=ON4MTY8C1B&color=45%2C190%2C65)](https://codecov.io/gh/media-code/workspace-core)
 
-A extendible workspace configurator for Laravel to effortlessly keep linters, fixers, static analysis, CI workflows, editor integrations and more in sync across all your teams & projects.
+Effortlessly keep linters, fixers, static analysis, CI workflows, editor integrations and more in sync across all your teams & projects.
 
 ## Quickstart
 
@@ -21,13 +22,13 @@ Then run the install command to set up Workspace's configs in your project:
 php artisan workspace:install
 ```
 
-This command will install all configured Integrations in [workspace-integrations.php](https://github.com/media-code/workspace/blob/main/config/workspace-integrations.php). These are all configurable by publishing the config file. You may remove or override any implementation with your own on a per-project basis. Read more about overriding Integrations [here](media-code/github.io/workspace/customization/overriding-per-project).
+This command will install all configured Integrations in [workspace-integrations.php](https://github.com/media-code/workspace/blob/main/config/workspace-integrations.php). These are all configurable by publishing the config file. You may remove or override any implementation with your own on a per-project basis. Read more about overriding Integrations [here](media-code/github.io/workspace/digging-deeper/#overriding-integrations).
 
 {: .note }
 
 > Workspace ships with a handfull carefully crafted Integrations.
 >
-> If you'd like to roll out your own Portable Workspace to share between projects and teams refer to [this section](media-code/github.io/workspace/portable-workspaces) of the documentation
+> If you'd like to roll out your own Portable Workspace to share between projects and teams refer to [this section](media-code.github.io/workspace/portable-workspaces) of the documentation
 
 ## Updating
 
@@ -39,7 +40,7 @@ php artisan workspace:update
 
 This command will update Workspace itself (by a minor version only) and update the Integration's _composer_ and _npm_ dependencies before rebuilding all your integration configs.
 
-Please note that while Workspace's internal Integrations are carefully selected, they are higly opinionated. We do encourage you to write your own _Portable Workspace_.
+_Please note that while Workspace's internal Integrations are carefully selected, they are higly opinionated. We do encourage you to write your own **Portable Workspace**._
 
 <!-- Move to Portable Workspace section -->
 <!-- When you use the `update` command with your own _Portable Workspace_ you'll have to manually update your _Portable Workspace_ package. The update command only takes care of upgrading your Integration's composer & npm dependencies before rebuilding the config files. -->

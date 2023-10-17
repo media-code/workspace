@@ -2,8 +2,8 @@
 
 namespace Gedachtegoed\Workspace\Integrations\IDEHelper;
 
-use Gedachtegoed\Workspace\Commands\Install;
 use Gedachtegoed\Workspace\Core\Builder;
+use Gedachtegoed\Workspace\Core\Commands\Install;
 use Illuminate\Support\Facades\Process;
 
 use function Laravel\Prompts\spin;

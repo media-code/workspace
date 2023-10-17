@@ -1,9 +1,0 @@
-{
-    "scripts": {
-        "lint": {
-        },
-        "fix": {
-        }
-    },
-    "processTimeout": 120
-}

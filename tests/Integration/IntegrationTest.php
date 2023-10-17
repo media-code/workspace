@@ -20,8 +20,8 @@ test('integrations pass sanity checks')
     ->classes()->not->toBeFinal();
 
 test("integrations don't use forbidden globals")
-    ->expectIntegrationNamespace()
-    ->expect(['dd', 'dump', 'ray'])->not->toBeUsed();
+    ->expect(['dd', 'dump', 'ray'])
+    ->not->toBeUsedIn(integrationNamespace());
 
 //--------------------------------------------------------------------------
 // Configured Integrations (also coveres inline Builders)
@@ -39,10 +39,13 @@ test('configurated integrations are invokable')
 //--------------------------------------------------------------------------
 function expectIntegrationNamespace()
 {
-    return expect(
-        str(ServiceProvider::class)
-            ->beforeLast('\\')
-            ->append('\\Integrations')
-            ->toString()
-    );
+    return expect(integrationNamespace());
+}
+
+function integrationNamespace()
+{
+    return str(ServiceProvider::class)
+        ->beforeLast('\\')
+        ->append('\\Integrations')
+        ->toString();
 }

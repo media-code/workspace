@@ -29,6 +29,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.2, 8.3]
+        laravel: [^10, ^11]
+        dependency-version: [prefer-lowest, prefer-stable]
+
     steps:
       - uses: actions/checkout@v3
 

@@ -68,6 +68,7 @@
                 <element key="dump" value="null"/>
                 <element key="var_dump" value="null"/>
                 <element key="ray" value="null"/>
+                <element key="env" value="null"/>
             </property>
         </properties>
     </rule>

@@ -36,31 +36,22 @@
 
         "test": "vendor/bin/testbench package:test --bail --retry"
     },
-"repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/media-code/workspace-core",
-            "options": {
-                "symlink": false
-            }
-        }
-    ],
     "require": {
-        "php": "^8.1.0",
-        "illuminate/support": "^10.23",
-        "gedachtegoed/workspace-core": "^0.0.1"
+        "php": "^8.1|^8.2",
+        "illuminate/support": "^10.23|^11",
+        "gedachtegoed/workspace-core": "^0.1"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.30",
-        "laravel/pint": "^1.13",
-        "nunomaduro/larastan": "^2.0",
+        "friendsofphp/php-cs-fixer": "^3.53",
+        "laravel/pint": "^1.15",
+        "larastan/larastan": "^2.9",
         "squizlabs/php_codesniffer": "^3.7",
-        "tightenco/duster": "^2.4",
-        "tightenco/tlint": "^9.1",
-        "orchestra/testbench": "^8.12",
-        "pestphp/pest": "^2.20",
-        "symfony/thanks": "^1.2",
-        "timacdonald/callable-fake": "^1.6"
+        "tightenco/duster": "^2.7",
+        "tightenco/tlint": "^9.3",
+        "orchestra/testbench": "^9",
+        "pestphp/pest": "^2.34",
+        "symfony/thanks": "^1.3",
+        "timacdonald/callable-fake": "^1.7"
     },
     "config": {
         "allow-plugins": {

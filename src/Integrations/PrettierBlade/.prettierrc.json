@@ -18,5 +18,6 @@
     "sortTailwindcssClasses": true,
     "singleAttributePerLine": true,
     "bracketSameLine": false,
-    "printWidth": 600
+    "printWidth": 600,
+    "tabWidth": 4
  }

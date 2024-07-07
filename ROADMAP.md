@@ -10,7 +10,7 @@
 
 -   [ ] Customize Linter & fixer configuration according to GDD flavored styleguide specifications (ongoing)
 -   [ ] Add sensible default workspace configs
-    -   [ ] vscode
+    -   [x] vscode
     -   [ ] phpstorm
 -   [ ] Improve default CI config using merge queues
     -   [ ] Add info panel in install command explaining required Github config

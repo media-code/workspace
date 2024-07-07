@@ -1,18 +1,10 @@
 **Docs**
 
 -   [ ] Rework readme
--   [ ] Consider GH Pages docs
 -   [ ] Add comprehensive guide for extending Workspace
     -   [ ] Override locally with custom implementations
     -   [ ] Share your custom integrations & config across your organization's projects
     -   [ ] Integration Builder API reference
-
-**Refactors**
-
--   [ ] Add easy method to create portable workspaces as a package that extends gdd/workspace internally
--   [ ] Refactor default integrations to a standalone portable workspace (except for duster)
--   [ ] Refactor `Manager` so it intelligently diffs `suggestedPlugins` & `requiredPlugins` with `avoidPlugins`. (when people want to extend it for their own organization this will avoid plugin conflicts)
--   [ ] Consider intelligently merging configs instead of overwriting them? (out of scope?)
 
 **Default configs**
 

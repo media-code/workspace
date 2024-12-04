@@ -11,15 +11,18 @@ class PrettierBlade extends Builder
         $this
             ->npmInstallDev([
                 'prettier@^3',
-                '@shufo/prettier-plugin-blade',
+                'prettier-plugin-blade@^2',
+                'prettier-plugin-tailwindcss',
             ])
             ->npmUpdate([
                 'prettier',
                 'prettier-plugin-blade',
+                'prettier-plugin-tailwindcss',
             ])
 
             ->publishesConfigs([
                 '.prettierrc.json' => '.prettierrc.json',
+                '.blade.format.json' => '.blade.format.json',
             ])
 
             ->provideDusterLintConfig([

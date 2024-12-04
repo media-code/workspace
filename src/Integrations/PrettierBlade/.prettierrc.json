@@ -1,12 +1,8 @@
 {
-    "plugins": [
-        "@shufo/prettier-plugin-blade"
-    ],
+    "plugins": ["prettier-plugin-blade", "prettier-plugin-tailwindcss"],
     "overrides": [
         {
-            "files": [
-                "*.blade.php"
-            ],
+            "files": ["*.blade.php"],
             "options": {
                 "parser": "blade",
                 "tabWidth": 4
@@ -15,9 +11,8 @@
     ],
 
     "htmlWhitespaceSensitivity": "css",
-    "sortTailwindcssClasses": true,
     "singleAttributePerLine": true,
     "bracketSameLine": false,
     "printWidth": 600,
     "tabWidth": 4
- }
+}
